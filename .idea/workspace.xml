@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="56b616ba-ed57-4b25-a13b-59e032f7f484" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Acknowledgments.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Community.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Compatibility.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Features.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project Image.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project Title.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Resources.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/build.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TEMPLATE_LICENSE.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/examplemod/Config.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/examplemod/ExampleMod.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/examplemod/ExampleModClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/examplemod/lang/en_us.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/templates/META-INF/neoforge.mods.toml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="21" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view />
+      </state>
+    </system>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="1.21.1-neoforge" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "DoomedArtemis"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/IntelligenceModding/Climbing-Claws.git",
+    "accountId": "9cafa911-0ffb-4733-88ae-74d3d74c06a5"
+  }
+}]]></component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3GCCSryGy1rfryjag4W5NCEWmXN" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "assets",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/grego/IdeaProjects/Climbing-Claws",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Client" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
+      <module name="Climbing-Claws.main" />
+      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\clientRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\clientRunVmArgs.txt -Dfml.modFolders=examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\classes\\java\\main;examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\resources\\main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Data" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
+      <module name="Climbing-Claws.main" />
+      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\dataRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\dataRunVmArgs.txt -Dfml.modFolders=examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\classes\\java\\main;examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\resources\\main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameTestServer" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
+      <module name="Climbing-Claws.main" />
+      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\gameTestServerRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\gameTestServerRunVmArgs.txt -Dfml.modFolders=examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\classes\\java\\main;examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\resources\\main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Server" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="net.neoforged.devlaunch.Main" />
+      <module name="Climbing-Claws.main" />
+      <option name="PROGRAM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\serverRunProgramArgs.txt" />
+      <option name="VM_PARAMETERS" value="@C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\moddev\\serverRunVmArgs.txt -Dfml.modFolders=examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\classes\\java\\main;examplemod%%C:\\Users\\grego\\IdeaProjects\\Climbing-Claws\\build\\resources\\main" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="56b616ba-ed57-4b25-a13b-59e032f7f484" name="Changes" comment="" />
+      <created>1783466166408</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1783466166408</updated>
+      <workItem from="1783466167745" duration="678000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
