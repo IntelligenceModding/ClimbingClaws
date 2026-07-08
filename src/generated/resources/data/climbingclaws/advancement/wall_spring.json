@@ -1,0 +1,34 @@
+{
+  "parent": "climbingclaws:wall_crawler",
+  "criteria": {
+    "use_wall_spring": {
+      "trigger": "climbingclaws:use_wall_spring"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.climbingclaws.wall_spring.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "components": {
+        "minecraft:stored_enchantments": {
+          "levels": {
+            "climbingclaws:wall_spring": 1
+          }
+        }
+      },
+      "count": 1,
+      "id": "minecraft:enchanted_book"
+    },
+    "title": {
+      "translate": "advancement.climbingclaws.wall_spring.title"
+    }
+  },
+  "requirements": [
+    [
+      "use_wall_spring"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

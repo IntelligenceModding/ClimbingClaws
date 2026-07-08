@@ -1,0 +1,40 @@
+package de.artemis.climbingclaws.common.datagen;
+
+import de.artemis.climbingclaws.ClimbingClaws;
+import de.artemis.climbingclaws.common.registry.ModEnchantments;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.concurrent.CompletableFuture;
+
+public class ModEnchantmentTagProvider extends TagsProvider<Enchantment> {
+    public ModEnchantmentTagProvider(
+            PackOutput output,
+            CompletableFuture<HolderLookup.Provider> lookupProvider,
+            @Nullable ExistingFileHelper existingFileHelper
+    ) {
+        super(output, Registries.ENCHANTMENT, lookupProvider, ClimbingClaws.MOD_ID, existingFileHelper);
+    }
+
+    @Override
+    protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(EnchantmentTags.TRADEABLE)
+                .add(ModEnchantments.WALL_SPRING)
+                .add(ModEnchantments.CANOPY_GRIP);
+
+        tag(EnchantmentTags.IN_ENCHANTING_TABLE)
+                .add(ModEnchantments.WALL_SPRING)
+                .add(ModEnchantments.CANOPY_GRIP);
+
+        tag(EnchantmentTags.NON_TREASURE)
+                .add(ModEnchantments.WALL_SPRING)
+                .add(ModEnchantments.CANOPY_GRIP);
+    }
+}

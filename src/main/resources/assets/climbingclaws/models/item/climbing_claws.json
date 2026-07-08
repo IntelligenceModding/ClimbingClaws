@@ -1,0 +1,92 @@
+{
+	"textures": {
+		"0": "climbingclaws:item/climbing_claws_claw",
+		"1": "minecraft:block/gray_wool",
+		"particle": "minecraft:block/gray_wool"
+	},
+	"elements": [
+		{
+			"name": "base",
+			"from": [5.75, 0, 6.75],
+			"to": [10.25, 2.25, 11.25],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 0, 9]},
+			"faces": {
+				"north": {"uv": [0, 6, 4, 8], "texture": "#1"},
+				"east": {"uv": [0, 4, 4, 6], "texture": "#1"},
+				"south": {"uv": [0, 2, 4, 4], "texture": "#1"},
+				"west": {"uv": [0, 0, 4, 2], "texture": "#1"},
+				"up": {"uv": [4, 0, 8, 4], "texture": "#1"},
+				"down": {"uv": [4, 4, 8, 8], "texture": "#1"}
+			}
+		},
+		{
+			"name": "claw_3",
+			"from": [9, 2.25, 7.5],
+			"to": [9, 8.25, 10.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9, 2.25, 9]},
+			"faces": {
+				"east": {"uv": [1, 0, 7, 12], "texture": "#0"},
+				"west": {"uv": [7, 0, 1, 12], "texture": "#0"}
+			}
+		},
+		{
+			"name": "claw_2",
+			"from": [8, 2.25, 7.5],
+			"to": [8, 8.25, 10.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2.25, 9]},
+			"faces": {
+				"east": {"uv": [1, 0, 7, 12], "texture": "#0"},
+				"west": {"uv": [7, 0, 1, 12], "texture": "#0"}
+			}
+		},
+		{
+			"name": "claw_1",
+			"from": [7, 2.25, 7.5],
+			"to": [7, 8.25, 10.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 2.25, 9]},
+			"faces": {
+				"east": {"uv": [1, 0, 7, 12], "texture": "#0"},
+				"west": {"uv": [7, 0, 1, 12], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [90, 0, -180],
+			"translation": [0, -1, -6]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [90, 0, -180],
+			"translation": [0, -1, -6]
+		},
+		"firstperson_righthand": {
+			"rotation": [-24, -180, 0],
+			"translation": [0, 7.75, 0]
+		},
+		"firstperson_lefthand": {
+			"rotation": [-24, -180, 0],
+			"translation": [0, 7.75, 0]
+		},
+		"ground": {
+			"translation": [0, 4.5, 0]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0.75, 4.75, 0],
+			"scale": [1.25, 1.25, 1.25]
+		},
+		"head": {
+			"translation": [0, 22, -2],
+			"scale": [2, 2, 2]
+		},
+		"fixed": {
+			"rotation": [0, 90, 0],
+			"translation": [-0.75, 6.5, 0],
+			"scale": [1.5, 1.5, 1.5]
+		},
+		"on_shelf": {
+			"rotation": [0, 90, 0],
+			"scale": [2, 2, 2]
+		}
+	}
+}
