@@ -3,7 +3,7 @@ package de.artemis.climbingclaws.common.registry;
 import de.artemis.climbingclaws.ClimbingClaws;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.storage.loot.LootTable;
 
 public final class ModLootTables {
@@ -31,7 +31,7 @@ public final class ModLootTables {
     private static ResourceKey<LootTable> chest(String path) {
         return ResourceKey.create(
                 Registries.LOOT_TABLE,
-                ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, "chests/" + path)
+                Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, "chests/" + path)
         );
     }
 }

@@ -3,7 +3,7 @@ package de.artemis.climbingclaws.common.registry;
 import de.artemis.climbingclaws.ClimbingClaws;
 import de.artemis.climbingclaws.common.advancement.ClimbingClawsSimpleTrigger;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 public final class ModCriteriaTriggers {
@@ -27,6 +27,6 @@ public final class ModCriteriaTriggers {
     }
 
     private static ClimbingClawsSimpleTrigger trigger(String path) {
-        return new ClimbingClawsSimpleTrigger(ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path));
+        return new ClimbingClawsSimpleTrigger(Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path));
     }
 }

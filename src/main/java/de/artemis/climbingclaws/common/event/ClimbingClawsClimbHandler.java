@@ -72,7 +72,7 @@ public final class ClimbingClawsClimbHandler {
         return Mth.clamp((float) clientWallSpringCooldownTicks / (float) WALL_SPRING_COOLDOWN_TICKS, 0.0F, 1.0F);
     }
 
-    public static void onPlayerTick(PlayerTickEvent.Post event) {
+    public static void onPlayerTick(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
         tickWallSpringCooldown(player);
         tickStatGraceWindow(player);
@@ -127,7 +127,7 @@ public final class ClimbingClawsClimbHandler {
         }
 
         player.setDeltaMovement(x, y, z);
-        player.hasImpulse = activeClimb || touchingSideSurface || touchingCeilingSurface;
+        player.hurtMarked = activeClimb || touchingSideSurface || touchingCeilingSurface;
         awardClimbingStats(player, movingIntoWall, descending, hanging);
         triggerAdvancements(player, movingIntoWall, hanging, touchingCeilingSurface, touchingPartialSurface);
         trackClimbingDistance(player, true);
@@ -142,7 +142,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     public static boolean activateBurst(Player player) {
-        if (player.level().isClientSide || player.isSpectator() || player.isPassenger() || !isUsingClimbingClaws(player) || player.isShiftKeyDown()) {
+        if (player.level().isClientSide() || player.isSpectator() || player.isPassenger() || !isUsingClimbingClaws(player) || player.isShiftKeyDown()) {
             return false;
         }
 
@@ -170,7 +170,7 @@ public final class ClimbingClawsClimbHandler {
 
         player.setDeltaMovement(x, y, z);
         player.fallDistance = 0.0F;
-        player.hasImpulse = true;
+        player.hurtMarked = true;
         player.hurtMarked = true;
         startWallSpringCooldown(player);
         startStatGraceWindow(player);
@@ -187,8 +187,38 @@ public final class ClimbingClawsClimbHandler {
         return true;
     }
 
+    public static boolean applyClientBurst(Player player) {
+        if (!player.level().isClientSide() || player.isSpectator() || player.isPassenger() || !isUsingClimbingClaws(player) || player.isShiftKeyDown()) {
+            return false;
+        }
+
+        Level level = player.level();
+        boolean allowPartialSurfaces = getEnchantmentLevel(player.getOffhandItem(), player, ModEnchantments.CANOPY_GRIP) > 0;
+        SurfaceContact sideSurface = findHorizontalSurface(level, player.getBoundingBox().inflate(0.08D, 0.0D, 0.08D), allowPartialSurfaces);
+        SurfaceContact ceilingSurface = findSurface(level, player.getBoundingBox().move(0.0D, 0.12D, 0.0D).inflate(-0.02D, 0.0D, -0.02D), Direction.DOWN, allowPartialSurfaces);
+        if (sideSurface == null && ceilingSurface == null) {
+            return false;
+        }
+
+        int wallSpringLevel = getEnchantmentLevel(player.getOffhandItem(), player, ModEnchantments.WALL_SPRING);
+        if (wallSpringLevel <= 0 || clientWallSpringCooldownTicks > 0) {
+            return false;
+        }
+
+        Vec3 movement = player.getDeltaMovement();
+        double x = Mth.clamp(movement.x, -0.15D, 0.15D);
+        double z = Mth.clamp(movement.z, -0.15D, 0.15D);
+        double y = Math.max(movement.y, 0.0D) + getWallSpringBoost(wallSpringLevel);
+
+        player.setDeltaMovement(x, y, z);
+        player.fallDistance = 0.0F;
+        player.hurtMarked = true;
+        clientWallSpringCooldownTicks = WALL_SPRING_COOLDOWN_TICKS;
+        return true;
+    }
+
     private static void tickWallSpringCooldown(Player player) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -215,7 +245,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void tickStatGraceWindow(Player player) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -261,7 +291,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void awardClimbingStats(Player player, boolean movingIntoWall, boolean descending, boolean hanging) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -275,7 +305,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void trackClimbingDistance(Player player, boolean attachedToSurface) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -309,7 +339,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void clearTrackedHeight(Player player) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -359,7 +389,7 @@ public final class ClimbingClawsClimbHandler {
                 SoundEvents.CHAIN_HIT,
                 SoundSource.PLAYERS,
                 0.45F,
-                1.1F + serverLevel.random.nextFloat() * 0.1F
+                1.1F + serverLevel.getRandom().nextFloat() * 0.1F
         );
         serverLevel.playSound(
                 null,
@@ -369,7 +399,7 @@ public final class ClimbingClawsClimbHandler {
                 SoundEvents.WIND_CHARGE_BURST.value(),
                 SoundSource.PLAYERS,
                 0.35F,
-                1.2F + serverLevel.random.nextFloat() * 0.1F
+                1.2F + serverLevel.getRandom().nextFloat() * 0.1F
         );
         serverLevel.playSound(
                 null,
@@ -379,7 +409,7 @@ public final class ClimbingClawsClimbHandler {
                 contact.state().getSoundType().getStepSound(),
                 SoundSource.PLAYERS,
                 0.2F,
-                0.85F + serverLevel.random.nextFloat() * 0.1F
+                0.85F + serverLevel.getRandom().nextFloat() * 0.1F
         );
     }
 
@@ -466,7 +496,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void damageClaws(Player player, boolean activeClimb, boolean attachedToSurface, boolean springBurst) {
-        if (player.level().isClientSide || !attachedToSurface) {
+        if (player.level().isClientSide() || !attachedToSurface) {
             return;
         }
 
@@ -488,21 +518,21 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void playClimbFeedback(Player player, Level level, SurfaceContact contact, boolean ceilingClimb) {
-        if (contact == null || !level.isClientSide) {
+        if (contact == null || !level.isClientSide()) {
             return;
         }
 
         level.addParticle(
                 new BlockParticleOption(ParticleTypes.BLOCK, contact.state()),
-                player.getX() + (level.random.nextDouble() - 0.5D) * 0.28D,
+                player.getX() + (level.getRandom().nextDouble() - 0.5D) * 0.28D,
                 player.getY() + (ceilingClimb ? 1.7D : 0.85D),
-                player.getZ() + (level.random.nextDouble() - 0.5D) * 0.28D,
-                (level.random.nextDouble() - 0.5D) * 0.025D,
+                player.getZ() + (level.getRandom().nextDouble() - 0.5D) * 0.28D,
+                (level.getRandom().nextDouble() - 0.5D) * 0.025D,
                 ceilingClimb ? -0.01D : 0.02D,
-                (level.random.nextDouble() - 0.5D) * 0.025D
+                (level.getRandom().nextDouble() - 0.5D) * 0.025D
         );
 
-        if (level.random.nextFloat() < 0.65F) {
+        if (level.getRandom().nextFloat() < 0.65F) {
             level.playLocalSound(
                     player.getX(),
                     player.getY() + 0.5D,
@@ -510,22 +540,22 @@ public final class ClimbingClawsClimbHandler {
                     contact.state().getSoundType().getStepSound(),
                     SoundSource.PLAYERS,
                     0.18F,
-                    0.9F + level.random.nextFloat() * 0.15F,
+                    0.9F + level.getRandom().nextFloat() * 0.15F,
                     false
             );
         }
     }
 
     private static void playClingFeedback(Player player, Level level, SurfaceContact contact) {
-        if (contact == null || !level.isClientSide || level.random.nextFloat() >= 0.25F) {
+        if (contact == null || !level.isClientSide() || level.getRandom().nextFloat() >= 0.25F) {
             return;
         }
 
         level.addParticle(
                 new BlockParticleOption(ParticleTypes.BLOCK, contact.state()),
-                player.getX() + (level.random.nextDouble() - 0.5D) * 0.18D,
+                player.getX() + (level.getRandom().nextDouble() - 0.5D) * 0.18D,
                 player.getY() + 0.75D,
-                player.getZ() + (level.random.nextDouble() - 0.5D) * 0.18D,
+                player.getZ() + (level.getRandom().nextDouble() - 0.5D) * 0.18D,
                 0.0D,
                 0.01D,
                 0.0D
@@ -538,7 +568,7 @@ public final class ClimbingClawsClimbHandler {
                 contact.state().getSoundType().getStepSound(),
                 SoundSource.PLAYERS,
                 0.08F,
-                0.85F + level.random.nextFloat() * 0.1F,
+                0.85F + level.getRandom().nextFloat() * 0.1F,
                 false
         );
     }

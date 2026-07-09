@@ -6,7 +6,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -58,14 +58,14 @@ public final class ModEnchantments {
     }
 
     private static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
-        context.register(key, builder.build(key.location()));
+        context.register(key, builder.build(key.identifier()));
     }
 
     private static ResourceKey<Enchantment> key(String name) {
-        return ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, name));
+        return ResourceKey.create(Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, name));
     }
 
     private static ResourceKey<Item> itemKey(String name) {
-        return ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, name));
+        return ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, name));
     }
 }

@@ -2,11 +2,17 @@ package de.artemis.climbingclaws.common.registry;
 
 import de.artemis.climbingclaws.ClimbingClaws;
 import de.artemis.climbingclaws.common.item.ClimbingClawsItem;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.enchantment.Repairable;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -18,8 +24,14 @@ public final class ModItems {
     private static final float CLIMBING_CLAWS_ATTACK_SPEED = -2.4F;
 
     public static final DeferredItem<Item> CLIMBING_CLAWS = ITEMS.register("climbing_claws",
-            () -> new ClimbingClawsItem(new Item.Properties()
+            id -> new ClimbingClawsItem(new Item.Properties()
+                    .setId(ResourceKey.create(Registries.ITEM, id))
                     .durability(CLIMBING_CLAWS_DURABILITY)
+                    .enchantable(14)
+                    .component(
+                            DataComponents.REPAIRABLE,
+                            new Repairable(HolderSet.direct(Items.IRON_INGOT.builtInRegistryHolder(), Items.IRON_NUGGET.builtInRegistryHolder()))
+                    )
                     .attributes(createAttributes())));
 
     private ModItems() {

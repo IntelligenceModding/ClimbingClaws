@@ -64,14 +64,14 @@ public final class ModGlobalLootModifierProvider extends GlobalLootModifierProvi
 
     private void addForEach(String namePrefix, ResourceKey<LootTable> injectedTable, List<ResourceKey<LootTable>> targets) {
         for (ResourceKey<LootTable> target : targets) {
-            add(namePrefix + "_" + target.location().getPath().replace('/', '_'), modifierFor(target, injectedTable));
+            add(namePrefix + "_" + target.identifier().getPath().replace('/', '_'), modifierFor(target, injectedTable));
         }
     }
 
     private static AddTableLootModifier modifierFor(ResourceKey<LootTable> target, ResourceKey<LootTable> injectedTable) {
         LootItemCondition[] conditions = new LootItemCondition[]{
-                LootTableIdCondition.builder(target.location()).build()
+                LootTableIdCondition.builder(target.identifier()).build()
         };
-        return new AddTableLootModifier(conditions, injectedTable);
+        return new AddTableLootModifier(conditions, 1, injectedTable);
     }
 }

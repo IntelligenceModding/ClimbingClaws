@@ -8,23 +8,26 @@ import java.util.function.Consumer;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.Items;
+import net.minecraft.resources.ResourceKey;
 
-public final class ModAdvancementSubProvider implements AdvancementProvider.AdvancementGenerator {
-    private static final ResourceLocation ROOT_ID = id("root");
-    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/block/cobbled_deepslate.png");
+public final class ModAdvancementSubProvider implements AdvancementSubProvider {
+    private static final Identifier ROOT_ID = id("root");
+    private static final Identifier BACKGROUND = Identifier.withDefaultNamespace("textures/block/cobbled_deepslate.png");
 
     @Override
-    public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver, ExistingFileHelper existingFileHelper) {
+    public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {
         var enchantments = registries.lookupOrThrow(Registries.ENCHANTMENT);
 
         AdvancementHolder root = Advancement.Builder.advancement()
@@ -39,7 +42,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("has_climbing_claws", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.CLIMBING_CLAWS.get()))
-                .save(saver, ROOT_ID, existingFileHelper);
+                .save(saver, ROOT_ID);
 
         AdvancementHolder suitUp = Advancement.Builder.advancement()
                 .parent(root)
@@ -54,7 +57,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("has_climbing_claws", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.CLIMBING_CLAWS.get()))
-                .save(saver, id("suit_up"), existingFileHelper);
+                .save(saver, id("suit_up"));
 
         AdvancementHolder wallCrawler = Advancement.Builder.advancement()
                 .parent(suitUp)
@@ -69,7 +72,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("climb_with_claws", ModCriteriaTriggers.CLIMB_WITH_CLAWS.criterion())
-                .save(saver, id("wall_crawler"), existingFileHelper);
+                .save(saver, id("wall_crawler"));
 
         AdvancementHolder holdFast = Advancement.Builder.advancement()
                 .parent(wallCrawler)
@@ -84,7 +87,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("hang_with_claws", ModCriteriaTriggers.HANG_WITH_CLAWS.criterion())
-                .save(saver, id("hold_fast"), existingFileHelper);
+                .save(saver, id("hold_fast"));
 
         AdvancementHolder upsideDown = Advancement.Builder.advancement()
                 .parent(wallCrawler)
@@ -99,12 +102,12 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("cling_to_ceiling", ModCriteriaTriggers.CLING_TO_CEILING.criterion())
-                .save(saver, id("upside_down"), existingFileHelper);
+                .save(saver, id("upside_down"));
 
         AdvancementHolder wallSpring = Advancement.Builder.advancement()
                 .parent(wallCrawler)
                 .display(
-                        EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantments.getOrThrow(ModEnchantments.WALL_SPRING), 1)),
+                        enchantedBook(enchantments, ModEnchantments.WALL_SPRING),
                         Component.translatable("advancement.climbingclaws.wall_spring.title"),
                         Component.translatable("advancement.climbingclaws.wall_spring.description"),
                         null,
@@ -114,12 +117,12 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("use_wall_spring", ModCriteriaTriggers.USE_WALL_SPRING.criterion())
-                .save(saver, id("wall_spring"), existingFileHelper);
+                .save(saver, id("wall_spring"));
 
         Advancement.Builder canopyBuilder = Advancement.Builder.advancement()
                 .parent(wallCrawler)
                 .display(
-                        EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP), 1)),
+                        enchantedBook(enchantments, ModEnchantments.CANOPY_GRIP),
                         Component.translatable("advancement.climbingclaws.canopy_route.title"),
                         Component.translatable("advancement.climbingclaws.canopy_route.description"),
                         null,
@@ -130,10 +133,21 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                 )
                 .addCriterion("climb_partial_surface", ModCriteriaTriggers.CLIMB_PARTIAL_SURFACE.criterion());
 
-        canopyBuilder.save(saver, id("canopy_route"), existingFileHelper);
+        canopyBuilder.save(saver, id("canopy_route"));
     }
 
-    private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
+    private static ItemStackTemplate enchantedBook(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> enchantmentKey) {
+        ItemEnchantments.Mutable storedEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        storedEnchantments.set(enchantments.getOrThrow(enchantmentKey), 1);
+        return new ItemStackTemplate(
+                Items.ENCHANTED_BOOK,
+                DataComponentPatch.builder()
+                        .set(DataComponents.STORED_ENCHANTMENTS, storedEnchantments.toImmutable())
+                        .build()
+        );
+    }
+
+    private static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
     }
 }

@@ -6,14 +6,14 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @JeiPlugin
 public class ClimbingClawsJeiPlugin implements IModPlugin {
-    private static final ResourceLocation PLUGIN_UID = ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, "jei_plugin");
+    private static final Identifier PLUGIN_UID = Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, "jei_plugin");
 
     @Override
-    public ResourceLocation getPluginUid() {
+    public Identifier getPluginUid() {
         return PLUGIN_UID;
     }
 

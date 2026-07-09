@@ -9,39 +9,49 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = minecraft_version + "-" + mod_version
+version = "${minecraft_version}-${mod_version}"
 group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+def clientGeneratedResources = file('src/generated/client')
+def serverGeneratedResources = file('src/generated/server')
+
+sourceSets.main.resources.setSrcDirs([
+        'src/main/resources',
+        clientGeneratedResources,
+        serverGeneratedResources
+])
+sourceSets.main.resources {
+    exclude("**/*.bbmodel")
+    exclude("**/.cache/**")
+}
 
 repositories {
     maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
     }
-    maven {
-        name = "Modrinth Maven"
-        url = "https://api.modrinth.com/maven"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
 }
-
-base {
-    archivesName = mod_id
-}
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
-    version = project.neo_version
+    version = neo_version
 
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
+    mods {
+        create(mod_id) {
+            sourceSet sourceSets.main
+        }
     }
 
     runs {
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'forge.logging.console.level', 'debug'
+            gameDirectory = project.layout.projectDirectory.dir("run/${name}")
+        }
+
         client {
             client()
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
@@ -49,56 +59,50 @@ neoForge {
 
         server {
             server()
-            programArgument '--nogui'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            programArgument '--nogui'
+        }
+
+        serverData {
+            serverData()
+            programArguments.addAll(
+                    '--mod', project.mod_id,
+                    '--all',
+                    '--output', serverGeneratedResources.getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath()
+            )
         }
 
         gameTestServer {
-            type = "gameTestServer"
+            type = 'gameTestServer'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
 
-        data {
-            data()
-            programArguments.addAll '--mod', project.mod_id,
+        clientData {
+            clientData()
+            programArguments.addAll(
+                    '--mod', project.mod_id,
                     '--all',
-                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--output', clientGeneratedResources.getAbsolutePath(),
                     '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            logLevel = org.slf4j.event.Level.INFO
+            )
         }
     }
-
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
-}
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
 }
 
 dependencies {
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-    localRuntime("maven.modrinth:just-enough-professions-jep:${jep_version}")
+    compileOnly "mezz.jei:jei-${jei_minecraft_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge:${jei_version}"
 }
 
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+tasks.withType(ProcessResources).configureEach {
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
-            loader_version_range   : loader_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
@@ -107,20 +111,24 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_description        : mod_description
     ]
     inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
 
-sourceSets.main.resources.srcDir generateModMetadata
-neoForge.ideSyncTask generateModMetadata
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-tasks.register('runClientData') {
-    dependsOn tasks.named('runData')
+tasks.named('processResources', ProcessResources).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.register('runData') {
+    group = 'NeoGradle/Runs tasks'
+    description = 'Runs both clientData and serverData generation.'
+    dependsOn tasks.named('runClientData'), tasks.named('runServerData')
 }
 
 publishing {

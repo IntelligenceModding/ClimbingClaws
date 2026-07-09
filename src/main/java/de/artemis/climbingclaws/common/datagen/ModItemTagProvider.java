@@ -3,23 +3,18 @@ package de.artemis.climbingclaws.common.datagen;
 import de.artemis.climbingclaws.ClimbingClaws;
 import de.artemis.climbingclaws.common.registry.ModItems;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
 import net.minecraft.tags.ItemTags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public class ModItemTagProvider extends ItemTagsProvider {
-    public ModItemTagProvider(
-            PackOutput output,
-            CompletableFuture<HolderLookup.Provider> lookupProvider,
-            @Nullable ExistingFileHelper existingFileHelper
-    ) {
-        super(output, lookupProvider, CompletableFuture.completedFuture(tag -> Optional.empty()), ClimbingClaws.MOD_ID, existingFileHelper);
+public class ModItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
+    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, Registries.ITEM, lookupProvider, item -> item.builtInRegistryHolder().key(), ClimbingClaws.MOD_ID);
     }
 
     @Override
@@ -39,7 +34,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.MINING_ENCHANTABLE)
                 .add(ModItems.CLIMBING_CLAWS.get());
 
-        tag(ItemTags.SWORD_ENCHANTABLE)
+        tag(ItemTags.MELEE_WEAPON_ENCHANTABLE)
                 .add(ModItems.CLIMBING_CLAWS.get());
     }
 }

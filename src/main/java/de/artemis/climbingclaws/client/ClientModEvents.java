@@ -11,14 +11,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 
 public final class ClientModEvents {
     private ClientModEvents() {
-    }
-
-    public static void onClientSetup(FMLClientSetupEvent event) {
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -33,7 +29,8 @@ public final class ClientModEvents {
         ClimbingClawsClimbHandler.tickClientWallSpringCooldown();
 
         if (minecraft.options.keyJump.consumeClick() && canUseWallSpring(player)) {
-            PacketDistributor.sendToServer(ClimbingBurstPayload.INSTANCE);
+            ClimbingClawsClimbHandler.applyClientBurst(player);
+            ClientPacketDistributor.sendToServer(ClimbingBurstPayload.INSTANCE);
         }
     }
 
