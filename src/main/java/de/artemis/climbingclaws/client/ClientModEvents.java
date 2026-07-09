@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import de.artemis.climbingclaws.common.network.ClimbingBurstPayload;
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import de.artemis.climbingclaws.common.registry.ModItems;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -60,7 +59,6 @@ public final class ClientModEvents {
     }
 
     private static int getEnchantmentLevel(ItemStack stack, Player player) {
-        var enchantments = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        return stack.getEnchantmentLevel(enchantments.getOrThrow(ModEnchantments.WALL_SPRING));
+        return ModEnchantments.getLevel(stack, player.registryAccess(), ModEnchantments.WALL_SPRING);
     }
 }

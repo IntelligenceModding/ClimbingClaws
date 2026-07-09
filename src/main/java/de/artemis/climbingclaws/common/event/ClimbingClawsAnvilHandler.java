@@ -2,10 +2,8 @@ package de.artemis.climbingclaws.common.event;
 
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import de.artemis.climbingclaws.common.registry.ModItems;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 
@@ -21,15 +19,14 @@ public final class ClimbingClawsAnvilHandler {
             return;
         }
 
-        var enchantments = event.getPlayer().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        if (hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(left), enchantments)
-                || hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(right), enchantments)) {
+        if (hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(left), event.getPlayer().registryAccess())
+                || hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(right), event.getPlayer().registryAccess())) {
             event.setCanceled(true);
         }
     }
 
-    private static boolean hasClimbingClawsExclusiveEnchantment(net.minecraft.world.item.enchantment.ItemEnchantments enchantmentsOnStack, net.minecraft.core.HolderLookup.RegistryLookup<Enchantment> enchantments) {
-        return enchantmentsOnStack.getLevel(enchantments.getOrThrow(ModEnchantments.WALL_SPRING)) > 0
-                || enchantmentsOnStack.getLevel(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP)) > 0;
+    private static boolean hasClimbingClawsExclusiveEnchantment(net.minecraft.world.item.enchantment.ItemEnchantments enchantmentsOnStack, net.minecraft.core.HolderLookup.Provider registries) {
+        return ModEnchantments.get(registries, ModEnchantments.WALL_SPRING).map(enchantmentsOnStack::getLevel).orElse(0) > 0
+                || ModEnchantments.get(registries, ModEnchantments.CANOPY_GRIP).map(enchantmentsOnStack::getLevel).orElse(0) > 0;
     }
 }

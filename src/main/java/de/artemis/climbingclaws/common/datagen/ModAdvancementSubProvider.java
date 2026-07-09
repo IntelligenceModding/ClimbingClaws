@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.triggers.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
@@ -24,7 +24,7 @@ import net.minecraft.resources.ResourceKey;
 
 public final class ModAdvancementSubProvider implements AdvancementSubProvider {
     private static final Identifier ROOT_ID = id("root");
-    private static final Identifier BACKGROUND = Identifier.withDefaultNamespace("textures/block/cobbled_deepslate.png");
+    private static final Identifier BACKGROUND = Identifier.withDefaultNamespace("block/cobbled_deepslate");
 
     @Override
     public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {

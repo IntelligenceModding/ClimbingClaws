@@ -3,9 +3,7 @@ package de.artemis.climbingclaws.common.event;
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
@@ -19,11 +17,13 @@ public final class ClimbingClawsTooltipHandler {
             return;
         }
 
-        HolderLookup.RegistryLookup<Enchantment> enchantments = registries.lookupOrThrow(Registries.ENCHANTMENT);
         var stackEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(event.getItemStack());
-
-        boolean hasWallSpring = stackEnchantments.getLevel(enchantments.getOrThrow(ModEnchantments.WALL_SPRING)) > 0;
-        boolean hasCanopyGrip = stackEnchantments.getLevel(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP)) > 0;
+        boolean hasWallSpring = ModEnchantments.get(registries, ModEnchantments.WALL_SPRING)
+                .map(stackEnchantments::getLevel)
+                .orElse(0) > 0;
+        boolean hasCanopyGrip = ModEnchantments.get(registries, ModEnchantments.CANOPY_GRIP)
+                .map(stackEnchantments::getLevel)
+                .orElse(0) > 0;
         if (!hasWallSpring && !hasCanopyGrip) {
             return;
         }

@@ -5,6 +5,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,9 +27,9 @@ public final class ModCreativeModeTabs {
                     .title(Component.translatable("itemGroup.climbingclaws"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.CLIMBING_CLAWS);
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 1));
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 2));
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.CANOPY_GRIP, 1));
+                        appendEnchantBook(output, parameters.holders(), ModEnchantments.WALL_SPRING, 1);
+                        appendEnchantBook(output, parameters.holders(), ModEnchantments.WALL_SPRING, 2);
+                        appendEnchantBook(output, parameters.holders(), ModEnchantments.CANOPY_GRIP, 1);
                     })
                     .build()
     );
@@ -40,8 +41,19 @@ public final class ModCreativeModeTabs {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 
-    private static ItemStack createEnchantBook(HolderLookup.Provider holders, net.minecraft.resources.ResourceKey<Enchantment> enchantmentKey, int level) {
-        Holder<Enchantment> enchantment = holders.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(enchantmentKey);
+    private static void appendEnchantBook(CreativeModeTab.Output output, HolderLookup.Provider holders, ResourceKey<Enchantment> enchantmentKey, int level) {
+        ItemStack stack = createEnchantBook(holders, enchantmentKey, level);
+        if (!stack.isEmpty()) {
+            output.accept(stack);
+        }
+    }
+
+    private static ItemStack createEnchantBook(HolderLookup.Provider holders, ResourceKey<Enchantment> enchantmentKey, int level) {
+        Holder<Enchantment> enchantment = ModEnchantments.get(holders, enchantmentKey).orElse(null);
+        if (enchantment == null) {
+            return ItemStack.EMPTY;
+        }
+
         ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
         stack.enchant(enchantment, level);
         return stack;

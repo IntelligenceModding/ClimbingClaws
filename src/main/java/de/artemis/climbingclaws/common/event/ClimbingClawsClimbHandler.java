@@ -12,7 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -491,8 +490,7 @@ public final class ClimbingClawsClimbHandler {
             return 0;
         }
 
-        var enchantments = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        return stack.getEnchantmentLevel(enchantments.getOrThrow(enchantmentKey));
+        return ModEnchantments.getLevel(stack, player.registryAccess(), enchantmentKey);
     }
 
     private static void damageClaws(Player player, boolean activeClimb, boolean attachedToSurface, boolean springBurst) {
