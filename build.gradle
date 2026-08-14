@@ -18,6 +18,10 @@ repositories {
         url = "https://maven.blamejared.com/"
     }
     maven {
+        name = "Illusive Soulworks maven"
+        url = "https://maven.theillusivec4.top/"
+    }
+    maven {
         name = "Modrinth Maven"
         url = "https://api.modrinth.com/maven"
     }
@@ -90,6 +94,8 @@ configurations {
 dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
+    runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
     localRuntime("maven.modrinth:just-enough-professions-jep:${jep_version}")
 }
 
@@ -99,6 +105,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
             loader_version_range   : loader_version_range,
+            curios_version_range   : curios_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,

@@ -1,7 +1,10 @@
 package de.artemis.climbingclaws.common.registry;
 
 import de.artemis.climbingclaws.ClimbingClaws;
+import java.util.Optional;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -9,6 +12,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 
 public final class ModEnchantments {
@@ -59,6 +63,18 @@ public final class ModEnchantments {
 
     private static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
         context.register(key, builder.build(key.location()));
+    }
+
+    public static Optional<Holder.Reference<Enchantment>> get(HolderLookup.Provider registries, ResourceKey<Enchantment> key) {
+        return registries.lookup(Registries.ENCHANTMENT).flatMap(enchantments -> enchantments.get(key));
+    }
+
+    public static Optional<Holder.Reference<Enchantment>> get(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> key) {
+        return enchantments.get(key);
+    }
+
+    public static int getLevel(ItemStack stack, HolderLookup.Provider registries, ResourceKey<Enchantment> key) {
+        return get(registries, key).map(stack::getEnchantmentLevel).orElse(0);
     }
 
     private static ResourceKey<Enchantment> key(String name) {
