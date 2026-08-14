@@ -21,7 +21,8 @@
 </p>
 
 <p align="center">
-  Climbing Claws works normally without JEI. Install JEI alongside it if you want the optional in-game usage entry for the item.
+  Climbing Claws works normally without JEI or Curios. Install JEI alongside it if you want the optional in-game usage entry for the item.
+  Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of using the off-hand.
 </p>
 
 <p align="center">
