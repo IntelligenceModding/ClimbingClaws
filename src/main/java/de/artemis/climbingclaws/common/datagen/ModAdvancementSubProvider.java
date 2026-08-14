@@ -10,13 +10,12 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.Items;
@@ -136,15 +135,12 @@ public final class ModAdvancementSubProvider implements AdvancementSubProvider {
         canopyBuilder.save(saver, id("canopy_route"));
     }
 
-    private static ItemStackTemplate enchantedBook(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> enchantmentKey) {
+    private static ItemStack enchantedBook(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> enchantmentKey) {
         ItemEnchantments.Mutable storedEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
         storedEnchantments.set(enchantments.getOrThrow(enchantmentKey), 1);
-        return new ItemStackTemplate(
-                Items.ENCHANTED_BOOK,
-                DataComponentPatch.builder()
-                        .set(DataComponents.STORED_ENCHANTMENTS, storedEnchantments.toImmutable())
-                        .build()
-        );
+        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
+        stack.set(DataComponents.STORED_ENCHANTMENTS, storedEnchantments.toImmutable());
+        return stack;
     }
 
     private static Identifier id(String path) {
