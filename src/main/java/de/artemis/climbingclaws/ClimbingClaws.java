@@ -29,6 +29,7 @@ public class ClimbingClaws {
         modEventBus.addListener(ModCriteriaTriggers::register);
         modEventBus.addListener(ModStats::register);
         if (FMLEnvironment.getDist() == Dist.CLIENT) {
+            modEventBus.addListener(ClientModEvents::onClientSetup);
             modEventBus.addListener(ClientModEvents::onRegisterItemDecorations);
             NeoForge.EVENT_BUS.addListener(ClientModEvents::onClientTick);
             NeoForge.EVENT_BUS.addListener(ClimbingClawsTooltipHandler::onItemTooltip);
