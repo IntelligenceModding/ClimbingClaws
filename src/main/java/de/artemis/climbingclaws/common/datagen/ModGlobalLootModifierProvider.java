@@ -72,6 +72,6 @@ public final class ModGlobalLootModifierProvider extends GlobalLootModifierProvi
         LootItemCondition[] conditions = new LootItemCondition[]{
                 LootTableIdCondition.builder(target.identifier()).build()
         };
-        return new AddTableLootModifier(conditions, 1, injectedTable);
+        return new AddTableLootModifier(conditions, injectedTable);
     }
 }

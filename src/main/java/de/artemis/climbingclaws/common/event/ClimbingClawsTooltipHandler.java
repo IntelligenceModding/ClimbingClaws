@@ -19,11 +19,19 @@ public final class ClimbingClawsTooltipHandler {
             return;
         }
 
-        HolderLookup.RegistryLookup<Enchantment> enchantments = registries.lookupOrThrow(Registries.ENCHANTMENT);
+        var enchantments = registries.lookup(Registries.ENCHANTMENT);
+        if (enchantments.isEmpty()) {
+            return;
+        }
+
         var stackEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(event.getItemStack());
 
-        boolean hasWallSpring = stackEnchantments.getLevel(enchantments.getOrThrow(ModEnchantments.WALL_SPRING)) > 0;
-        boolean hasCanopyGrip = stackEnchantments.getLevel(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP)) > 0;
+        boolean hasWallSpring = enchantments.get().get(ModEnchantments.WALL_SPRING)
+                .map(enchantment -> stackEnchantments.getLevel(enchantment) > 0)
+                .orElse(false);
+        boolean hasCanopyGrip = enchantments.get().get(ModEnchantments.CANOPY_GRIP)
+                .map(enchantment -> stackEnchantments.getLevel(enchantment) > 0)
+                .orElse(false);
         if (!hasWallSpring && !hasCanopyGrip) {
             return;
         }

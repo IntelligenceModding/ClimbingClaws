@@ -12,6 +12,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public final class ModCreativeModeTabs {
@@ -26,9 +27,9 @@ public final class ModCreativeModeTabs {
                     .title(Component.translatable("itemGroup.climbingclaws"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.CLIMBING_CLAWS);
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 1));
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 2));
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.CANOPY_GRIP, 1));
+                        createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 1).ifPresent(output::accept);
+                        createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 2).ifPresent(output::accept);
+                        createEnchantBook(parameters.holders(), ModEnchantments.CANOPY_GRIP, 1).ifPresent(output::accept);
                     })
                     .build()
     );
@@ -40,10 +41,15 @@ public final class ModCreativeModeTabs {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 
-    private static ItemStack createEnchantBook(HolderLookup.Provider holders, net.minecraft.resources.ResourceKey<Enchantment> enchantmentKey, int level) {
-        Holder<Enchantment> enchantment = holders.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(enchantmentKey);
+    private static Optional<ItemStack> createEnchantBook(HolderLookup.Provider holders, net.minecraft.resources.ResourceKey<Enchantment> enchantmentKey, int level) {
+        Optional<Holder.Reference<Enchantment>> enchantment = holders.lookup(Registries.ENCHANTMENT)
+                .flatMap(enchantments -> enchantments.get(enchantmentKey));
+        if (enchantment.isEmpty()) {
+            return Optional.empty();
+        }
+
         ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-        stack.enchant(enchantment, level);
-        return stack;
+        stack.enchant(enchantment.get(), level);
+        return Optional.of(stack);
     }
 }
