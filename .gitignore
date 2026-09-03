@@ -42,3 +42,8 @@ server/
 
 **/src/generated/**/.cache/
 repo/
+run/
+run-*/
+!**/src/**/run/
+repo/
+!**/src/**/repo/
