@@ -89,7 +89,7 @@ You can view the available branches [here][branches].
 
 When contributing, always work against the branch matching the Minecraft version and loader your change targets.
 
-For example, a change developed for Minecraft 1.21.2 with NeoForge should target the corresponding 1.21.2 NeoForge branch.
+For example, a change developed for Minecraft 1.21.3 with NeoForge should target the corresponding 1.21.3 NeoForge branch.
 
 Do **not** target the `assets` branch for code changes. The `assets` branch is used for project images and other repository assets.
 
@@ -117,7 +117,7 @@ Check the following line in the branch's `build.gradle` file if you are unsure:
 java.toolchain.languageVersion = JavaLanguageVersion.of(...)
 ```
 
-For example, the Minecraft 1.21.2 NeoForge branch uses Java 21.
+For example, the Minecraft 1.21.3 NeoForge branch uses Java 21.
 
 Java builds such as Eclipse Temurin can be downloaded from [Adoptium][adoptium].
 
@@ -149,7 +149,7 @@ Before beginning work, switch to the branch matching the Minecraft version you w
 For example:
 
 ```bash
-git switch 1.21.2-neoforge
+git switch 1.21.3-neoforge
 ```
 
 It is recommended to create your own development branch from there.
@@ -248,6 +248,8 @@ For visual changes, check the result in-game rather than relying only on models 
 For changes affecting the Climbing Claws item or movement behavior, make sure wall climbing, ceiling movement, hanging, controlled descent, durability usage, off-hand behavior, and other supported interactions continue to behave correctly where applicable.
 
 For changes affecting enchantments, test the relevant vanilla and custom enchantments, including climb-speed changes, Wall Spring, Canopy Grip, weapon behavior, and enchantment compatibility where applicable.
+
+For changes affecting REI integration, verify that the optional in-game information appears correctly and that Climbing Claws continues to work normally without the recipe viewer installed.
 
 For server-related changes, test on a dedicated server where appropriate.
 

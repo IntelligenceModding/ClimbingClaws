@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.144'
     id 'idea'
 }
 
@@ -14,13 +14,17 @@ group = mod_group_id
 
 repositories {
     maven {
+        name = "Shedaniel Maven"
+        url = "https://maven.shedaniel.me"
+    }
+    maven {
+        name = "Fabric"
+        url = "https://maven.fabricmc.net"
+    }
+    maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
     }
-    // maven {
-    //     name = "Shedaniel Maven"
-    //     url = "https://maven.shedaniel.me"
-    // }
     maven {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
@@ -41,6 +45,39 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
+configurations {
+    clientRuntimeMods {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+    reiRuntimeMod {
+        canBeConsumed = false
+        canBeResolved = true
+        transitive = true
+    }
+}
+
+tasks.register('cleanClientRuntimeMods', Delete) {
+    delete layout.projectDirectory.dir('run/mods')
+}
+
+tasks.register('cleanReiRuntimeMods', Delete) {
+    delete layout.projectDirectory.dir('run-rei/mods')
+}
+
+tasks.register('syncClientRuntimeMods', Sync) {
+    dependsOn tasks.named('cleanClientRuntimeMods')
+    from configurations.clientRuntimeMods
+    into layout.projectDirectory.dir('run/mods')
+}
+
+tasks.register('syncReiRuntimeMods', Sync) {
+    dependsOn tasks.named('cleanReiRuntimeMods')
+    from configurations.clientRuntimeMods
+    from configurations.reiRuntimeMod
+    into layout.projectDirectory.dir('run-rei/mods')
+}
+
 neoForge {
     version = project.neo_version
 
@@ -53,15 +90,16 @@ neoForge {
         client {
             client()
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            taskBefore tasks.named('syncClientRuntimeMods')
         }
 
-        // clientWithREI {
-        //     client()
-        //     gameDirectory = file('run-rei')
-        //     systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        //     systemProperty 'neoforge.warnings.onlyin.hide', 'true'
-        //     taskBefore tasks.named('syncReiRuntimeMods')
-        // }
+        clientWithREI {
+            client()
+            gameDirectory = file('run-rei')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty 'neoforge.warnings.onlyin.hide', 'true'
+            taskBefore tasks.named('syncReiRuntimeMods')
+        }
 
         server {
             server()
@@ -104,35 +142,16 @@ sourceSets.main.resources {
 
 sourceSets.main.java {
     exclude 'de/artemis/climbingclaws/compat/jei/**'
-    exclude 'de/artemis/climbingclaws/compat/rei/**'
     exclude 'de/artemis/climbingclaws/compat/curios/**'
 }
-
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-    // reiRuntimeMod {
-    //     canBeConsumed = false
-    //     canBeResolved = true
-    //     transitive = true
-    // }
-}
-
-// tasks.register('cleanReiRuntimeMods', Delete) {
-//     delete layout.projectDirectory.dir('run-rei/mods')
-// }
-
-// tasks.register('syncReiRuntimeMods', Sync) {
-//     dependsOn tasks.named('cleanReiRuntimeMods')
-//     from configurations.reiRuntimeMod
-//     into layout.projectDirectory.dir('run-rei/mods')
-// }
 
 dependencies {
     // compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     // runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-    // compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}")
-    // compileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}")
-    // runtimeOnly("me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}")
+    compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}")
+    compileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}")
+    compileOnly("net.fabricmc:fabric-loader:0.16.9")
+    reiRuntimeMod("me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}")
     // compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
     // runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
     // localRuntime("maven.modrinth:just-enough-professions-jep:${jep_version}")
@@ -143,8 +162,9 @@ tasks.named('processResources', ProcessResources).configure {
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
             loader_version_range   : loader_version_range,
-            // rei_version_range      : rei_version_range,
+            rei_version_range      : rei_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,

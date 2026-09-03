@@ -17,10 +17,20 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.2-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.2">
+  <img src="https://img.shields.io/badge/Minecraft-1.21.3-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.3">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
 </p>
+
+<p align="center">
+  <strong>REI is an optional integration.</strong>
+</p>
+
+<p align="center">
+  Install REI alongside Climbing Claws if you want the optional in-game usage entry for the item. The mod works normally without this integration.
+</p>
+
+<br>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Features.png" alt="Features" height="75">
