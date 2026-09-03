@@ -5,21 +5,19 @@ import de.artemis.climbingclaws.common.registry.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.ItemTags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends ItemTagsProvider {
     public ModItemTagProvider(
             PackOutput output,
-            CompletableFuture<HolderLookup.Provider> lookupProvider,
-            @Nullable ExistingFileHelper existingFileHelper
+            CompletableFuture<HolderLookup.Provider> lookupProvider
     ) {
-        super(output, lookupProvider, CompletableFuture.completedFuture(tag -> Optional.empty()), ClimbingClaws.MOD_ID, existingFileHelper);
+        super(output, lookupProvider, CompletableFuture.completedFuture(TagsProvider.TagLookup.<Block>empty()), ClimbingClaws.MOD_ID);
     }
 
     @Override

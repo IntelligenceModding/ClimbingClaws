@@ -16,9 +16,9 @@ Explain the purpose of the change rather than only listing modified files.
 <!--
 Example:
 
-- Minecraft version: 1.21.1
+- Minecraft version: 1.21.4
 - Mod loader: NeoForge
-- Target branch: 1.21.1-neoforge
+- Target branch: 1.21.4-neoforge
 -->
 
 ## Changes
@@ -42,7 +42,7 @@ Please mention:
 Example:
 
 - `gradlew.bat build` completed successfully.
-- Tested the changes in the 1.21.1 NeoForge development client.
+- Tested the changes in the 1.21.4 NeoForge development client.
 - Tested affected wall climbing, ceiling climbing, hanging, descent, movement, or enchantment behavior where applicable.
 - Tested Curios, JEI, or multiplayer behavior where applicable.
 -->

@@ -8,19 +8,16 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 public class ModEnchantmentTagProvider extends TagsProvider<Enchantment> {
     public ModEnchantmentTagProvider(
             PackOutput output,
-            CompletableFuture<HolderLookup.Provider> lookupProvider,
-            @Nullable ExistingFileHelper existingFileHelper
+            CompletableFuture<HolderLookup.Provider> lookupProvider
     ) {
-        super(output, Registries.ENCHANTMENT, lookupProvider, ClimbingClaws.MOD_ID, existingFileHelper);
+        super(output, Registries.ENCHANTMENT, lookupProvider, ClimbingClaws.MOD_ID);
     }
 
     @Override
