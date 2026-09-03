@@ -24,9 +24,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(ItemTags.WEAPON_ENCHANTABLE)
-                .add(ModItems.CLIMBING_CLAWS.get());
-
         tag(ItemTags.SHARP_WEAPON_ENCHANTABLE)
                 .add(ModItems.CLIMBING_CLAWS.get());
 
@@ -37,9 +34,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.CLIMBING_CLAWS.get());
 
         tag(ItemTags.MINING_ENCHANTABLE)
-                .add(ModItems.CLIMBING_CLAWS.get());
-
-        tag(ItemTags.SWORD_ENCHANTABLE)
                 .add(ModItems.CLIMBING_CLAWS.get());
     }
 }

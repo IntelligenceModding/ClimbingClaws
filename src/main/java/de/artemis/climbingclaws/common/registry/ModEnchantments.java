@@ -38,7 +38,7 @@ public final class ModEnchantments {
                                 Enchantment.dynamicCost(12, 14),
                                 Enchantment.dynamicCost(30, 14),
                                 3,
-                                EquipmentSlotGroup.OFFHAND
+                                EquipmentSlotGroup.HAND
                         )
                 )
         );
@@ -55,7 +55,7 @@ public final class ModEnchantments {
                                 Enchantment.dynamicCost(8, 0),
                                 Enchantment.dynamicCost(24, 0),
                                 2,
-                                EquipmentSlotGroup.OFFHAND
+                                EquipmentSlotGroup.HAND
                         )
                 )
         );

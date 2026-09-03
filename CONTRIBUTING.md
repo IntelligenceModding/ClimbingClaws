@@ -251,7 +251,7 @@ For changes affecting enchantments, test the relevant vanilla and custom enchant
 
 For changes affecting Curios integration, test both normal off-hand use and the Curios hands slot where applicable.
 
-For changes affecting JEI integration, verify that the optional in-game information appears correctly and that Climbing Claws continues to work normally without JEI installed.
+For changes affecting JEI or REI integration, verify that the optional in-game information appears correctly and that Climbing Claws continues to work normally without the recipe viewer installed.
 
 For server-related changes, test on a dedicated server where appropriate.
 

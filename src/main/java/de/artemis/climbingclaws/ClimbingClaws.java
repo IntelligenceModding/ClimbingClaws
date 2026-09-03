@@ -1,6 +1,8 @@
 package de.artemis.climbingclaws;
 
 import de.artemis.climbingclaws.client.ClientModEvents;
+import de.artemis.climbingclaws.client.ClimbingClawsConfigScreens;
+import de.artemis.climbingclaws.common.config.ClimbingClawsConfig;
 import de.artemis.climbingclaws.common.datagen.DataGenerators;
 import de.artemis.climbingclaws.common.event.ClimbingClawsAnvilHandler;
 import de.artemis.climbingclaws.common.event.ClimbingClawsClimbHandler;
@@ -12,15 +14,19 @@ import de.artemis.climbingclaws.common.registry.ModItems;
 import de.artemis.climbingclaws.common.registry.ModStats;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(ClimbingClaws.MOD_ID)
 public class ClimbingClaws {
     public static final String MOD_ID = "climbingclaws";
 
-    public ClimbingClaws(IEventBus modEventBus) {
+    public ClimbingClaws(IEventBus modEventBus, ModContainer modContainer) {
+        modContainer.registerConfig(ModConfig.Type.COMMON, ClimbingClawsConfig.COMMON_SPEC);
         ModItems.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         modEventBus.addListener(DataGenerators::gatherData);
@@ -28,6 +34,7 @@ public class ClimbingClaws {
         modEventBus.addListener(ModCriteriaTriggers::register);
         modEventBus.addListener(ModStats::register);
         if (FMLEnvironment.dist == Dist.CLIENT) {
+            modContainer.registerExtensionPoint(IConfigScreenFactory.class, (IConfigScreenFactory) ClimbingClawsConfigScreens::create);
             modEventBus.addListener(ClientModEvents::onClientSetup);
             modEventBus.addListener(ClientModEvents::onRegisterItemDecorations);
             NeoForge.EVENT_BUS.addListener(ClientModEvents::onClientTick);
