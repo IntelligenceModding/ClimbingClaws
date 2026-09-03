@@ -9,13 +9,16 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
@@ -104,7 +107,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
         AdvancementHolder wallSpring = Advancement.Builder.advancement()
                 .parent(wallCrawler)
                 .display(
-                        EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantments.getOrThrow(ModEnchantments.WALL_SPRING), 1)),
+                        createEnchantedBook(enchantments.getOrThrow(ModEnchantments.WALL_SPRING), 1),
                         Component.translatable("advancement.climbingclaws.wall_spring.title"),
                         Component.translatable("advancement.climbingclaws.wall_spring.description"),
                         null,
@@ -119,7 +122,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
         Advancement.Builder canopyBuilder = Advancement.Builder.advancement()
                 .parent(wallCrawler)
                 .display(
-                        EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP), 1)),
+                        createEnchantedBook(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP), 1),
                         Component.translatable("advancement.climbingclaws.canopy_route.title"),
                         Component.translatable("advancement.climbingclaws.canopy_route.description"),
                         null,
@@ -135,5 +138,13 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
 
     private static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
+    }
+
+    private static ItemStack createEnchantedBook(Holder<Enchantment> enchantment, int level) {
+        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
+        ItemEnchantments.Mutable enchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        enchantments.set(enchantment, level);
+        stack.set(DataComponents.STORED_ENCHANTMENTS, enchantments.toImmutable());
+        return stack;
     }
 }

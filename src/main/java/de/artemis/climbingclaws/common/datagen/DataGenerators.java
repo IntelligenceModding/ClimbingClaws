@@ -31,7 +31,7 @@ public final class DataGenerators {
                 Set.of(ClimbingClaws.MOD_ID)
         );
         generator.addProvider(event.includeServer(), datapackProvider);
-        generator.addProvider(event.includeServer(), new ModRecipeProvider(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModRecipeProvider.Runner(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new ModItemTagProvider(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ModEnchantmentTagProvider(packOutput, datapackProvider.getRegistryProvider(), existingFileHelper));
         generator.addProvider(event.includeServer(), ModLootTableProvider.create(packOutput, datapackProvider.getRegistryProvider()));

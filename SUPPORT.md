@@ -22,8 +22,8 @@ Examples include:
 - Wall Spring behavior problems;
 - Canopy Grip behavior problems;
 - off-hand usage problems;
-- Curios integration problems;
-- JEI integration problems;
+- Curios integration problems, except on Minecraft 1.21.2 where the integration is temporarily disabled;
+- JEI integration problems, except on Minecraft 1.21.2 where the integration is temporarily disabled;
 - crafting, enchanting, trade, or loot problems;
 - rendering or texture problems;
 - multiplayer behavior problems;
@@ -54,8 +54,8 @@ Feature requests may include:
 - climbing behavior improvements;
 - new movement options;
 - new or improved enchantments;
-- equipment or Curios improvements;
-- JEI integration improvements;
+- equipment or Curios improvements, except on Minecraft 1.21.2 where the integration is temporarily disabled;
+- JEI integration improvements, except on Minecraft 1.21.2 where the integration is temporarily disabled;
 - survival-progression improvements;
 - compatibility improvements;
 - visual improvements;
@@ -101,8 +101,8 @@ For general questions such as:
 - questions about wall or ceiling climbing;
 - questions about hanging, descent, or movement behavior;
 - questions about enchantments;
-- Curios integration questions;
-- JEI integration questions;
+- Curios integration questions, except on Minecraft 1.21.2 where the integration is temporarily disabled;
+- JEI integration questions, except on Minecraft 1.21.2 where the integration is temporarily disabled;
 - multiplayer usage questions;
 - general usage questions;
 - questions that are not confirmed bugs;

@@ -40,10 +40,10 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 neoForge {
     version = project.neo_version
 
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
+    // parchment {
+    //     mappingsVersion = project.parchment_mappings_version
+    //     minecraftVersion = project.parchment_minecraft_version
+    // }
 
     runs {
         client {
@@ -85,6 +85,14 @@ neoForge {
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
+    exclude '.cache/**'
+    exclude 'data/curios/**'
+    exclude 'data/climbingclaws/curios/**'
+}
+
+sourceSets.main.java {
+    exclude 'de/artemis/climbingclaws/compat/jei/**'
+    exclude 'de/artemis/climbingclaws/compat/curios/**'
 }
 
 configurations {
@@ -92,20 +100,19 @@ configurations {
 }
 
 dependencies {
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
-    runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
-    localRuntime("maven.modrinth:just-enough-professions-jep:${jep_version}")
+    // compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    // runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    // compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
+    // runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}")
+    // localRuntime("maven.modrinth:just-enough-professions-jep:${jep_version}")
 }
 
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
             loader_version_range   : loader_version_range,
-            curios_version_range   : curios_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
@@ -113,14 +120,12 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_authors            : mod_authors,
             mod_description        : mod_description
     ]
-    inputs.properties replaceProperties
-    expand replaceProperties
-    from "src/main/templates"
-    into "build/generated/sources/modMetadata"
-}
 
-sourceSets.main.resources.srcDir generateModMetadata
-neoForge.ideSyncTask generateModMetadata
+    inputs.properties replaceProperties
+    filesMatching('META-INF/neoforge.mods.toml') {
+        expand replaceProperties
+    }
+}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'

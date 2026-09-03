@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  Climbing Claws adds a dedicated off-hand climbing tool to Minecraft for controlled vertical traversal without ladders, scaffolding, or grappling hooks.
+  Climbing Claws adds a dedicated climbing tool to Minecraft for controlled vertical traversal without ladders, scaffolding, or grappling hooks.
 </p>
 
 <p align="center">
@@ -17,17 +17,17 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.1">
+  <img src="https://img.shields.io/badge/Minecraft-1.21.2-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.2">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
 </p>
 
 <p align="center">
-  <strong>JEI and Curios are optional integrations.</strong>
+  <strong>JEI and Curios integrations are temporarily disabled on Minecraft 1.21.2.</strong>
 </p>
 
 <p align="center">
-  Install JEI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of using the off-hand. The mod works normally without either integration.
+  The 1.21.2 NeoForge branch currently runs without JEI or Curios because those integrations do not have matching 1.21.2 NeoForge dependencies available. The hand-held Climbing Claws behavior remains available.
 </p>
 
 <br>
@@ -41,7 +41,7 @@
 </p>
 
 <p align="center">
-  &bull; A dedicated <strong>Climbing Claws</strong> item built for off-hand use<br>
+  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand or off-hand use<br>
   &bull; Shield-style wall and ceiling climbing by holding right-click<br>
   &bull; Hanging in place when you stop moving while the claws are raised<br>
   &bull; Slow controlled descent while sneaking on walls or undersides<br>
@@ -55,6 +55,10 @@
 
 <p align="center">
   Climbing Claws is built to make cliffs, caves, trees, towers, and custom builds easier to explore without replacing vanilla movement.
+</p>
+
+<p align="center">
+  <a href="CONFIG.md"><img src="https://img.shields.io/badge/Config-Reference-2D6CDF?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Climbing Claws config reference"></a>
 </p>
 
 <br>
