@@ -68,6 +68,8 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         addConfigTranslation("durability.wall_spring_damage_amount", "Wall Spring Damage Amount", "Durability damage applied immediately when Wall Spring activates.");
         add("jei.climbingclaws.climbing_claws",
                 "Equip the claws in either hand and hold right-click to raise them like a shield.\nClimb solid walls and undersides while the claws are raised.\nStop pressing movement to hang in place, or hold sneak to climb back down.\nClimbing uses durability. Unbreaking and Mending help, and Efficiency increases climb speed.\nWall Spring lets you press jump while climbing to burst upward. Level II launches farther.\nCanopy Grip lets the claws latch onto partial surfaces like leaves.\nIn your main hand, the claws also work as a light weapon and support Sharpness and Fire Aspect.");
+        // add("rei.climbingclaws.climbing_claws",
+        //         "Equip the claws in either hand and hold right-click to raise them like a shield.\nClimb solid walls and undersides while the claws are raised.\nStop pressing movement to hang in place, or hold sneak to climb back down.\nClimbing uses durability. Unbreaking and Mending help, and Efficiency increases climb speed.\nWall Spring lets you press jump while climbing to burst upward. Level II launches farther.\nCanopy Grip lets the claws latch onto partial surfaces like leaves.\nIn your main hand, the claws also work as a light weapon and support Sharpness and Fire Aspect.");
     }
 
     private void addConfigSectionTranslation(String path, String label) {

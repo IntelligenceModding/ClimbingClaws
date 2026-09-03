@@ -249,10 +249,6 @@ For changes affecting the Climbing Claws item or movement behavior, make sure wa
 
 For changes affecting enchantments, test the relevant vanilla and custom enchantments, including climb-speed changes, Wall Spring, Canopy Grip, weapon behavior, and enchantment compatibility where applicable.
 
-For changes affecting Curios integration, test both normal off-hand use and the Curios hands slot where applicable. On Minecraft 1.21.2, this integration is temporarily disabled until Curios publishes a matching NeoForge dependency.
-
-For changes affecting JEI integration, verify that the optional in-game information appears correctly and that Climbing Claws continues to work normally without JEI installed. On Minecraft 1.21.2, this integration is temporarily disabled until JEI publishes a matching NeoForge dependency.
-
 For server-related changes, test on a dedicated server where appropriate.
 
 If your change cannot reasonably be tested in-game, explain how it was verified in the pull request.

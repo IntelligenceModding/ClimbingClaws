@@ -23,16 +23,6 @@
 </p>
 
 <p align="center">
-  <strong>JEI and Curios integrations are temporarily disabled on Minecraft 1.21.2.</strong>
-</p>
-
-<p align="center">
-  The 1.21.2 NeoForge branch currently runs without JEI or Curios because those integrations do not have matching 1.21.2 NeoForge dependencies available. The hand-held Climbing Claws behavior remains available.
-</p>
-
-<br>
-
-<p align="center">
   <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Features.png" alt="Features" height="75">
 </p>
 
