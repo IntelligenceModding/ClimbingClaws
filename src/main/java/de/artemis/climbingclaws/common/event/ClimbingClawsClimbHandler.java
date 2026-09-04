@@ -84,7 +84,7 @@ public final class ClimbingClawsClimbHandler {
                 && getEnchantmentLevel(equippedClaws.stack(), player, ModEnchantments.WALL_SPRING) > 0;
     }
 
-    public static void onPlayerTick(PlayerTickEvent.Post event) {
+    public static void onPlayerTick(PlayerTickEvent.Pre event) {
         Player player = event.getEntity();
         tickWallSpringCooldown(player);
         tickStatGraceWindow(player);
