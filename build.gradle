@@ -153,6 +153,7 @@ neoForge {
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
+    srcDir 'src/generated/client'
     exclude '.cache/**'
 }
 

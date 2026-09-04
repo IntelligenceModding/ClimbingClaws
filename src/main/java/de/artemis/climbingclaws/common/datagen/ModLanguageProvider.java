@@ -46,6 +46,15 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add("stat.climbingclaws.wall_spring_uses", "Wall Spring Uses");
         add("tooltip.climbingclaws.wall_spring", "Press jump while climbing to launch upward. Has a cooldown.");
         add("tooltip.climbingclaws.canopy_grip", "Lets the claws latch onto partial surfaces like leaves.");
+        add("climbingclaws.configuration.title", "%s Configuration");
+        add("climbingclaws.configuration.section.climbingclaws.client.toml", "Client Settings");
+        add("climbingclaws.configuration.section.climbingclaws.client.toml.title", "Client Settings");
+        add("climbingclaws.configuration.section.climbingclaws.client.toml.client", "Client Settings");
+        add("climbingclaws.configuration.section.climbingclaws.server.toml", "Server Settings");
+        add("climbingclaws.configuration.section.climbingclaws.server.toml.title", "Server Settings");
+        add("climbingclaws.configuration.section.climbingclaws.server.toml.server", "Server Settings");
+        add("climbingclaws.configuration.client.show_wall_spring_cooldown_overlay", "Show Wall Spring Cooldown Overlay");
+        add("climbingclaws.configuration.client.show_wall_spring_cooldown_overlay.tooltip", "Shows the Wall Spring cooldown overlay on Climbing Claws item stacks.");
         addConfigSectionTranslation("general", "General");
         addConfigSectionTranslation("movement", "Movement");
         addConfigSectionTranslation("wall_spring", "Wall Spring");
@@ -79,11 +88,11 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
     }
 
     private void addConfigSectionTranslation(String path, String label) {
-        add("climbingclaws.configuration.common." + path, label);
+        add("climbingclaws.configuration.server." + path, label);
     }
 
     private void addConfigTranslation(String path, String label, String tooltip) {
-        String key = "climbingclaws.configuration.common." + path;
+        String key = "climbingclaws.configuration.server." + path;
         add(key, label);
         add(key + ".tooltip", tooltip);
     }
