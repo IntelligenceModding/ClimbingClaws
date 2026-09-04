@@ -5,13 +5,16 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
+import net.minecraft.client.renderer.entity.state.AvatarRenderState;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
@@ -24,46 +27,60 @@ public final class ClimbingClawsCurioRenderer implements ICurioRenderer {
             ItemStack stack,
             SlotContext slotContext,
             PoseStack poseStack,
-            MultiBufferSource bufferSource,
+            SubmitNodeCollector submitNodeCollector,
             int packedLight,
             S renderState,
             RenderLayerParent<S, M> renderLayerParent,
             EntityRendererProvider.Context context,
             float yRotation,
             float xRotation) {
-        if (!(renderLayerParent.getModel() instanceof ArmedModel armedModel)) {
+        if (!(renderState instanceof ArmedEntityRenderState armedState) || !(renderLayerParent.getModel() instanceof ArmedModel armedModel)) {
             return;
         }
 
-        LivingEntity entity = slotContext.entity();
-        HumanoidArm arm = getOffhandArm(entity);
+        HumanoidArm arm = getOffhandArm(armedState);
+        ItemStackRenderState itemRenderState = new ItemStackRenderState();
+        context.getItemModelResolver().updateForLiving(itemRenderState, stack, getThirdPersonDisplayContext(arm), slotContext.entity());
 
         poseStack.pushPose();
-        armedModel.translateToHand(arm, poseStack);
+        armedModel.translateToHand(armedState, arm, poseStack);
         poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
 
         boolean leftHand = arm == HumanoidArm.LEFT;
         poseStack.translate((leftHand ? -1 : 1) / 16.0F, 2.0F / 16.0F, -10.0F / 16.0F);
-
-        Minecraft.getInstance().getItemRenderer().renderStatic(
-                stack,
-                getDisplayContext(arm),
-                packedLight,
-                OverlayTexture.NO_OVERLAY,
-                poseStack,
-                bufferSource,
-                entity.level(),
-                entity.getId()
-        );
+        itemRenderState.submit(poseStack, submitNodeCollector, packedLight, OverlayTexture.NO_OVERLAY, armedState.outlineColor);
         poseStack.popPose();
     }
 
-    private static HumanoidArm getOffhandArm(LivingEntity entity) {
-        return entity.getMainArm() == HumanoidArm.RIGHT ? HumanoidArm.LEFT : HumanoidArm.RIGHT;
+    @Override
+    public void renderFirstPersonHand(
+            ItemStack stack,
+            SlotContext slotContext,
+            HumanoidArm arm,
+            PoseStack poseStack,
+            SubmitNodeCollector submitNodeCollector,
+            AvatarRenderState avatarRenderState,
+            AbstractClientPlayer clientPlayer,
+            int packedLight) {
+        if (arm != getOffhandArm(avatarRenderState)) {
+            return;
+        }
+
+        ItemStackRenderState itemRenderState = new ItemStackRenderState();
+        Minecraft.getInstance().getItemModelResolver().updateForLiving(itemRenderState, stack, getFirstPersonDisplayContext(arm), clientPlayer);
+        itemRenderState.submit(poseStack, submitNodeCollector, packedLight, OverlayTexture.NO_OVERLAY, avatarRenderState.outlineColor);
     }
 
-    private static ItemDisplayContext getDisplayContext(HumanoidArm arm) {
+    private static HumanoidArm getOffhandArm(ArmedEntityRenderState state) {
+        return state.mainArm == HumanoidArm.RIGHT ? HumanoidArm.LEFT : HumanoidArm.RIGHT;
+    }
+
+    private static ItemDisplayContext getThirdPersonDisplayContext(HumanoidArm arm) {
         return arm == HumanoidArm.LEFT ? ItemDisplayContext.THIRD_PERSON_LEFT_HAND : ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
+    }
+
+    private static ItemDisplayContext getFirstPersonDisplayContext(HumanoidArm arm) {
+        return arm == HumanoidArm.LEFT ? ItemDisplayContext.FIRST_PERSON_LEFT_HAND : ItemDisplayContext.FIRST_PERSON_RIGHT_HAND;
     }
 }
