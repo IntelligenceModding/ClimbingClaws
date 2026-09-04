@@ -173,6 +173,7 @@ dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
     jeiRuntimeMod("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    jeiRuntimeMod("maven.modrinth:just-enough-professions-jep:${jep_version}")
     compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}")
     compileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}")
     compileOnly("net.fabricmc:fabric-loader:0.16.9")

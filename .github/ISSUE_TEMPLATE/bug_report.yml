@@ -17,7 +17,7 @@ body:
     attributes:
       label: Minecraft Version
       description: Which Minecraft version are you using?
-      placeholder: "Example: 1.21.4"
+      placeholder: "Example: 1.21.5"
     validations:
       required: true
 
@@ -129,9 +129,9 @@ body:
       description: List other mods that may be relevant. If the issue may be compatibility-related, provide the full mod list if possible.
       placeholder: |
         Example:
-        - Curios API 10.0.1+1.21.4
-        - JEI 20.0.0.4
-        - REI 18.0.815
+        - Curios API 11.0.1+1.21.5
+        - JEI 21.4.0.27
+        - REI 19.0.809
         - Example Mod 1.2.3
 
   - type: textarea
