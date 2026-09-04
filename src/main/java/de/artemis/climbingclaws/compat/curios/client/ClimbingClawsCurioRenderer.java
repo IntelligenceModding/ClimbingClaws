@@ -1,5 +1,8 @@
 package de.artemis.climbingclaws.compat.curios.client;
 
+/*
+ * Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
+ *
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -67,3 +70,4 @@ public final class ClimbingClawsCurioRenderer implements ICurioRenderer {
         return arm == HumanoidArm.LEFT ? ItemDisplayContext.THIRD_PERSON_LEFT_HAND : ItemDisplayContext.THIRD_PERSON_RIGHT_HAND;
     }
 }
+ */

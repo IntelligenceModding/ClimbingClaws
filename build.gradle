@@ -55,10 +55,11 @@ configurations {
         canBeResolved = true
         transitive = true
     }
-    jeiRuntimeMod {
-        canBeConsumed = false
-        canBeResolved = true
-    }
+    // JEI does not publish 1.21.6 NeoForge artifacts.
+    // jeiRuntimeMod {
+    //     canBeConsumed = false
+    //     canBeResolved = true
+    // }
 }
 
 tasks.register('cleanClientRuntimeMods', Delete) {
@@ -86,12 +87,13 @@ tasks.register('syncReiRuntimeMods', Sync) {
     into layout.projectDirectory.dir('run-rei/mods')
 }
 
-tasks.register('syncJeiRuntimeMods', Sync) {
-    dependsOn tasks.named('cleanJeiRuntimeMods')
-    from configurations.clientRuntimeMods
-    from configurations.jeiRuntimeMod
-    into layout.projectDirectory.dir('run-jei/mods')
-}
+// JEI does not publish 1.21.6 NeoForge artifacts.
+// tasks.register('syncJeiRuntimeMods', Sync) {
+//     dependsOn tasks.named('cleanJeiRuntimeMods')
+//     from configurations.clientRuntimeMods
+//     from configurations.jeiRuntimeMod
+//     into layout.projectDirectory.dir('run-jei/mods')
+// }
 
 neoForge {
     version = project.neo_version
@@ -116,12 +118,13 @@ neoForge {
             taskBefore tasks.named('syncReiRuntimeMods')
         }
 
-        clientWithJEI {
-            client()
-            gameDirectory = file('run-jei')
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            taskBefore tasks.named('syncJeiRuntimeMods')
-        }
+        // JEI does not publish 1.21.6 NeoForge artifacts.
+        // clientWithJEI {
+        //     client()
+        //     gameDirectory = file('run-jei')
+        //     systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        //     taskBefore tasks.named('syncJeiRuntimeMods')
+        // }
 
         server {
             server()
@@ -170,16 +173,18 @@ sourceSets.main.resources {
 }
 
 dependencies {
-    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    jeiRuntimeMod("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-    jeiRuntimeMod("maven.modrinth:just-enough-professions-jep:${jep_version}")
+    // JEI does not publish 1.21.6 NeoForge artifacts.
+    // compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    // compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+    // jeiRuntimeMod("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    // jeiRuntimeMod("maven.modrinth:just-enough-professions-jep:${jep_version}")
     compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}")
     compileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}")
     compileOnly("net.fabricmc:fabric-loader:0.16.9")
     reiRuntimeMod("me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}")
-    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
-    clientRuntimeMods("top.theillusivec4.curios:curios-neoforge:${curios_version}")
+    // Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
+    // compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
+    // clientRuntimeMods("top.theillusivec4.curios:curios-neoforge:${curios_version}")
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -189,9 +194,7 @@ tasks.named('processResources', ProcessResources).configure {
             neo_version            : neo_version,
             neo_version_range      : neo_version_range,
             loader_version_range   : loader_version_range,
-            jei_version_range      : jei_version_range,
             rei_version_range      : rei_version_range,
-            curios_version_range   : curios_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,

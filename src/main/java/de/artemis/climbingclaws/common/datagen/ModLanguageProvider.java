@@ -83,7 +83,8 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         addConfigTranslation("durability.active_climb_damage_interval_ticks", "Active Climb Damage Interval Ticks", "Ticks between durability damage while actively climbing.");
         addConfigTranslation("durability.cling_damage_interval_ticks", "Cling Damage Interval Ticks", "Ticks between durability damage while attached but not actively climbing.");
         addConfigTranslation("durability.wall_spring_damage_amount", "Wall Spring Damage Amount", "Durability damage applied immediately when Wall Spring activates.");
-        add("jei.climbingclaws.climbing_claws", CLIMBING_CLAWS_INFO);
+        // JEI does not publish 1.21.6 NeoForge artifacts.
+        // add("jei.climbingclaws.climbing_claws", CLIMBING_CLAWS_INFO);
         add("rei.climbingclaws.climbing_claws", CLIMBING_CLAWS_INFO);
     }
 

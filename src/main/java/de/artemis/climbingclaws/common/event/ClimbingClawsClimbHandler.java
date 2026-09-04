@@ -1,6 +1,5 @@
 package de.artemis.climbingclaws.common.event;
 
-import de.artemis.climbingclaws.compat.curios.CuriosCompat;
 import de.artemis.climbingclaws.common.config.ClimbingClawsConfig;
 import de.artemis.climbingclaws.common.network.WallSpringCooldownPayload;
 import de.artemis.climbingclaws.common.registry.ModCriteriaTriggers;
@@ -30,12 +29,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 
 public final class ClimbingClawsClimbHandler {
-    private static final String CURIOS_MOD_ID = "curios";
+    // Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
+    // private static final String CURIOS_MOD_ID = "curios";
     private static final int CLIMB_FEEDBACK_INTERVAL_TICKS = 4;
     private static final int CLING_FEEDBACK_INTERVAL_TICKS = 10;
     private static final int WALL_SPRING_BLOCK_PARTICLE_COUNT = 10;
@@ -440,11 +439,12 @@ public final class ClimbingClawsClimbHandler {
             return new EquippedClaws(player.getUseItem(), ClawsSource.HAND, getUsedEquipmentSlot(player));
         }
 
-        if (ModList.get().isLoaded(CURIOS_MOD_ID)) {
-            return CuriosCompat.findEquippedClaws(player)
-                    .map(stack -> new EquippedClaws(stack, ClawsSource.CURIO_HANDS, EquipmentSlot.OFFHAND))
-                    .orElse(null);
-        }
+        // Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
+        // if (ModList.get().isLoaded(CURIOS_MOD_ID)) {
+        //     return CuriosCompat.findEquippedClaws(player)
+        //             .map(stack -> new EquippedClaws(stack, ClawsSource.CURIO_HANDS, EquipmentSlot.OFFHAND))
+        //             .orElse(null);
+        // }
 
         return null;
     }
@@ -561,10 +561,11 @@ public final class ClimbingClawsClimbHandler {
             return;
         }
 
-        if (equippedClaws.source() == ClawsSource.CURIO_HANDS) {
-            CuriosCompat.hurtAndBreakClaws(player, equippedClaws.stack(), amount);
-            return;
-        }
+        // Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
+        // if (equippedClaws.source() == ClawsSource.CURIO_HANDS) {
+        //     CuriosCompat.hurtAndBreakClaws(player, equippedClaws.stack(), amount);
+        //     return;
+        // }
 
         equippedClaws.stack().hurtAndBreak(amount, player, equippedClaws.slot());
     }

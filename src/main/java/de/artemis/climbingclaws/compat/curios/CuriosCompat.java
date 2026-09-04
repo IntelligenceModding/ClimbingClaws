@@ -1,5 +1,8 @@
 package de.artemis.climbingclaws.compat.curios;
 
+/*
+ * Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
+ *
 import de.artemis.climbingclaws.common.registry.ModItems;
 import java.util.Optional;
 import net.minecraft.server.level.ServerLevel;
@@ -38,3 +41,4 @@ public final class CuriosCompat {
         return stack.is(ModItems.CLIMBING_CLAWS.get());
     }
 }
+ */

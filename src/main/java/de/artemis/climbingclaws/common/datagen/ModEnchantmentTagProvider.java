@@ -5,14 +5,14 @@ import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.TagsProvider;
+import net.minecraft.data.tags.KeyTagProvider;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantment;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ModEnchantmentTagProvider extends TagsProvider<Enchantment> {
+public class ModEnchantmentTagProvider extends KeyTagProvider<Enchantment> {
     public ModEnchantmentTagProvider(
             PackOutput output,
             CompletableFuture<HolderLookup.Provider> lookupProvider

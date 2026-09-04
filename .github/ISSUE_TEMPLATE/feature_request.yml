@@ -45,8 +45,7 @@ body:
         - Vanilla Enchantments
         - Wall Spring
         - Canopy Grip
-        - Curios Integration
-        - JEI / REI Integration
+        - REI Integration
         - Crafting / Progression
         - Trades / Loot
         - Rendering / Textures
@@ -75,7 +74,7 @@ body:
     attributes:
       label: Relevant Minecraft Version
       description: If this request relates to a specific Minecraft version, enter it here.
-      placeholder: "Example: 1.21.5 or N/A"
+      placeholder: "Example: 1.21.6 or N/A"
 
   - type: checkboxes
     id: checks

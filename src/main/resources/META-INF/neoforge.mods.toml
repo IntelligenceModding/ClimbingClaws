@@ -26,12 +26,13 @@ description='''${mod_description}'''
     ordering="NONE"
     side="BOTH"
 
-[[dependencies]]
-    modId="jei"
-    type="optional"
-    versionRange="${jei_version_range}"
-    ordering="AFTER"
-    side="CLIENT"
+# JEI does not publish 1.21.6 NeoForge artifacts.
+# [[dependencies]]
+#     modId="jei"
+#     type="optional"
+#     versionRange="[disabled]"
+#     ordering="AFTER"
+#     side="CLIENT"
 
 [[dependencies]]
     modId="roughlyenoughitems"
@@ -40,9 +41,10 @@ description='''${mod_description}'''
     ordering="AFTER"
     side="CLIENT"
 
-[[dependencies]]
-    modId="curios"
-    type="optional"
-    versionRange="${curios_version_range}"
-    ordering="AFTER"
-    side="BOTH"
+# Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
+# [[dependencies]]
+#     modId="curios"
+#     type="optional"
+#     versionRange="[disabled]"
+#     ordering="AFTER"
+#     side="BOTH"

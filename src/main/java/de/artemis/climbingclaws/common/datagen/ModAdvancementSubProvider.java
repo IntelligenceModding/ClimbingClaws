@@ -23,7 +23,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public final class ModAdvancementSubProvider implements AdvancementSubProvider {
     private static final ResourceLocation ROOT_ID = id("root");
-    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/block/cobbled_deepslate.png");
+    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("block/cobbled_deepslate");
 
     @Override
     public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {

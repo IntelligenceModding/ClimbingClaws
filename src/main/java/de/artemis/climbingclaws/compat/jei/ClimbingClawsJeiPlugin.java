@@ -1,5 +1,8 @@
 package de.artemis.climbingclaws.compat.jei;
 
+/*
+ * JEI does not publish 1.21.6 NeoForge artifacts.
+ *
 import de.artemis.climbingclaws.ClimbingClaws;
 import de.artemis.climbingclaws.common.registry.ModItems;
 import mezz.jei.api.IModPlugin;
@@ -25,3 +28,4 @@ public class ClimbingClawsJeiPlugin implements IModPlugin {
         );
     }
 }
+ */
