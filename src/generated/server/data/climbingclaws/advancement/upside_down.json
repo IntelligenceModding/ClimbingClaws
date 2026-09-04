@@ -1,0 +1,27 @@
+{
+  "parent": "climbingclaws:wall_crawler",
+  "criteria": {
+    "cling_to_ceiling": {
+      "trigger": "climbingclaws:cling_to_ceiling"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.climbingclaws.upside_down.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "climbingclaws:climbing_claws"
+    },
+    "title": {
+      "translate": "advancement.climbingclaws.upside_down.title"
+    }
+  },
+  "requirements": [
+    [
+      "cling_to_ceiling"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
