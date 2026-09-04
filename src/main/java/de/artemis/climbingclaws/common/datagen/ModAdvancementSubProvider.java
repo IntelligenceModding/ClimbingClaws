@@ -24,7 +24,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public final class ModAdvancementSubProvider implements AdvancementSubProvider {
     private static final Identifier ROOT_ID = id("root");
-    private static final Identifier BACKGROUND = Identifier.withDefaultNamespace("textures/block/cobbled_deepslate.png");
+    private static final Identifier BACKGROUND = Identifier.withDefaultNamespace("gui/advancements/backgrounds/stone");
 
     @Override
     public void generate(HolderLookup.Provider registries, Consumer<AdvancementHolder> saver) {
