@@ -31,32 +31,12 @@ sourceSets.main.resources {
 
 repositories {
     maven {
-        name = "Shedaniel Maven"
-        url = "https://maven.shedaniel.me"
-    }
-    maven {
-        name = "Fabric"
-        url = "https://maven.fabricmc.net"
-    }
-    maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
     }
     maven {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
-    }
-    maven {
-        name = "Architectury Maven"
-        url = "https://maven.architectury.dev/"
-    }
-    maven {
-        name = "Modrinth Maven"
-        url = "https://api.modrinth.com/maven"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.dev"
     }
 }
 
@@ -66,11 +46,6 @@ configurations {
     clientRuntimeMods {
         canBeConsumed = false
         canBeResolved = true
-    }
-    reiRuntimeMod {
-        canBeConsumed = false
-        canBeResolved = true
-        transitive = true
     }
     jeiRuntimeMod {
         canBeConsumed = false
@@ -82,10 +57,6 @@ tasks.register('cleanClientRuntimeMods', Delete) {
     delete layout.projectDirectory.dir('run/mods')
 }
 
-tasks.register('cleanReiRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run-rei/mods')
-}
-
 tasks.register('cleanJeiRuntimeMods', Delete) {
     delete layout.projectDirectory.dir('run-jei/mods')
 }
@@ -94,13 +65,6 @@ tasks.register('syncClientRuntimeMods', Sync) {
     dependsOn tasks.named('cleanClientRuntimeMods')
     from configurations.clientRuntimeMods
     into layout.projectDirectory.dir('run/mods')
-}
-
-tasks.register('syncReiRuntimeMods', Sync) {
-    dependsOn tasks.named('cleanReiRuntimeMods')
-    from configurations.clientRuntimeMods
-    from configurations.reiRuntimeMod
-    into layout.projectDirectory.dir('run-rei/mods')
 }
 
 tasks.register('syncJeiRuntimeMods', Sync) {
@@ -130,14 +94,6 @@ neoForge {
             client()
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
             taskBefore tasks.named('syncClientRuntimeMods')
-        }
-
-        clientWithREI {
-            client()
-            gameDirectory = file('run-rei')
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            systemProperty 'neoforge.warnings.onlyin.hide', 'true'
-            taskBefore tasks.named('syncReiRuntimeMods')
         }
 
         clientWithJEI {
@@ -184,12 +140,6 @@ dependencies {
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge-api:${jei_version}"
     jeiRuntimeMod "mezz.jei:jei-${jei_minecraft_version}-neoforge:${jei_version}"
-    jeiRuntimeMod "maven.modrinth:just-enough-professions-jep:${jep_version}"
-    compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"
-    compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}"
-    compileOnly "net.fabricmc:fabric-loader:0.16.9"
-    reiRuntimeMod "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
-    reiRuntimeMod "dev.architectury:architectury-neoforge:${architectury_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     clientRuntimeMods "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 }
@@ -202,7 +152,6 @@ tasks.named('processResources', ProcessResources).configure {
             neo_version_range      : neo_version_range,
             loader_version_range   : loader_version_range,
             jei_version_range      : jei_version_range,
-            rei_version_range      : rei_version_range,
             curios_version_range   : curios_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,

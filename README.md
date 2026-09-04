@@ -23,11 +23,11 @@
 </p>
 
 <p align="center">
-  <strong>JEI, REI, and Curios are optional integrations on Minecraft 26.1.</strong>
+  <strong>JEI and Curios are optional integrations on Minecraft 26.1.</strong>
 </p>
 
 <p align="center">
-  Install JEI or REI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of holding them in either hand. The mod works normally without these integrations.
+  Install JEI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of holding them in either hand. The mod works normally without these integrations.
 </p>
 
 <br>
@@ -133,7 +133,7 @@
   &bull; The NeoForged team for NeoForge and its documentation<br>
   &bull; The Minecraft modding community for examples, tools, and support<br>
   &bull; The Intelligence Modding community for feedback, testing, and ideas<br>
-  &bull; The JEI, REI, and Curios projects for their optional compatibility APIs<br>
+  &bull; The JEI and Curios projects for their optional compatibility APIs<br>
   &bull; Everyone who reports issues, suggests improvements, or includes the mod in their worlds or modpacks
 </p>
 
