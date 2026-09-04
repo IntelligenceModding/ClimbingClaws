@@ -5,7 +5,7 @@ import net.minecraft.world.InteractionHand;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
 public final class ClimbingClawsConfig {
-    public static final ModConfigSpec COMMON_SPEC;
+    public static final ModConfigSpec SERVER_SPEC;
 
     private static final ModConfigSpec.BooleanValue ENABLE_CLIMBING;
     private static final ModConfigSpec.BooleanValue ALLOW_MAIN_HAND_USE;
@@ -39,122 +39,122 @@ public final class ClimbingClawsConfig {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
 
         builder
-                .translation(commonSectionKey("general"))
+                .translation(serverSectionKey("general"))
                 .push("general");
         ENABLE_CLIMBING = builder
                 .comment("Master switch for Climbing Claws traversal. The item remains usable as a weapon when this is false.")
-                .translation(commonConfigKey("general", "enable_climbing"))
+                .translation(serverConfigKey("general", "enable_climbing"))
                 .define("enableClimbing", true);
         ALLOW_MAIN_HAND_USE = builder
                 .comment("Allows Climbing Claws traversal when the claws are used from the main hand.")
-                .translation(commonConfigKey("general", "allow_main_hand_use"))
+                .translation(serverConfigKey("general", "allow_main_hand_use"))
                 .define("allowMainHandUse", true);
         ALLOW_OFF_HAND_USE = builder
                 .comment("Allows Climbing Claws traversal when the claws are used from the off hand.")
-                .translation(commonConfigKey("general", "allow_off_hand_use"))
+                .translation(serverConfigKey("general", "allow_off_hand_use"))
                 .define("allowOffHandUse", true);
         ENABLE_WALL_CLIMBING = builder
                 .comment("Allows climbing vertical full-block surfaces.")
-                .translation(commonConfigKey("general", "enable_wall_climbing"))
+                .translation(serverConfigKey("general", "enable_wall_climbing"))
                 .define("enableWallClimbing", true);
         ENABLE_CEILING_CLIMBING = builder
                 .comment("Allows clinging to and moving along block undersides.")
-                .translation(commonConfigKey("general", "enable_ceiling_climbing"))
+                .translation(serverConfigKey("general", "enable_ceiling_climbing"))
                 .define("enableCeilingClimbing", true);
         ENABLE_HANGING = builder
                 .comment("Allows players to hang in place while the claws are raised and no movement key is pressed.")
-                .translation(commonConfigKey("general", "enable_hanging"))
+                .translation(serverConfigKey("general", "enable_hanging"))
                 .define("enableHanging", true);
         ENABLE_CONTROLLED_DESCENT = builder
                 .comment("Allows sneaking while attached to a surface to descend in a controlled way.")
-                .translation(commonConfigKey("general", "enable_controlled_descent"))
+                .translation(serverConfigKey("general", "enable_controlled_descent"))
                 .define("enableControlledDescent", true);
         ENABLE_CANOPY_GRIP_EFFECT = builder
                 .comment("Allows the Canopy Grip enchantment to latch onto partial collision surfaces such as leaves.")
-                .translation(commonConfigKey("general", "enable_canopy_grip_effect"))
+                .translation(serverConfigKey("general", "enable_canopy_grip_effect"))
                 .define("enableCanopyGripEffect", true);
         builder.pop();
 
         builder
-                .translation(commonSectionKey("movement"))
+                .translation(serverSectionKey("movement"))
                 .push("movement");
         SIDE_CLIMB_SPEED = builder
                 .comment("Base upward speed while climbing a vertical wall.")
-                .translation(commonConfigKey("movement", "side_climb_speed"))
+                .translation(serverConfigKey("movement", "side_climb_speed"))
                 .defineInRange("sideClimbSpeed", 0.065D, 0.0D, 1.0D);
         CEILING_CLIMB_SPEED = builder
                 .comment("Base upward/hold speed while moving against a ceiling.")
-                .translation(commonConfigKey("movement", "ceiling_climb_speed"))
+                .translation(serverConfigKey("movement", "ceiling_climb_speed"))
                 .defineInRange("ceilingClimbSpeed", 0.03D, 0.0D, 1.0D);
         CEILING_HOLD_SPEED = builder
                 .comment("Base upward/hold speed while clinging to a ceiling without movement input.")
-                .translation(commonConfigKey("movement", "ceiling_hold_speed"))
+                .translation(serverConfigKey("movement", "ceiling_hold_speed"))
                 .defineInRange("ceilingHoldSpeed", 0.01D, 0.0D, 1.0D);
         EFFICIENCY_SPEED_BONUS = builder
                 .comment("Additional climb speed added for each Efficiency enchantment level.")
-                .translation(commonConfigKey("movement", "efficiency_speed_bonus"))
+                .translation(serverConfigKey("movement", "efficiency_speed_bonus"))
                 .defineInRange("efficiencySpeedBonus", 0.0125D, 0.0D, 0.25D);
         HORIZONTAL_VELOCITY_LIMIT = builder
                 .comment("Maximum horizontal velocity retained while attached to a surface.")
-                .translation(commonConfigKey("movement", "horizontal_velocity_limit"))
+                .translation(serverConfigKey("movement", "horizontal_velocity_limit"))
                 .defineInRange("horizontalVelocityLimit", 0.15D, 0.0D, 2.0D);
         FALL_SPEED_LIMIT_WHILE_ATTACHED = builder
                 .comment("Maximum downward velocity retained while attached before claw movement is applied.")
-                .translation(commonConfigKey("movement", "fall_speed_limit_while_attached"))
+                .translation(serverConfigKey("movement", "fall_speed_limit_while_attached"))
                 .defineInRange("fallSpeedLimitWhileAttached", 0.15D, 0.0D, 2.0D);
         builder.pop();
 
         builder
-                .translation(commonSectionKey("wall_spring"))
+                .translation(serverSectionKey("wall_spring"))
                 .push("wallSpring");
         ENABLE_WALL_SPRING = builder
                 .comment("Allows the Wall Spring enchantment to launch players while attached to a valid surface.")
-                .translation(commonConfigKey("wall_spring", "enable"))
+                .translation(serverConfigKey("wall_spring", "enable"))
                 .define("enableWallSpring", true);
         ALLOW_WALL_SPRING_WHILE_SNEAKING = builder
                 .comment("Allows Wall Spring to activate while the player is sneaking.")
-                .translation(commonConfigKey("wall_spring", "allow_while_sneaking"))
+                .translation(serverConfigKey("wall_spring", "allow_while_sneaking"))
                 .define("allowWhileSneaking", false);
         WALL_SPRING_LEVEL_ONE_BOOST = builder
                 .comment("Upward velocity added by Wall Spring I.")
-                .translation(commonConfigKey("wall_spring", "level_one_boost"))
+                .translation(serverConfigKey("wall_spring", "level_one_boost"))
                 .defineInRange("levelOneBoost", 0.75D, 0.0D, 5.0D);
         WALL_SPRING_LEVEL_TWO_BOOST = builder
                 .comment("Upward velocity added by Wall Spring II.")
-                .translation(commonConfigKey("wall_spring", "level_two_boost"))
+                .translation(serverConfigKey("wall_spring", "level_two_boost"))
                 .defineInRange("levelTwoBoost", 1.05D, 0.0D, 5.0D);
         WALL_SPRING_COOLDOWN_TICKS = builder
                 .comment("Cooldown in ticks after a Wall Spring activation. 20 ticks is one second.")
-                .translation(commonConfigKey("wall_spring", "cooldown_ticks"))
+                .translation(serverConfigKey("wall_spring", "cooldown_ticks"))
                 .defineInRange("cooldownTicks", 200, 0, 20 * 60 * 10);
         builder.pop();
 
         builder
-                .translation(commonSectionKey("durability"))
+                .translation(serverSectionKey("durability"))
                 .push("durability");
         ENABLE_DURABILITY_DAMAGE = builder
                 .comment("Allows traversal and Wall Spring to damage Climbing Claws.")
-                .translation(commonConfigKey("durability", "enable_damage"))
+                .translation(serverConfigKey("durability", "enable_damage"))
                 .define("enableDamage", true);
         CLIMBING_DAMAGE_AMOUNT = builder
                 .comment("Durability damage applied during normal climbing or clinging intervals.")
-                .translation(commonConfigKey("durability", "climbing_damage_amount"))
+                .translation(serverConfigKey("durability", "climbing_damage_amount"))
                 .defineInRange("climbingDamageAmount", 1, 0, 100);
         ACTIVE_CLIMB_DAMAGE_INTERVAL_TICKS = builder
                 .comment("Ticks between durability damage while actively climbing.")
-                .translation(commonConfigKey("durability", "active_climb_damage_interval_ticks"))
+                .translation(serverConfigKey("durability", "active_climb_damage_interval_ticks"))
                 .defineInRange("activeClimbDamageIntervalTicks", 10, 1, 20 * 60);
         CLING_DAMAGE_INTERVAL_TICKS = builder
                 .comment("Ticks between durability damage while attached but not actively climbing.")
-                .translation(commonConfigKey("durability", "cling_damage_interval_ticks"))
+                .translation(serverConfigKey("durability", "cling_damage_interval_ticks"))
                 .defineInRange("clingDamageIntervalTicks", 20, 1, 20 * 60);
         WALL_SPRING_DAMAGE_AMOUNT = builder
                 .comment("Durability damage applied immediately when Wall Spring activates.")
-                .translation(commonConfigKey("durability", "wall_spring_damage_amount"))
+                .translation(serverConfigKey("durability", "wall_spring_damage_amount"))
                 .defineInRange("wallSpringDamageAmount", 1, 0, 100);
         builder.pop();
 
-        COMMON_SPEC = builder.build();
+        SERVER_SPEC = builder.build();
     }
 
     private ClimbingClawsConfig() {
@@ -252,11 +252,11 @@ public final class ClimbingClawsConfig {
         return WALL_SPRING_DAMAGE_AMOUNT.get();
     }
 
-    private static String commonConfigKey(String section, String key) {
-        return ClimbingClaws.MOD_ID + ".configuration.common." + section + "." + key;
+    private static String serverConfigKey(String section, String key) {
+        return ClimbingClaws.MOD_ID + ".configuration.server." + section + "." + key;
     }
 
-    private static String commonSectionKey(String section) {
-        return ClimbingClaws.MOD_ID + ".configuration.common." + section;
+    private static String serverSectionKey(String section) {
+        return ClimbingClaws.MOD_ID + ".configuration.server." + section;
     }
 }

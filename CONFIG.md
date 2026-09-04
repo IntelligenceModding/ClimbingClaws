@@ -1,14 +1,34 @@
 # Climbing Claws Config
 
-Climbing Claws has a common config for gameplay behavior.
+Climbing Claws has a server config for gameplay behavior and a client config for local rendering.
 
-The common config is registered as a NeoForge common config. In a running instance it is normally written as:
+The server config is registered as a NeoForge server config so multiplayer clients receive the server's gameplay values when they connect.
 
 ```text
-config/climbingclaws-common.toml
+serverconfig/climbingclaws-server.toml
 ```
 
-## Common Config Sections
+On a dedicated server this is under the world's `serverconfig` directory, normally:
+
+```text
+world/serverconfig/climbingclaws-server.toml
+```
+
+For an integrated singleplayer world, it is under that world's save folder:
+
+```text
+saves/<world_name>/serverconfig/climbingclaws-server.toml
+```
+
+Older `config/climbingclaws-common.toml` files are no longer read. Copy any customized values into the world's `climbingclaws-server.toml`.
+
+The client config is normally written as:
+
+```text
+config/climbingclaws-client.toml
+```
+
+## Server Config Sections
 
 | Section | Keys | What it controls |
 | --- | --- | --- |
@@ -51,6 +71,8 @@ config/climbingclaws-common.toml
 `general.enableClimbing = false` disables Climbing Claws traversal. The item can still exist and behave as a light weapon, but using it will not start the climbing stance.
 
 `general.allowMainHandUse` and `general.allowOffHandUse` decide whether holding right-click with the claws in that hand can activate traversal.
+
+Curios hands-slot traversal still requires Curios to be installed and an equipped Climbing Claws item.
 
 `general.enableWallClimbing = false` disables latching onto vertical block faces.
 
@@ -101,3 +123,9 @@ Wall Spring requires the Wall Spring enchantment and a valid wall or ceiling con
 `durability.wallSpringDamageAmount` is applied immediately when Wall Spring activates.
 
 Unbreaking and Mending still use vanilla item durability behavior.
+
+## Client Config
+
+| Key | Default | What it controls |
+| --- | --- | --- |
+| `showWallSpringCooldownOverlay` | `true` | Shows the Wall Spring cooldown overlay on Climbing Claws item stacks. |
