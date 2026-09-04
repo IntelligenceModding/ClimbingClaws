@@ -17,17 +17,17 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.6-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.6">
+  <img src="https://img.shields.io/badge/Minecraft-1.21.7-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.7">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
 </p>
 
 <p align="center">
-  <strong>REI is an optional integration.</strong>
+  <strong>JEI, REI, and Curios are optional integrations.</strong>
 </p>
 
 <p align="center">
-  Install REI alongside Climbing Claws if you want the optional in-game usage entry for the item. The mod works normally without this integration.
+  Install JEI or REI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of holding them in either hand. The mod works normally without these integrations.
 </p>
 
 <br>
@@ -41,7 +41,7 @@
 </p>
 
 <p align="center">
-  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand or off-hand use<br>
+  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand, off-hand, or optional Curios hands-slot use<br>
   &bull; Shield-style wall and ceiling climbing by holding right-click<br>
   &bull; Hanging in place when you stop moving while the claws are raised<br>
   &bull; Slow controlled descent while sneaking on walls or undersides<br>

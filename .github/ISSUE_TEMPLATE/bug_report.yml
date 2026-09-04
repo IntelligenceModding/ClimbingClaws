@@ -17,7 +17,7 @@ body:
     attributes:
       label: Minecraft Version
       description: Which Minecraft version are you using?
-      placeholder: "Example: 1.21.6"
+      placeholder: "Example: 1.21.7"
     validations:
       required: true
 
@@ -54,7 +54,8 @@ body:
         - Vanilla Enchantments
         - Wall Spring
         - Canopy Grip
-        - REI Integration
+        - Curios Integration
+        - JEI / REI Integration
         - Crafting / Progression
         - Trades / Loot
         - Rendering / Textures
@@ -106,7 +107,7 @@ body:
         - Surface: Leaves
         - Enchantment: Canopy Grip II
         - Equipment slot: Off-hand
-        - Integration: REI installed
+        - Integration: Curios installed
 
   - type: dropdown
     id: multiplayer
@@ -128,6 +129,8 @@ body:
       description: List other mods that may be relevant. If the issue may be compatibility-related, provide the full mod list if possible.
       placeholder: |
         Example:
+        - Curios API 12.0.0+1.21.8
+        - JEI 23.1.0.8
         - REI 20.0.811
         - Example Mod 1.2.3
 

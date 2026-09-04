@@ -1,5 +1,6 @@
 package de.artemis.climbingclaws.client;
 
+import de.artemis.climbingclaws.compat.curios.client.CuriosClientCompat;
 import de.artemis.climbingclaws.common.event.ClimbingClawsClimbHandler;
 import net.minecraft.client.Minecraft;
 import de.artemis.climbingclaws.common.network.ClimbingBurstPayload;
@@ -7,23 +8,22 @@ import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import de.artemis.climbingclaws.common.registry.ModItems;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterItemDecorationsEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 public final class ClientModEvents {
-    // Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
-    // private static final String CURIOS_MOD_ID = "curios";
+    private static final String CURIOS_MOD_ID = "curios";
 
     private ClientModEvents() {
     }
 
     public static void onClientSetup(FMLClientSetupEvent event) {
-        // Curios has no launchable 1.21.6 artifact for NeoForge 21.6.0-beta.
-        // if (ModList.get().isLoaded(CURIOS_MOD_ID)) {
-        //     event.enqueueWork(CuriosClientCompat::registerRenderers);
-        // }
+        if (ModList.get().isLoaded(CURIOS_MOD_ID)) {
+            event.enqueueWork(CuriosClientCompat::registerRenderers);
+        }
     }
 
     public static void onClientTick(ClientTickEvent.Post event) {
@@ -38,7 +38,7 @@ public final class ClientModEvents {
         ClimbingClawsClimbHandler.tickClientWallSpringCooldown();
 
         if (minecraft.options.keyJump.consumeClick() && canUseWallSpring(player)) {
-            PacketDistributor.sendToServer(ClimbingBurstPayload.INSTANCE);
+            ClientPacketDistributor.sendToServer(ClimbingBurstPayload.INSTANCE);
         }
     }
 
