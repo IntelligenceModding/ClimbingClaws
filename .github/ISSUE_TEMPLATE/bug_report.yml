@@ -17,7 +17,7 @@ body:
     attributes:
       label: Minecraft Version
       description: Which Minecraft version are you using?
-      placeholder: "Example: 1.21.7"
+      placeholder: "Example: 1.21.8"
     validations:
       required: true
 
@@ -35,7 +35,7 @@ body:
     attributes:
       label: Mod Loader
       description: Which mod loader and version are you using?
-      placeholder: "Example: NeoForge 21.1.234"
+      placeholder: "Example: NeoForge 21.8.23"
     validations:
       required: true
 
@@ -130,7 +130,8 @@ body:
       placeholder: |
         Example:
         - Curios API 12.0.0+1.21.8
-        - JEI 23.1.0.8
+        - JEI 24.0.0.1
+        - JEP 8.0.0
         - REI 20.0.811
         - Example Mod 1.2.3
 

@@ -17,17 +17,18 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.7-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.7">
+  <img src="https://img.shields.io/badge/Minecraft-1.21.8-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.8">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
 </p>
 
 <p align="center">
-  <strong>JEI, REI, and Curios are optional integrations.</strong>
+  <strong>JEI, REI, and Curios are optional integrations on Minecraft 1.21.8.</strong>
 </p>
 
 <p align="center">
   Install JEI or REI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of holding them in either hand. The mod works normally without these integrations.
+  JEI's Minecraft 1.21.8 builds require NeoForge 21.8.23 or newer.
 </p>
 
 <br>
@@ -133,6 +134,7 @@
   &bull; The NeoForged team for NeoForge and its documentation<br>
   &bull; The Minecraft modding community for examples, tools, and support<br>
   &bull; The Intelligence Modding community for feedback, testing, and ideas<br>
+  &bull; The JEI, REI, JEP, and Curios projects for their optional compatibility APIs<br>
   &bull; Everyone who reports issues, suggests improvements, or includes the mod in their worlds or modpacks
 </p>
 
