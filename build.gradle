@@ -41,6 +41,29 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+    clientRuntimeMods {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+    // reiRuntimeMod {
+    //     canBeConsumed = false
+    //     canBeResolved = true
+    //     transitive = true
+    // }
+}
+
+tasks.register('cleanClientRuntimeMods', Delete) {
+    delete layout.projectDirectory.dir('run/mods')
+}
+
+tasks.register('syncClientRuntimeMods', Sync) {
+    dependsOn tasks.named('cleanClientRuntimeMods')
+    from configurations.clientRuntimeMods
+    into layout.projectDirectory.dir('run/mods')
+}
+
 neoForge {
     version = project.neo_version
 
@@ -53,6 +76,7 @@ neoForge {
         client {
             client()
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            taskBefore tasks.named('syncClientRuntimeMods')
         }
 
         // clientWithREI {
@@ -97,6 +121,7 @@ neoForge {
 
 sourceSets.main.resources {
     srcDir 'src/generated/resources'
+    srcDir 'src/generated/client'
     exclude '.cache/**'
     exclude 'data/curios/**'
     exclude 'data/climbingclaws/curios/**'
@@ -106,15 +131,6 @@ sourceSets.main.java {
     exclude 'de/artemis/climbingclaws/compat/jei/**'
     exclude 'de/artemis/climbingclaws/compat/rei/**'
     exclude 'de/artemis/climbingclaws/compat/curios/**'
-}
-
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-    // reiRuntimeMod {
-    //     canBeConsumed = false
-    //     canBeResolved = true
-    //     transitive = true
-    // }
 }
 
 // tasks.register('cleanReiRuntimeMods', Delete) {

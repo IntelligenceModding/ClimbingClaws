@@ -47,7 +47,7 @@ public final class ClientModEvents {
     }
 
     public static float getWallSpringCooldownPercent(ItemStack stack) {
-        if (!stack.is(ModItems.CLIMBING_CLAWS.get()) || !hasWallSpring(stack)) {
+        if (!ClientConfig.showWallSpringCooldownOverlay() || !stack.is(ModItems.CLIMBING_CLAWS.get()) || !hasWallSpring(stack)) {
             return 0.0F;
         }
 
