@@ -1,0 +1,11 @@
+{
+  "type": "neoforge:add_table",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/trial_chambers/intersection_barrel"
+    }
+  ],
+  "priority": 1,
+  "table": "climbingclaws:chests/injections/climbing_claws_trial_chambers"
+}
