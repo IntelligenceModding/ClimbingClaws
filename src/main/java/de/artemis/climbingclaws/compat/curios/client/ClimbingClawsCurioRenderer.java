@@ -5,7 +5,6 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.effects.SpearAnimations;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -19,7 +18,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwingAnimationType;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
@@ -86,10 +84,6 @@ public final class ClimbingClawsCurioRenderer implements ICurioRenderer {
         float offsetY = useBabyOffset(state) ? 1.0F : 2.0F;
         float offsetZ = useBabyOffset(state) ? -4.5F : -10.0F;
         poseStack.translate((leftHand ? -1 : 1) * offsetX / 16.0F, offsetY / 16.0F, offsetZ / 16.0F);
-
-        if (state.attackTime > 0.0F && state.attackArm == arm && state.swingAnimationType == SwingAnimationType.STAB) {
-            SpearAnimations.thirdPersonAttackItem(state, poseStack);
-        }
 
         float ticksUsingItem = state.ticksUsingItem(arm);
         if (ticksUsingItem != 0.0F) {

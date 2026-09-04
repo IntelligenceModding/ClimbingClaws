@@ -1,0 +1,31 @@
+{
+  "parent": "climbingclaws:wall_crawler",
+  "criteria": {
+    "climb_partial_surface": {
+      "trigger": "climbingclaws:climb_partial_surface"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.climbingclaws.canopy_route.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "components": {
+        "minecraft:stored_enchantments": {
+          "climbingclaws:canopy_grip": 1
+        }
+      },
+      "id": "minecraft:enchanted_book"
+    },
+    "title": {
+      "translate": "advancement.climbingclaws.canopy_route.title"
+    }
+  },
+  "requirements": [
+    [
+      "climb_partial_surface"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
