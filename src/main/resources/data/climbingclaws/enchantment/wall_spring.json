@@ -14,7 +14,7 @@
   },
   "primary_items": "climbingclaws:climbing_claws",
   "slots": [
-    "offhand"
+    "hand"
   ],
   "supported_items": "climbingclaws:climbing_claws",
   "weight": 4

@@ -1,0 +1,161 @@
+name: Bug Report
+description: Report a reproducible problem with Climbing Claws
+title: "[Bug] "
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem with Climbing Claws.
+
+        Please provide enough information for the issue to be reproduced and investigated.
+
+  - type: input
+    id: minecraft-version
+    attributes:
+      label: Minecraft Version
+      description: Which Minecraft version are you using?
+      placeholder: "Example: 26.1.1"
+    validations:
+      required: true
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: Climbing Claws Version
+      description: Which version of Climbing Claws are you using?
+      placeholder: "Example: 1.3r"
+    validations:
+      required: true
+
+  - type: input
+    id: loader
+    attributes:
+      label: Mod Loader
+      description: Which mod loader and version are you using?
+      placeholder: "Example: NeoForge 26.1.1.5-beta"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-area
+    attributes:
+      label: Affected Feature
+      description: Which part of Climbing Claws is affected?
+      options:
+        - Wall Climbing
+        - Ceiling Climbing
+        - Hanging / Controlled Descent
+        - Movement / Launching
+        - Climbing Claws Item
+        - Durability
+        - Vanilla Enchantments
+        - Wall Spring
+        - Canopy Grip
+        - Curios Integration
+        - JEI Integration
+        - Crafting / Progression
+        - Trades / Loot
+        - Rendering / Textures
+        - Multiplayer Behavior
+        - Other
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem clearly.
+      placeholder: Explain what went wrong.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+      placeholder: Explain what you expected.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Provide clear steps that can be used to reproduce the issue.
+      placeholder: |
+        1. Launch the game with ...
+        2. Equip the Climbing Claws ...
+        3. Climb/interact with ...
+        4. The issue occurs.
+    validations:
+      required: true
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Relevant Climbing Claws Details
+      description: If the problem involves a specific movement state, surface, enchantment, equipment slot, interaction, server, or optional integration, describe it here.
+      placeholder: |
+        Example:
+        - Movement: Ceiling climbing
+        - Surface: Leaves
+        - Enchantment: Canopy Grip II
+        - Equipment slot: Off-hand
+        - Integration: Curios installed
+
+  - type: dropdown
+    id: multiplayer
+    attributes:
+      label: Where Does the Issue Occur?
+      description: Does the problem happen in singleplayer, multiplayer, or both?
+      options:
+        - Singleplayer only
+        - Multiplayer only
+        - Both singleplayer and multiplayer
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-mods
+    attributes:
+      label: Other Installed Mods
+      description: List other mods that may be relevant. If the issue may be compatibility-related, provide the full mod list if possible.
+      placeholder: |
+        Example:
+        - Curios API 15.0.0-beta.1+26.1
+        - JEI 29.4.0.23
+        - Example Mod 1.2.3
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Crash Report
+      description: Attach or paste relevant logs or crash reports. Use a file attachment or code block for long logs.
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Add screenshots, videos, server information, movement details, enchantment information, or anything else that may help.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before Submitting
+      options:
+        - label: I searched existing issues and did not find the same problem.
+          required: true
+        - label: I am using a Climbing Claws version intended for my Minecraft version.
+          required: true
+        - label: I am using compatible versions of the required dependencies.
+          required: true
+        - label: I can reproduce this issue.
+          required: true

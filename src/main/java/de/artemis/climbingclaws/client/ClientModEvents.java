@@ -1,12 +1,11 @@
 package de.artemis.climbingclaws.client;
 
-import de.artemis.climbingclaws.compat.curios.client.CuriosClientCompat;
 import de.artemis.climbingclaws.common.event.ClimbingClawsClimbHandler;
-import net.minecraft.client.Minecraft;
 import de.artemis.climbingclaws.common.network.ClimbingBurstPayload;
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import de.artemis.climbingclaws.common.registry.ModItems;
-import net.minecraft.core.registries.Registries;
+import de.artemis.climbingclaws.compat.curios.client.CuriosClientCompat;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -49,7 +48,7 @@ public final class ClientModEvents {
     }
 
     public static float getWallSpringCooldownPercent(ItemStack stack) {
-        if (!stack.is(ModItems.CLIMBING_CLAWS.get()) || !hasWallSpring(stack)) {
+        if (!ClientConfig.showWallSpringCooldownOverlay() || !stack.is(ModItems.CLIMBING_CLAWS.get()) || !hasWallSpring(stack)) {
             return 0.0F;
         }
 
@@ -63,11 +62,6 @@ public final class ClientModEvents {
 
     private static boolean hasWallSpring(ItemStack stack) {
         Player player = Minecraft.getInstance().player;
-        return player != null && getEnchantmentLevel(stack, player) > 0;
-    }
-
-    private static int getEnchantmentLevel(ItemStack stack, Player player) {
-        var enchantments = player.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        return stack.getEnchantmentLevel(enchantments.getOrThrow(ModEnchantments.WALL_SPRING));
+        return player != null && ModEnchantments.getLevel(stack, player.registryAccess(), ModEnchantments.WALL_SPRING) > 0;
     }
 }

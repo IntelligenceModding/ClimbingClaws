@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.144'
     id 'idea'
 }
 
@@ -40,6 +40,40 @@ repositories {
     }
 }
 
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+configurations {
+    clientRuntimeMods {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+    jeiRuntimeMod {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+}
+
+tasks.register('cleanClientRuntimeMods', Delete) {
+    delete layout.projectDirectory.dir('run/client/mods')
+}
+
+tasks.register('cleanJeiRuntimeMods', Delete) {
+    delete layout.projectDirectory.dir('run-jei/mods')
+}
+
+tasks.register('syncClientRuntimeMods', Sync) {
+    dependsOn tasks.named('cleanClientRuntimeMods')
+    from configurations.clientRuntimeMods
+    into layout.projectDirectory.dir('run/client/mods')
+}
+
+tasks.register('syncJeiRuntimeMods', Sync) {
+    dependsOn tasks.named('cleanJeiRuntimeMods')
+    from configurations.clientRuntimeMods
+    from configurations.jeiRuntimeMod
+    into layout.projectDirectory.dir('run-jei/mods')
+}
+
 neoForge {
     version = neo_version
 
@@ -59,6 +93,14 @@ neoForge {
         client {
             client()
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            taskBefore tasks.named('syncClientRuntimeMods')
+        }
+
+        clientWithJEI {
+            client()
+            gameDirectory = file('run-jei')
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            taskBefore tasks.named('syncJeiRuntimeMods')
         }
 
         server {
@@ -97,18 +139,20 @@ neoForge {
 dependencies {
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-common-api:${jei_version}"
     compileOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge-api:${jei_version}"
-    runtimeOnly "mezz.jei:jei-${jei_minecraft_version}-neoforge:${jei_version}"
+    jeiRuntimeMod "mezz.jei:jei-${jei_minecraft_version}-neoforge:${jei_version}"
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
-    runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+    clientRuntimeMods "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(25)
-
-tasks.withType(ProcessResources).configureEach {
+tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
             neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            jei_version_range      : jei_version_range,
+            curios_version_range   : curios_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
@@ -116,19 +160,16 @@ tasks.withType(ProcessResources).configureEach {
             mod_authors            : mod_authors,
             mod_description        : mod_description
     ]
-    inputs.properties replaceProperties
 
+    inputs.properties replaceProperties
     filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties
     }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-}
-
-tasks.named('processResources', ProcessResources).configure {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.register('runData') {
