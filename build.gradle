@@ -54,7 +54,7 @@ configurations {
 }
 
 tasks.register('cleanClientRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run/mods')
+    delete layout.projectDirectory.dir('run/client/mods')
 }
 
 tasks.register('cleanJeiRuntimeMods', Delete) {
@@ -64,7 +64,7 @@ tasks.register('cleanJeiRuntimeMods', Delete) {
 tasks.register('syncClientRuntimeMods', Sync) {
     dependsOn tasks.named('cleanClientRuntimeMods')
     from configurations.clientRuntimeMods
-    into layout.projectDirectory.dir('run/mods')
+    into layout.projectDirectory.dir('run/client/mods')
 }
 
 tasks.register('syncJeiRuntimeMods', Sync) {
