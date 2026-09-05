@@ -1,0 +1,25 @@
+{
+  "parent": "climbingclaws:suit_up",
+  "criteria": {
+    "climb_with_claws": {
+      "trigger": "climbingclaws:climb_with_claws"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancement.climbingclaws.wall_crawler.description"
+    },
+    "icon": {
+      "id": "climbingclaws:climbing_claws"
+    },
+    "title": {
+      "translate": "advancement.climbingclaws.wall_crawler.title"
+    }
+  },
+  "requirements": [
+    [
+      "climb_with_claws"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

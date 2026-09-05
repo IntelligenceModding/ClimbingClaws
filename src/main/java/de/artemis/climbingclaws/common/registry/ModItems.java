@@ -28,10 +28,7 @@ public final class ModItems {
                     .setId(ResourceKey.create(Registries.ITEM, id))
                     .durability(CLIMBING_CLAWS_DURABILITY)
                     .enchantable(14)
-                    .component(
-                            DataComponents.REPAIRABLE,
-                            new Repairable(HolderSet.direct(Items.IRON_INGOT.builtInRegistryHolder(), Items.IRON_NUGGET.builtInRegistryHolder()))
-                    )
+                    .component(DataComponents.REPAIRABLE, createRepairableComponent())
                     .attributes(createAttributes())));
 
     private ModItems() {
@@ -54,5 +51,9 @@ public final class ModItems {
                         EquipmentSlotGroup.MAINHAND
                 )
                 .build();
+    }
+
+    private static Repairable createRepairableComponent() {
+        return new Repairable(HolderSet.direct(Items.IRON_INGOT.builtInRegistryHolder(), Items.IRON_NUGGET.builtInRegistryHolder()));
     }
 }

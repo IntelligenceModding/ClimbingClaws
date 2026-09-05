@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:empty",
+          "weight": 89
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "damage": {
+                "type": "minecraft:uniform",
+                "max": 1.0,
+                "min": 0.7
+              },
+              "function": "minecraft:set_damage"
+            }
+          ],
+          "name": "climbingclaws:climbing_claws",
+          "weight": 11
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "climbingclaws:chests/injections/climbing_claws_trial_chambers"
+}

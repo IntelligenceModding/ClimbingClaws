@@ -1,6 +1,7 @@
 package de.artemis.climbingclaws.common.registry;
 
 import de.artemis.climbingclaws.ClimbingClaws;
+import java.util.Optional;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
@@ -9,12 +10,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-
-import java.util.Optional;
 
 public final class ModEnchantments {
     public static final ResourceKey<Enchantment> WALL_SPRING = key("wall_spring");
@@ -39,7 +38,7 @@ public final class ModEnchantments {
                                 Enchantment.dynamicCost(12, 14),
                                 Enchantment.dynamicCost(30, 14),
                                 3,
-                                EquipmentSlotGroup.OFFHAND
+                                EquipmentSlotGroup.HAND
                         )
                 )
         );
@@ -56,7 +55,7 @@ public final class ModEnchantments {
                                 Enchantment.dynamicCost(8, 0),
                                 Enchantment.dynamicCost(24, 0),
                                 2,
-                                EquipmentSlotGroup.OFFHAND
+                                EquipmentSlotGroup.HAND
                         )
                 )
         );

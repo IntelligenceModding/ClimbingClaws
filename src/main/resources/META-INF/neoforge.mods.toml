@@ -1,4 +1,5 @@
 modLoader="javafml"
+loaderVersion="${loader_version_range}"
 license="${mod_license}"
 
 [[mods]]
@@ -6,7 +7,7 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/climbing-claws"
-issueTrackerURL="https://github.com/IntelligenceModding/climbing-claws/issues"
+issueTrackerURL="https://github.com/IntelligenceModding/Climbing-Claws/issues"
 bannerFile="banner.png"
 iconFile="icon.png"
 authors="${mod_authors}"
@@ -15,7 +16,7 @@ description='''${mod_description}'''
 [[dependencies.${mod_id}]]
     modId="neoforge"
     type="required"
-    versionRange="[${neo_version},)"
+    versionRange="${neo_version_range}"
     ordering="NONE"
     side="BOTH"
 
@@ -27,8 +28,22 @@ description='''${mod_description}'''
     side="BOTH"
 
 [[dependencies.${mod_id}]]
+    modId="jei"
+    type="optional"
+    versionRange="${jei_version_range}"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
+    modId="roughlyenoughitems"
+    type="optional"
+    versionRange="${rei_version_range}"
+    ordering="AFTER"
+    side="CLIENT"
+
+[[dependencies.${mod_id}]]
     modId="curios"
     type="optional"
-    versionRange="[16.0.0,)"
+    versionRange="${curios_version_range}"
     ordering="AFTER"
     side="BOTH"

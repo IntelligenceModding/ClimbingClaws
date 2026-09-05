@@ -1,17 +1,19 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" height="139">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
 </p>
 
 <p align="center">
-  Climbing Claws adds a dedicated off-hand climbing tool to Minecraft for controlled vertical traversal without ladders, scaffolding, or grappling hooks.
+  Climbing Claws adds a dedicated climbing tool to Minecraft for controlled vertical traversal without ladders, scaffolding, or grappling hooks.
 </p>
 
 <p align="center">
   It focuses on deliberate wall and ceiling movement, giving players a survival-friendly way to climb, hang, descend, and launch from surfaces while still fitting naturally into vanilla progression.
 </p>
 
+<br>
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Compatibility.png" alt="Compatibility" height="75">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Compatibility.png" alt="Compatibility" height="75">
 </p>
 
 <p align="center">
@@ -21,12 +23,17 @@
 </p>
 
 <p align="center">
-  Climbing Claws works normally without JEI or Curios. Install JEI alongside it if you want the optional in-game usage entry for the item.
-  Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of using the off-hand.
+  <strong>JEI, REI, and Curios are optional integrations on Minecraft 26.2.</strong>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Features.png" alt="Features" height="75">
+  Install JEI or REI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of holding them in either hand. The mod works normally without these integrations.
+</p>
+
+<br>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Features.png" alt="Features" height="75">
 </p>
 
 <p align="center">
@@ -34,7 +41,7 @@
 </p>
 
 <p align="center">
-  &bull; A dedicated <strong>Climbing Claws</strong> item built for off-hand use<br>
+  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand, off-hand, or optional Curios hands-slot use<br>
   &bull; Shield-style wall and ceiling climbing by holding right-click<br>
   &bull; Hanging in place when you stop moving while the claws are raised<br>
   &bull; Slow controlled descent while sneaking on walls or undersides<br>
@@ -51,7 +58,39 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Community.png" alt="Community" height="75">
+  <a href="CONFIG.md"><img src="https://img.shields.io/badge/Config-Reference-2D6CDF?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Climbing Claws config reference"></a>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Resources.png" alt="Resources" height="75">
+</p>
+
+<p align="center">
+  Bug reports, feature requests, version support requests, and contributions are welcome.
+</p>
+
+<p align="center">
+  Please read the contribution guidelines before submitting changes and use the appropriate issue form when reporting problems or suggesting improvements.
+</p>
+
+<p align="center">
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/GitHub-Contributing%20Guidelines-181717?style=for-the-badge&logo=github&logoColor=white" alt="Contribution Guidelines"></a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="https://github.com/IntelligenceModding/ClimbingClaws/issues/new/choose"><img src="https://img.shields.io/badge/GitHub-Issues-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues"></a>
+</p>
+
+<p align="center">
+  <a href="SUPPORT.md"><img src="https://img.shields.io/badge/GitHub-Support-181717?style=for-the-badge&logo=github&logoColor=white" alt="Support"></a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="CODE_OF_CONDUCT.md"><img src="https://img.shields.io/badge/GitHub-Code%20of%20Conduct-181717?style=for-the-badge&logo=github&logoColor=white" alt="Code of Conduct"></a>
+</p>
+
+<br>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Community.png" alt="Community" height="75">
 </p>
 
 <p align="center">
@@ -80,8 +119,10 @@
   <a href="https://github.com/IntelligenceModding"><img src="https://img.shields.io/badge/GitHub-IntelligenceModding-181717?style=for-the-badge&logo=github&logoColor=white" alt="Intelligence Modding on GitHub"></a>
 </p>
 
+<br>
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Acknowledgments.png" alt="Acknowledgments" height="75">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Acknowledgments.png" alt="Acknowledgments" height="75">
 </p>
 
 <p align="center">
@@ -92,6 +133,7 @@
   &bull; The NeoForged team for NeoForge and its documentation<br>
   &bull; The Minecraft modding community for examples, tools, and support<br>
   &bull; The Intelligence Modding community for feedback, testing, and ideas<br>
+  &bull; The JEI, REI, and Curios projects for their optional compatibility APIs<br>
   &bull; Everyone who reports issues, suggests improvements, or includes the mod in their worlds or modpacks
 </p>
 
