@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": [
+    "${mod_authors}"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/climbing-claws",
+    "sources": "https://github.com/IntelligenceModding/Climbing-Claws",
+    "issues": "https://github.com/IntelligenceModding/Climbing-Claws/issues",
+    "discord": "https://discord.com/invite/JGWkTy6PG8",
+    "github": "https://github.com/IntelligenceModding",
+    "youtube": "https://www.youtube.com/@intelligencemodding4093"
+  },
+  "license": "${mod_license}",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "de.doomedartemis.ClimbingClaws"
+    ],
+    "client": [
+      "de.doomedartemis.ClimbingClawsClient"
+    ],
+    "fabric-datagen": [
+      "de.doomedartemis.common.datagen.DataGenerators"
+    ],
+    "modmenu": [
+      "de.doomedartemis.compat.modmenu.ClimbingClawsModMenuApi"
+    ],
+    "rei_client": [
+      "de.doomedartemis.compat.rei.ClimbingClawsReiPlugin"
+    ]
+  },
+  "mixins": [
+    "climbingclaws.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "accessories": ">=${accessories_version}",
+    "modmenu": ">=${modmenu_version}",
+    "jei": "*",
+    "roughlyenoughitems": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "climbingclaws.link.discord": "https://discord.com/invite/JGWkTy6PG8",
+        "climbingclaws.link.github": "https://github.com/IntelligenceModding",
+        "climbingclaws.link.youtube": "https://www.youtube.com/@intelligencemodding4093"
+      }
+    }
+  }
+}

@@ -22,7 +22,8 @@ Examples include:
 - Wall Spring behavior problems;
 - Canopy Grip behavior problems;
 - off-hand usage problems;
-- Curios integration problems;
+- Accessories integration problems;
+- Mod Menu config screen problems;
 - JEI or REI integration problems;
 - crafting, enchanting, trade, or loot problems;
 - rendering or texture problems;
@@ -54,7 +55,7 @@ Feature requests may include:
 - climbing behavior improvements;
 - new movement options;
 - new or improved enchantments;
-- equipment or Curios improvements;
+- equipment improvements;
 - JEI or REI integration improvements;
 - survival-progression improvements;
 - compatibility improvements;
@@ -101,7 +102,8 @@ For general questions such as:
 - questions about wall or ceiling climbing;
 - questions about hanging, descent, or movement behavior;
 - questions about enchantments;
-- Curios integration questions;
+- Accessories integration questions;
+- Mod Menu config questions;
 - JEI or REI integration questions;
 - multiplayer usage questions;
 - general usage questions;

@@ -19,15 +19,15 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.21.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.1">
   &nbsp;&nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
+  <img src="https://img.shields.io/badge/Loader-Fabric-C4A484?style=for-the-badge" alt="Fabric">
 </p>
 
 <p align="center">
-  <strong>JEI, REI, and Curios are optional integrations.</strong>
+  <strong>Accessories, JEI, REI, and Mod Menu are optional integrations.</strong>
 </p>
 
 <p align="center">
-  Install JEI or REI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of holding them in either hand. The mod works normally without these integrations.
+  Install Accessories if you want to equip the claws in the Accessories hand slot. Install JEI or REI if you want the optional in-game usage entry for the item. Install Mod Menu if you want the editable config screen and mod links shown in the mod list. The mod works normally without these integrations.
 </p>
 
 <br>
@@ -41,7 +41,7 @@
 </p>
 
 <p align="center">
-  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand, off-hand, or optional Curios hands-slot use<br>
+  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand or off-hand use<br>
   &bull; Shield-style wall and ceiling climbing by holding right-click<br>
   &bull; Hanging in place when you stop moving while the claws are raised<br>
   &bull; Slow controlled descent while sneaking on walls or undersides<br>
@@ -50,6 +50,8 @@
   &bull; Light weapon behavior with support for <strong>Sharpness</strong> and <strong>Fire Aspect</strong><br>
   &bull; <strong>Wall Spring</strong>, a custom enchantment that launches you upward while climbing<br>
   &bull; <strong>Canopy Grip</strong>, a custom enchantment for latching onto partial surfaces such as leaves<br>
+  &bull; Optional <strong>Accessories</strong> support for equipping the claws in the Accessories hand slot<br>
+  &bull; Optional editable <strong>Mod Menu</strong> config screen for client and local server settings<br>
   &bull; Survival progression through crafting, enchanting, librarian trades, and loot chest finds
 </p>
 
@@ -130,7 +132,8 @@
 </p>
 
 <p align="center">
-  &bull; The NeoForged team for NeoForge and its documentation<br>
+  &bull; The Fabric team for Fabric and its documentation<br>
+  &bull; The Wisp Forest team for the Accessories API<br>
   &bull; The Minecraft modding community for examples, tools, and support<br>
   &bull; The Intelligence Modding community for feedback, testing, and ideas<br>
   &bull; Everyone who reports issues, suggests improvements, or includes the mod in their worlds or modpacks

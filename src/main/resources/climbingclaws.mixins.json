@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "de.doomedartemis.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AnvilMenuMixin",
+    "ItemCombinerMenuAccessor"
+  ],
+  "client": [
+    "client.GuiGraphicsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

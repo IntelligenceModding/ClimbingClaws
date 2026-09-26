@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
     id 'idea'
 }
 
@@ -12,190 +12,202 @@ tasks.named('wrapper', Wrapper).configure {
 version = minecraft_version + "-" + mod_version
 group = mod_group_id
 
+base {
+    archivesName = mod_id
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+}
+
 repositories {
+    maven {
+        name = 'ParchmentMC'
+        url = 'https://maven.parchmentmc.org'
+    }
+    maven {
+        name = 'Terraformers'
+        url = 'https://maven.terraformersmc.com/'
+    }
+    maven {
+        name = 'Wisp Forest'
+        url = 'https://maven.wispforest.io/releases/'
+    }
+    maven {
+        name = 'Su5ed Maven'
+        url = 'https://maven.su5ed.dev/releases/'
+    }
     maven {
         name = "Shedaniel Maven"
         url = "https://maven.shedaniel.me"
     }
     maven {
-        name = "Jared's maven"
+        name = "Jared's Maven"
         url = "https://maven.blamejared.com/"
     }
-    maven {
-        name = "Illusive Soulworks maven"
-        url = "https://maven.theillusivec4.top/"
-    }
-    maven {
-        name = "Modrinth Maven"
-        url = "https://api.modrinth.com/maven"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
 }
-
-base {
-    archivesName = mod_id
-}
-
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 configurations {
     clientRuntimeMods {
         canBeConsumed = false
         canBeResolved = true
+        transitive = true
     }
-    reiRuntimeMod {
+    jeiRuntimeMods {
         canBeConsumed = false
         canBeResolved = true
         transitive = true
-        extendsFrom clientRuntimeMods
     }
-    jeiRuntimeMod {
+    reiRuntimeMods {
         canBeConsumed = false
         canBeResolved = true
-        extendsFrom clientRuntimeMods
+        transitive = true
     }
 }
 
 tasks.register('cleanClientRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run/mods')
-}
-
-tasks.register('cleanReiRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run-rei/mods')
+    delete layout.projectDirectory.dir('run/client/mods')
 }
 
 tasks.register('cleanJeiRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run-jei/mods')
+    delete layout.projectDirectory.dir('run/jei/mods')
+}
+
+tasks.register('cleanReiRuntimeMods', Delete) {
+    delete layout.projectDirectory.dir('run/rei/mods')
 }
 
 tasks.register('syncClientRuntimeMods', Sync) {
     dependsOn tasks.named('cleanClientRuntimeMods')
     from configurations.clientRuntimeMods
-    into layout.projectDirectory.dir('run/mods')
-}
-
-tasks.register('syncReiRuntimeMods', Sync) {
-    dependsOn tasks.named('cleanReiRuntimeMods')
-    from configurations.reiRuntimeMod
-    into layout.projectDirectory.dir('run-rei/mods')
+    into layout.projectDirectory.dir('run/client/mods')
 }
 
 tasks.register('syncJeiRuntimeMods', Sync) {
     dependsOn tasks.named('cleanJeiRuntimeMods')
-    from configurations.jeiRuntimeMod
-    into layout.projectDirectory.dir('run-jei/mods')
+    from configurations.jeiRuntimeMods
+    into layout.projectDirectory.dir('run/jei/mods')
+    include "accessories-fabric-${accessories_version}.jar"
+    include "owo-lib-*.jar"
+    include "endec-*.jar"
+    include "gson-0.1*.jar"
+    include "jankson-0.1*.jar"
+    include "netty-0.1*.jar"
+    include "jankson-1.2.2.jar"
+    include "gson-2*.jar"
+    include "fastutil-*.jar"
+    include "guava-*.jar"
+    include "failureaccess-*.jar"
+    include "listenablefuture-*.jar"
+    include "jsr305-*.jar"
+    include "checker-qual-*.jar"
+    include "error_prone_annotations-*.jar"
+    include "jei-${minecraft_version}-fabric-${jei_version}.jar"
 }
 
-neoForge {
-    version = project.neo_version
+tasks.register('syncReiRuntimeMods', Sync) {
+    dependsOn tasks.named('cleanReiRuntimeMods')
+    from configurations.reiRuntimeMods
+    into layout.projectDirectory.dir('run/rei/mods')
+    include "accessories-fabric-${accessories_version}.jar"
+    include "owo-lib-*.jar"
+    include "endec-*.jar"
+    include "gson-0.1*.jar"
+    include "jankson-0.1*.jar"
+    include "netty-0.1*.jar"
+    include "jankson-1.2.2.jar"
+    include "gson-2*.jar"
+    include "fastutil-*.jar"
+    include "guava-*.jar"
+    include "failureaccess-*.jar"
+    include "listenablefuture-*.jar"
+    include "jsr305-*.jar"
+    include "checker-qual-*.jar"
+    include "error_prone_annotations-*.jar"
+    include "RoughlyEnoughItems-fabric-${rei_version}.jar"
+    include "architectury-fabric-*.jar"
+    include "cloth-config-fabric-*.jar"
+    include "basic-math-*.jar"
+    include "error-notifier-fabric-*.jar"
+}
 
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
+loom {
     runs {
         client {
             client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            taskBefore tasks.named('syncClientRuntimeMods')
+            runDir "run/client"
         }
-
-        clientWithREI {
+        clientWithJei {
             client()
-            gameDirectory = file('run-rei')
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            systemProperty 'neoforge.warnings.onlyin.hide', 'true'
-            taskBefore tasks.named('syncReiRuntimeMods')
+            runDir "run/jei"
         }
-
-        clientWithJEI {
+        clientWithRei {
             client()
-            gameDirectory = file('run-jei')
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            taskBefore tasks.named('syncJeiRuntimeMods')
+            runDir "run/rei"
         }
-
         server {
             server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        data {
-            data()
-            programArguments.addAll '--mod', project.mod_id,
-                    '--all',
-                    '--output', file('src/generated/resources/').getAbsolutePath(),
-                    '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            logLevel = org.slf4j.event.Level.INFO
-        }
-    }
-
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
+            runDir "run/server"
         }
     }
 }
 
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-    srcDir 'src/generated/client'
-    exclude '.cache/**'
+fabricApi {
+    configureDataGeneration {
+        client = true
+        outputDirectory = file("src/generated/resources")
+    }
 }
 
 dependencies {
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    jeiRuntimeMod("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-    jeiRuntimeMod("maven.modrinth:just-enough-professions-jep:${jep_version}")
-    compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}")
-    compileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}")
-    reiRuntimeMod("me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}")
-    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
-    clientRuntimeMods("top.theillusivec4.curios:curios-neoforge:${curios_version}")
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_mappings_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
+    modCompileOnly "io.wispforest:accessories-fabric:${accessories_version}"
+    clientRuntimeMods "io.wispforest:accessories-fabric:${accessories_version}"
+    modCompileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
+    jeiRuntimeMods "io.wispforest:accessories-fabric:${accessories_version}"
+    jeiRuntimeMods "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
+    reiRuntimeMods "io.wispforest:accessories-fabric:${accessories_version}"
+    reiRuntimeMods "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+}
+
+tasks.named('runClient') {
+    dependsOn tasks.named('syncClientRuntimeMods')
+}
+
+tasks.named('runClientWithJei') {
+    dependsOn tasks.named('syncJeiRuntimeMods')
+}
+
+tasks.named('runClientWithRei') {
+    dependsOn tasks.named('syncReiRuntimeMods')
 }
 
 tasks.named('processResources', ProcessResources).configure {
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            loader_version_range   : loader_version_range,
-            rei_version_range      : rei_version_range,
-            curios_version_range   : curios_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
-    ]
-    inputs.properties replaceProperties
+    inputs.properties([
+            mod_id            : mod_id,
+            mod_name          : mod_name,
+            mod_license       : mod_license,
+            mod_version       : mod_version,
+            mod_authors       : mod_authors,
+            mod_description   : mod_description,
+            minecraft_version : minecraft_version,
+            loader_version    : loader_version,
+            modmenu_version   : modmenu_version,
+            accessories_version : accessories_version
+    ])
 
-    filesMatching('META-INF/neoforge.mods.toml') {
-        expand replaceProperties
+    filesMatching('fabric.mod.json') {
+        expand inputs.properties
     }
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-tasks.register('runClientData') {
-    dependsOn tasks.named('runData')
 }
 
 publishing {
@@ -209,6 +221,10 @@ publishing {
             url "file://${project.projectDir}/repo"
         }
     }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
 }
 
 idea {
