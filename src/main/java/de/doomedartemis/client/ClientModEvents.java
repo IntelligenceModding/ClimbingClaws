@@ -13,7 +13,7 @@ public final class ClientModEvents {
     private ClientModEvents() {
     }
 
-    public static void onClientTick(Minecraft minecraft) {
+    public static void onStartClientTick(Minecraft minecraft) {
         Player player = minecraft.player;
 
         if (player == null) {
@@ -22,11 +22,22 @@ public final class ClientModEvents {
         }
 
         ClimbingClawsClimbHandler.onPlayerTick(player);
+    }
+
+    public static void onEndClientTick(Minecraft minecraft) {
+        Player player = minecraft.player;
+
+        if (player == null) {
+            ClimbingClawsClimbHandler.clearClientWallSpringCooldown();
+            return;
+        }
+
         ClimbingClawsClimbHandler.tickClientWallSpringCooldown();
 
         if (minecraft.options.keyJump.consumeClick()
                 && canUseWallSpring(player)
                 && ClientPlayNetworking.canSend(ClimbingBurstPayload.TYPE)) {
+            ClimbingClawsClimbHandler.applyClientBurst(player);
             ClientPlayNetworking.send(ClimbingBurstPayload.INSTANCE);
         }
     }

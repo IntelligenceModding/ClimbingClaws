@@ -28,6 +28,6 @@ public class ClimbingClaws implements ModInitializer {
         if (FabricLoader.getInstance().isModLoaded(AccessoriesCompat.ACCESSORIES_MOD_ID)) {
             AccessoriesCompat.register();
         }
-        ServerTickEvents.END_WORLD_TICK.register(world -> world.players().forEach(ClimbingClawsClimbHandler::onPlayerTick));
+        ServerTickEvents.START_WORLD_TICK.register(world -> world.players().forEach(ClimbingClawsClimbHandler::onPlayerTick));
     }
 }

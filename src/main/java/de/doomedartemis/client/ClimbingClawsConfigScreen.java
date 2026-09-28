@@ -16,11 +16,17 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.NonNull;
 
 public final class ClimbingClawsConfigScreen extends Screen {
     private static final int ROW_HEIGHT = 24;
     private static final int CONTROL_WIDTH = 120;
     private static final int BUTTON_HEIGHT = 20;
+    private static final int TITLE_COLOR = 0xFFFFFFFF;
+    private static final int SUBTITLE_COLOR = 0xFFA0A0A0;
+    private static final int LABEL_COLOR = 0xFFE0E0E0;
+    private static final int STATUS_COLOR = 0xFFA0E0A0;
+    private static final int INVALID_TEXT_COLOR = 0xFFFF7070;
 
     private final Screen parent;
     private final Draft draft;
@@ -42,15 +48,15 @@ public final class ClimbingClawsConfigScreen extends Screen {
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NonNull GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 12, 0xFFFFFF);
-        guiGraphics.drawCenteredString(this.font, currentSubtitle(), this.width / 2, 34, 0xA0A0A0);
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 12, TITLE_COLOR);
+        guiGraphics.drawCenteredString(this.font, currentSubtitle(), this.width / 2, 34, SUBTITLE_COLOR);
         for (RenderedLabel label : this.labels) {
-            guiGraphics.drawString(this.font, label.component(), label.x(), label.y(), 0xE0E0E0);
+            guiGraphics.drawString(this.font, label.component(), label.x(), label.y(), LABEL_COLOR);
         }
         if (!this.status.getString().isEmpty()) {
-            guiGraphics.drawCenteredString(this.font, this.status, this.width / 2, this.height - 54, 0xA0E0A0);
+            guiGraphics.drawCenteredString(this.font, this.status, this.width / 2, this.height - 54, STATUS_COLOR);
         }
     }
 
@@ -174,13 +180,13 @@ public final class ClimbingClawsConfigScreen extends Screen {
                 try {
                     double parsed = Double.parseDouble(value);
                     boolean valid = parsed >= doubleOption.min() && parsed <= doubleOption.max();
-                    editBox.setTextColor(valid ? 0xE0E0E0 : 0xFF7070);
+                    editBox.setTextColor(valid ? LABEL_COLOR : INVALID_TEXT_COLOR);
                     if (valid) {
                         doubleOption.setter().accept(parsed);
                         this.status = Component.empty();
                     }
                 } catch (NumberFormatException ignored) {
-                    editBox.setTextColor(0xFF7070);
+                    editBox.setTextColor(INVALID_TEXT_COLOR);
                 }
             });
             this.addRenderableWidget(editBox);
@@ -195,13 +201,13 @@ public final class ClimbingClawsConfigScreen extends Screen {
                 try {
                     int parsed = Integer.parseInt(value);
                     boolean valid = parsed >= intOption.min() && parsed <= intOption.max();
-                    editBox.setTextColor(valid ? 0xE0E0E0 : 0xFF7070);
+                    editBox.setTextColor(valid ? LABEL_COLOR : INVALID_TEXT_COLOR);
                     if (valid) {
                         intOption.setter().accept(parsed);
                         this.status = Component.empty();
                     }
                 } catch (NumberFormatException ignored) {
-                    editBox.setTextColor(0xFF7070);
+                    editBox.setTextColor(INVALID_TEXT_COLOR);
                 }
             });
             this.addRenderableWidget(editBox);

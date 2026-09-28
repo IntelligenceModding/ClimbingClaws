@@ -11,16 +11,20 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public final class ModAdvancementProvider extends FabricAdvancementProvider {
-    private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/block/cobbled_deepslate.png");
+    private static final Identifier BACKGROUND = Identifier.withDefaultNamespace("block/cobbled_deepslate");
 
     public ModAdvancementProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
@@ -107,7 +111,7 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
         Advancement.Builder.advancement()
                 .parent(wallCrawler)
                 .display(
-                        EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantments.getOrThrow(ModEnchantments.WALL_SPRING), 1)),
+                        enchantedBook(enchantments, ModEnchantments.WALL_SPRING),
                         Component.translatable("advancement.climbingclaws.wall_spring.title"),
                         Component.translatable("advancement.climbingclaws.wall_spring.description"),
                         null,
@@ -122,7 +126,7 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
         Advancement.Builder.advancement()
                 .parent(wallCrawler)
                 .display(
-                        EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP), 1)),
+                        enchantedBook(enchantments, ModEnchantments.CANOPY_GRIP),
                         Component.translatable("advancement.climbingclaws.canopy_route.title"),
                         Component.translatable("advancement.climbingclaws.canopy_route.description"),
                         null,
@@ -137,5 +141,13 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
 
     private static String id(String path) {
         return ClimbingClaws.MOD_ID + ":" + path;
+    }
+
+    private static ItemStack enchantedBook(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> enchantmentKey) {
+        ItemEnchantments.Mutable storedEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        storedEnchantments.set(enchantments.getOrThrow(enchantmentKey), 1);
+        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
+        stack.set(DataComponents.STORED_ENCHANTMENTS, storedEnchantments.toImmutable());
+        return stack;
     }
 }

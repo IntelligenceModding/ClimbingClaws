@@ -4,7 +4,9 @@ import de.doomedartemis.ClimbingClaws;
 import de.doomedartemis.common.item.ClimbingClawsItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -12,19 +14,26 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public final class ModItems {
+    public static final TagKey<Item> CLIMBING_CLAWS_REPAIR_MATERIALS =
+            TagKey.create(BuiltInRegistries.ITEM.key(), id("repair_materials/climbing_claws"));
+    private static final ResourceKey<Item> CLIMBING_CLAWS_KEY =
+            ResourceKey.create(BuiltInRegistries.ITEM.key(), id("climbing_claws"));
     private static final int CLIMBING_CLAWS_DURABILITY = 384;
     private static final float CLIMBING_CLAWS_ATTACK_DAMAGE = 3.0F;
     private static final float CLIMBING_CLAWS_ATTACK_SPEED = -2.4F;
 
     public static final Item CLIMBING_CLAWS = new ClimbingClawsItem(new Item.Properties()
+            .setId(CLIMBING_CLAWS_KEY)
             .durability(CLIMBING_CLAWS_DURABILITY)
+            .enchantable(14)
+            .repairable(CLIMBING_CLAWS_REPAIR_MATERIALS)
             .attributes(createAttributes()));
 
     private ModItems() {
     }
 
     public static void register() {
-        Registry.register(BuiltInRegistries.ITEM, id("climbing_claws"), CLIMBING_CLAWS);
+        Registry.register(BuiltInRegistries.ITEM, CLIMBING_CLAWS_KEY, CLIMBING_CLAWS);
     }
 
     private static ItemAttributeModifiers createAttributes() {
@@ -42,7 +51,7 @@ public final class ModItems {
                 .build();
     }
 
-    private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
+    private static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
     }
 }

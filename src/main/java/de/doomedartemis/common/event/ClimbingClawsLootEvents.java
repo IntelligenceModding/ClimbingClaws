@@ -46,7 +46,7 @@ public final class ClimbingClawsLootEvents {
                 return;
             }
             for (Injection injection : INJECTIONS) {
-                if (injection.target() == key) {
+                if (injection.target().equals(key)) {
                     tableBuilder.withPool(LootPool.lootPool()
                             .add(NestedLootTable.lootTableReference(injection.injected())));
                 }

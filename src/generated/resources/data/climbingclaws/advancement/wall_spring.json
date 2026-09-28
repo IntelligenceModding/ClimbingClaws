@@ -13,9 +13,7 @@
     "icon": {
       "components": {
         "minecraft:stored_enchantments": {
-          "levels": {
-            "climbingclaws:wall_spring": 1
-          }
+          "climbingclaws:wall_spring": 1
         }
       },
       "count": 1,

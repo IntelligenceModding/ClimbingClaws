@@ -9,11 +9,12 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
+import java.util.Optional;
 
 public final class ModCreativeModeTabs {
     public static final CreativeModeTab CLIMBING_CLAWS_TAB = FabricItemGroup.builder()
@@ -21,9 +22,9 @@ public final class ModCreativeModeTabs {
             .title(Component.translatable("itemGroup.climbingclaws"))
             .displayItems((parameters, output) -> {
                 output.accept(ModItems.CLIMBING_CLAWS);
-                output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 1));
-                output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 2));
-                output.accept(createEnchantBook(parameters.holders(), ModEnchantments.CANOPY_GRIP, 1));
+                createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 1).ifPresent(output::accept);
+                createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 2).ifPresent(output::accept);
+                createEnchantBook(parameters.holders(), ModEnchantments.CANOPY_GRIP, 1).ifPresent(output::accept);
             })
             .build();
 
@@ -34,14 +35,19 @@ public final class ModCreativeModeTabs {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, id("climbing_claws"), CLIMBING_CLAWS_TAB);
     }
 
-    private static ItemStack createEnchantBook(HolderLookup.Provider holders, ResourceKey<Enchantment> enchantmentKey, int level) {
-        Holder<Enchantment> enchantment = holders.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(enchantmentKey);
+    private static Optional<ItemStack> createEnchantBook(HolderLookup.Provider holders, ResourceKey<Enchantment> enchantmentKey, int level) {
+        Optional<Holder.Reference<Enchantment>> enchantment = holders.lookup(Registries.ENCHANTMENT)
+                .flatMap(enchantments -> enchantments.get(enchantmentKey));
+        if (enchantment.isEmpty()) {
+            return Optional.empty();
+        }
+
         ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-        stack.enchant(enchantment, level);
-        return stack;
+        stack.enchant(enchantment.get(), level);
+        return Optional.of(stack);
     }
 
-    private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
+    private static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
     }
 }

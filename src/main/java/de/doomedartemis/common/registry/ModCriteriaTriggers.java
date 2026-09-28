@@ -5,7 +5,7 @@ import de.doomedartemis.common.advancement.ClimbingClawsSimpleTrigger;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class ModCriteriaTriggers {
     public static final ClimbingClawsSimpleTrigger CLIMB_WITH_CLAWS = trigger("climb_with_claws");
@@ -30,6 +30,6 @@ public final class ModCriteriaTriggers {
     }
 
     private static ClimbingClawsSimpleTrigger trigger(String path) {
-        return new ClimbingClawsSimpleTrigger(ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path));
+        return new ClimbingClawsSimpleTrigger(Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path));
     }
 }

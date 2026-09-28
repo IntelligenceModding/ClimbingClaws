@@ -16,9 +16,9 @@ Explain the purpose of the change rather than only listing modified files.
 <!--
 Example:
 
-- Minecraft version: 1.21.1
+- Minecraft version: 1.21.11
 - Mod loader: Fabric
-- Target branch: 1.21.1-fabric
+- Target branch: 1.21.11-fabric
 -->
 
 ## Changes
@@ -42,7 +42,7 @@ Please mention:
 Example:
 
 - `gradlew.bat build` completed successfully.
-- Tested the changes in the 1.21.1 Fabric development client.
+- Tested the changes in the 1.21.11 Fabric development client.
 - Tested affected wall climbing, ceiling climbing, hanging, descent, movement, or enchantment behavior where applicable.
 - Tested Accessories, Mod Menu, JEI, REI, or multiplayer behavior where applicable.
 -->

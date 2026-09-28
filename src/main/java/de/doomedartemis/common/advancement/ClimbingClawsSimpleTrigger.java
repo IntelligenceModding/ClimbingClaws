@@ -4,16 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.Optional;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.ContextAwarePredicate;
-import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.advancements.criterion.ContextAwarePredicate;
+import net.minecraft.advancements.criterion.EntityPredicate;
+import net.minecraft.advancements.criterion.SimpleCriterionTrigger;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 
 public final class ClimbingClawsSimpleTrigger extends SimpleCriterionTrigger<ClimbingClawsSimpleTrigger.TriggerInstance> {
-    private final ResourceLocation id;
+    private final Identifier id;
 
-    public ClimbingClawsSimpleTrigger(ResourceLocation id) {
+    public ClimbingClawsSimpleTrigger(Identifier id) {
         this.id = id;
     }
 
@@ -22,7 +22,7 @@ public final class ClimbingClawsSimpleTrigger extends SimpleCriterionTrigger<Cli
         return TriggerInstance.CODEC;
     }
 
-    public ResourceLocation id() {
+    public Identifier id() {
         return id;
     }
 

@@ -10,7 +10,7 @@ import net.minecraft.core.HolderLookup;
 
 public final class ModLanguageProvider extends FabricLanguageProvider {
     private static final String CLIMBING_CLAWS_INFO = "Equip the claws in either hand and hold right-click to raise them like a shield.\n"
-            + "Climb solid walls and undersides while the claws are active.\n"
+            + "Climb solid walls and undersides while the claws are raised.\n"
             + "Stop pressing movement to hang in place, or hold sneak to climb back down.\n"
             + "Climbing uses durability. Unbreaking and Mending help, and Efficiency increases climb speed.\n"
             + "Wall Spring lets you press jump while climbing to burst upward. Level II launches farther.\n"

@@ -15,7 +15,8 @@ public class ClimbingClawsClient implements ClientModInitializer {
     public void onInitializeClient() {
         ClientConfig.load();
         ModPayloads.registerClient();
-        ClientTickEvents.END_CLIENT_TICK.register(ClientModEvents::onClientTick);
+        ClientTickEvents.START_CLIENT_TICK.register(ClientModEvents::onStartClientTick);
+        ClientTickEvents.END_CLIENT_TICK.register(ClientModEvents::onEndClientTick);
         ItemTooltipCallback.EVENT.register(ClimbingClawsTooltipHandler::onItemTooltip);
         if (FabricLoader.getInstance().isModLoaded(AccessoriesClientCompat.ACCESSORIES_MOD_ID)) {
             AccessoriesClientCompat.registerRenderers();

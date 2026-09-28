@@ -20,11 +20,13 @@ java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
 }
 
-repositories {
-    maven {
-        name = 'ParchmentMC'
-        url = 'https://maven.parchmentmc.org'
+sourceSets {
+    main {
+        resources.srcDir 'src/generated/resources'
     }
+}
+
+repositories {
     maven {
         name = 'Terraformers'
         url = 'https://maven.terraformersmc.com/'
@@ -32,6 +34,10 @@ repositories {
     maven {
         name = 'Wisp Forest'
         url = 'https://maven.wispforest.io/releases/'
+    }
+    maven {
+        name = 'JitPack'
+        url = 'https://jitpack.io'
     }
     maven {
         name = 'Su5ed Maven'
@@ -44,6 +50,10 @@ repositories {
     maven {
         name = "Jared's Maven"
         url = "https://maven.blamejared.com/"
+    }
+    maven {
+        name = 'CurseMaven'
+        url = 'https://cursemaven.com'
     }
 }
 
@@ -87,7 +97,7 @@ tasks.register('syncJeiRuntimeMods', Sync) {
     dependsOn tasks.named('cleanJeiRuntimeMods')
     from configurations.jeiRuntimeMods
     into layout.projectDirectory.dir('run/jei/mods')
-    include "accessories-fabric-${accessories_version}.jar"
+    include "accessories-fabric-*.jar"
     include "owo-lib-*.jar"
     include "endec-*.jar"
     include "gson-0.1*.jar"
@@ -109,7 +119,7 @@ tasks.register('syncReiRuntimeMods', Sync) {
     dependsOn tasks.named('cleanReiRuntimeMods')
     from configurations.reiRuntimeMods
     into layout.projectDirectory.dir('run/rei/mods')
-    include "accessories-fabric-${accessories_version}.jar"
+    include "accessories-fabric-*.jar"
     include "owo-lib-*.jar"
     include "endec-*.jar"
     include "gson-0.1*.jar"
@@ -161,21 +171,27 @@ fabricApi {
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_mappings_version}@zip")
-    }
+    mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
     modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
-    modCompileOnly "io.wispforest:accessories-fabric:${accessories_version}"
-    clientRuntimeMods "io.wispforest:accessories-fabric:${accessories_version}"
+    modCompileOnly "${accessories_dependency}"
+    clientRuntimeMods "${accessories_dependency}"
+    clientRuntimeMods("io.wispforest:owo-lib:${owo_version}") {
+        transitive = false
+    }
     modCompileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
-    jeiRuntimeMods "io.wispforest:accessories-fabric:${accessories_version}"
+    jeiRuntimeMods "${accessories_dependency}"
+    jeiRuntimeMods("io.wispforest:owo-lib:${owo_version}") {
+        transitive = false
+    }
     jeiRuntimeMods "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
-    reiRuntimeMods "io.wispforest:accessories-fabric:${accessories_version}"
+    reiRuntimeMods "${accessories_dependency}"
+    reiRuntimeMods("io.wispforest:owo-lib:${owo_version}") {
+        transitive = false
+    }
     reiRuntimeMods "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 }
 
@@ -200,6 +216,7 @@ tasks.named('processResources', ProcessResources).configure {
             mod_authors       : mod_authors,
             mod_description   : mod_description,
             minecraft_version : minecraft_version,
+            minecraft_version_range : minecraft_version_range,
             loader_version    : loader_version,
             modmenu_version   : modmenu_version,
             accessories_version : accessories_version

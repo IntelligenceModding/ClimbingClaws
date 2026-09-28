@@ -1,10 +1,10 @@
 package de.doomedartemis.compat.accessories;
 
 import de.doomedartemis.common.registry.ModItems;
-import io.wispforest.accessories.api.Accessory;
 import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
+import io.wispforest.accessories.api.core.Accessory;
 import io.wispforest.accessories.api.slot.SlotReference;
 import java.util.Optional;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +28,11 @@ public final class AccessoriesCompat {
 
             @Override
             public boolean canEquipFromUse(ItemStack stack) {
+                return false;
+            }
+
+            @Override
+            public boolean canEquipFromUse(ItemStack stack, SlotReference reference) {
                 return false;
             }
         });

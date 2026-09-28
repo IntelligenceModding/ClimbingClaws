@@ -31,6 +31,9 @@
     "modmenu": [
       "de.doomedartemis.compat.modmenu.ClimbingClawsModMenuApi"
     ],
+    "jei_mod_plugin": [
+      "de.doomedartemis.compat.jei.ClimbingClawsJeiPlugin"
+    ],
     "rei_client": [
       "de.doomedartemis.compat.rei.ClimbingClawsReiPlugin"
     ]
@@ -40,7 +43,7 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "minecraft": "${minecraft_version}",
+    "minecraft": "${minecraft_version_range}",
     "java": ">=21",
     "fabric-api": "*"
   },

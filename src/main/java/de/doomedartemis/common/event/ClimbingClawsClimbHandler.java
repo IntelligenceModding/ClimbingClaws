@@ -155,7 +155,7 @@ public final class ClimbingClawsClimbHandler {
         }
 
         player.setDeltaMovement(x, y, z);
-        player.hasImpulse = usingClawsOnSurface;
+        player.hurtMarked = usingClawsOnSurface;
         awardClimbingStats(player, activeSideClimb, descending, hanging);
         triggerAdvancements(player, activeSideClimb, hanging, activeCeilingClimb, touchingPartialSurface);
         trackClimbingDistance(player, usingClawsOnSurface);
@@ -176,7 +176,7 @@ public final class ClimbingClawsClimbHandler {
         EquippedClaws equippedClaws = findActiveClaws(player);
         if (!ClimbingClawsConfig.enableClimbing()
                 || !ClimbingClawsConfig.enableWallSpring()
-                || player.level().isClientSide
+                || player.level().isClientSide()
                 || player.isSpectator()
                 || player.isPassenger()
                 || equippedClaws == null
@@ -215,7 +215,6 @@ public final class ClimbingClawsClimbHandler {
 
         player.setDeltaMovement(x, y, z);
         player.fallDistance = 0.0F;
-        player.hasImpulse = true;
         player.hurtMarked = true;
         startWallSpringCooldown(player);
         startStatGraceWindow(player);
@@ -232,8 +231,52 @@ public final class ClimbingClawsClimbHandler {
         return true;
     }
 
+    public static boolean applyClientBurst(Player player) {
+        EquippedClaws equippedClaws = findActiveClaws(player);
+        if (!ClimbingClawsConfig.enableClimbing()
+                || !ClimbingClawsConfig.enableWallSpring()
+                || !player.level().isClientSide()
+                || player.isSpectator()
+                || player.isPassenger()
+                || equippedClaws == null
+                || (player.isShiftKeyDown() && !ClimbingClawsConfig.allowWallSpringWhileSneaking())) {
+            return false;
+        }
+
+        Level level = player.level();
+        ItemStack clawsStack = equippedClaws.stack();
+        boolean allowPartialSurfaces = ClimbingClawsConfig.enableCanopyGripEffect()
+                && getEnchantmentLevel(clawsStack, player, ModEnchantments.CANOPY_GRIP) > 0;
+        SurfaceContact sideSurface = ClimbingClawsConfig.enableWallClimbing()
+                ? findHorizontalSurface(level, player.getBoundingBox().inflate(0.08D, 0.0D, 0.08D), allowPartialSurfaces)
+                : null;
+        SurfaceContact ceilingSurface = ClimbingClawsConfig.enableCeilingClimbing()
+                ? findSurface(level, player.getBoundingBox().move(0.0D, 0.12D, 0.0D).inflate(-0.02D, 0.0D, -0.02D), Direction.DOWN, allowPartialSurfaces)
+                : null;
+        if (sideSurface == null && ceilingSurface == null) {
+            return false;
+        }
+
+        int wallSpringLevel = getEnchantmentLevel(clawsStack, player, ModEnchantments.WALL_SPRING);
+        if (wallSpringLevel <= 0 || clientWallSpringCooldownTicks > 0) {
+            return false;
+        }
+
+        Vec3 movement = player.getDeltaMovement();
+        double horizontalVelocityLimit = ClimbingClawsConfig.horizontalVelocityLimit();
+        double x = Mth.clamp(movement.x, -horizontalVelocityLimit, horizontalVelocityLimit);
+        double z = Mth.clamp(movement.z, -horizontalVelocityLimit, horizontalVelocityLimit);
+        double y = Math.max(movement.y, 0.0D) + getWallSpringBoost(wallSpringLevel);
+
+        player.setDeltaMovement(x, y, z);
+        player.fallDistance = 0.0F;
+        player.hurtMarked = true;
+        clientWallSpringCooldownTicks = ClimbingClawsConfig.wallSpringCooldownTicks();
+        return true;
+    }
+
     private static void tickWallSpringCooldown(Player player) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -263,7 +306,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void tickStatGraceWindow(Player player) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -311,7 +354,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void awardClimbingStats(Player player, boolean movingIntoWall, boolean descending, boolean hanging) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -325,7 +368,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void trackClimbingDistance(Player player, boolean attachedToSurface) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -359,7 +402,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void clearTrackedHeight(Player player) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
 
@@ -533,7 +576,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void damageClaws(Player player, EquippedClaws equippedClaws, boolean activeClimb, boolean attachedToSurface, boolean springBurst) {
-        if (!ClimbingClawsConfig.enableDurabilityDamage() || player.level().isClientSide || !attachedToSurface) {
+        if (!ClimbingClawsConfig.enableDurabilityDamage() || player.level().isClientSide() || !attachedToSurface) {
             return;
         }
 
@@ -568,7 +611,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void playClimbFeedback(Player player, Level level, SurfaceContact contact, boolean ceilingClimb) {
-        if (contact == null || !level.isClientSide) {
+        if (contact == null || !level.isClientSide()) {
             return;
         }
 
@@ -597,7 +640,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static void playClingFeedback(Player player, Level level, SurfaceContact contact) {
-        if (contact == null || !level.isClientSide || level.random.nextFloat() >= 0.25F) {
+        if (contact == null || !level.isClientSide() || level.random.nextFloat() >= 0.25F) {
             return;
         }
 
