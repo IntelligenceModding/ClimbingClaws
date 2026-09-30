@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
 </p>
 
 ## Our Pledge

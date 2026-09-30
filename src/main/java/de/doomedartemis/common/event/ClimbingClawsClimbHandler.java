@@ -1,6 +1,5 @@
 package de.doomedartemis.common.event;
 
-import de.doomedartemis.compat.accessories.AccessoriesCompat;
 import de.doomedartemis.common.config.ClimbingClawsConfig;
 import de.doomedartemis.common.network.WallSpringCooldownPayload;
 import de.doomedartemis.common.registry.ModCriteriaTriggers;
@@ -10,7 +9,6 @@ import de.doomedartemis.common.registry.ModStats;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -39,7 +37,6 @@ public final class ClimbingClawsClimbHandler {
     private static final int WALL_SPRING_BLOCK_PARTICLE_COUNT = 10;
     private static final int WALL_SPRING_CLOUD_PARTICLE_COUNT = 4;
     private static final int CLIMBING_STAT_GRACE_TICKS = 10;
-    private static final String ACCESSORIES_MOD_ID = AccessoriesCompat.ACCESSORIES_MOD_ID;
     private static final ResourceKey<Enchantment> EFFICIENCY = net.minecraft.world.item.enchantment.Enchantments.EFFICIENCY;
     private static final Map<UUID, Integer> WALL_SPRING_COOLDOWNS = new HashMap<>();
     private static final Map<UUID, Double> LAST_TRACKED_HEIGHTS = new HashMap<>();
@@ -452,7 +449,7 @@ public final class ClimbingClawsClimbHandler {
                 SoundEvents.CHAIN_HIT,
                 SoundSource.PLAYERS,
                 0.45F,
-                1.1F + serverLevel.random.nextFloat() * 0.1F
+                1.1F + serverLevel.getRandom().nextFloat() * 0.1F
         );
         serverLevel.playSound(
                 null,
@@ -462,7 +459,7 @@ public final class ClimbingClawsClimbHandler {
                 SoundEvents.WIND_CHARGE_BURST.value(),
                 SoundSource.PLAYERS,
                 0.35F,
-                1.2F + serverLevel.random.nextFloat() * 0.1F
+                1.2F + serverLevel.getRandom().nextFloat() * 0.1F
         );
         serverLevel.playSound(
                 null,
@@ -472,19 +469,13 @@ public final class ClimbingClawsClimbHandler {
                 contact.state().getSoundType().getStepSound(),
                 SoundSource.PLAYERS,
                 0.2F,
-                0.85F + serverLevel.random.nextFloat() * 0.1F
+                0.85F + serverLevel.getRandom().nextFloat() * 0.1F
         );
     }
 
     private static EquippedClaws findActiveClaws(Player player) {
         if (isUsingClimbingClaws(player)) {
-            return new EquippedClaws(player.getUseItem(), ClawsSource.HAND, getUsedEquipmentSlot(player));
-        }
-
-        if (FabricLoader.getInstance().isModLoaded(ACCESSORIES_MOD_ID)) {
-            return AccessoriesCompat.findEquippedClaws(player)
-                    .map(stack -> new EquippedClaws(stack, ClawsSource.ACCESSORY_HAND, EquipmentSlot.OFFHAND))
-                    .orElse(null);
+            return new EquippedClaws(player.getUseItem(), getUsedEquipmentSlot(player));
         }
 
         return null;
@@ -602,11 +593,6 @@ public final class ClimbingClawsClimbHandler {
             return;
         }
 
-        if (equippedClaws.source() == ClawsSource.ACCESSORY_HAND) {
-            AccessoriesCompat.hurtAndBreakClaws(player, equippedClaws.stack(), amount);
-            return;
-        }
-
         equippedClaws.stack().hurtAndBreak(amount, player, equippedClaws.slot());
     }
 
@@ -617,15 +603,15 @@ public final class ClimbingClawsClimbHandler {
 
         level.addParticle(
                 new BlockParticleOption(ParticleTypes.BLOCK, contact.state()),
-                player.getX() + (level.random.nextDouble() - 0.5D) * 0.28D,
+                player.getX() + (level.getRandom().nextDouble() - 0.5D) * 0.28D,
                 player.getY() + (ceilingClimb ? 1.7D : 0.85D),
-                player.getZ() + (level.random.nextDouble() - 0.5D) * 0.28D,
-                (level.random.nextDouble() - 0.5D) * 0.025D,
+                player.getZ() + (level.getRandom().nextDouble() - 0.5D) * 0.28D,
+                (level.getRandom().nextDouble() - 0.5D) * 0.025D,
                 ceilingClimb ? -0.01D : 0.02D,
-                (level.random.nextDouble() - 0.5D) * 0.025D
+                (level.getRandom().nextDouble() - 0.5D) * 0.025D
         );
 
-        if (level.random.nextFloat() < 0.65F) {
+        if (level.getRandom().nextFloat() < 0.65F) {
             level.playLocalSound(
                     player.getX(),
                     player.getY() + 0.5D,
@@ -633,22 +619,22 @@ public final class ClimbingClawsClimbHandler {
                     contact.state().getSoundType().getStepSound(),
                     SoundSource.PLAYERS,
                     0.18F,
-                    0.9F + level.random.nextFloat() * 0.15F,
+                    0.9F + level.getRandom().nextFloat() * 0.15F,
                     false
             );
         }
     }
 
     private static void playClingFeedback(Player player, Level level, SurfaceContact contact) {
-        if (contact == null || !level.isClientSide() || level.random.nextFloat() >= 0.25F) {
+        if (contact == null || !level.isClientSide() || level.getRandom().nextFloat() >= 0.25F) {
             return;
         }
 
         level.addParticle(
                 new BlockParticleOption(ParticleTypes.BLOCK, contact.state()),
-                player.getX() + (level.random.nextDouble() - 0.5D) * 0.18D,
+                player.getX() + (level.getRandom().nextDouble() - 0.5D) * 0.18D,
                 player.getY() + 0.75D,
-                player.getZ() + (level.random.nextDouble() - 0.5D) * 0.18D,
+                player.getZ() + (level.getRandom().nextDouble() - 0.5D) * 0.18D,
                 0.0D,
                 0.01D,
                 0.0D
@@ -661,7 +647,7 @@ public final class ClimbingClawsClimbHandler {
                 contact.state().getSoundType().getStepSound(),
                 SoundSource.PLAYERS,
                 0.08F,
-                0.85F + level.random.nextFloat() * 0.1F,
+                0.85F + level.getRandom().nextFloat() * 0.1F,
                 false
         );
     }
@@ -669,11 +655,6 @@ public final class ClimbingClawsClimbHandler {
     private record SurfaceContact(BlockPos pos, BlockState state, Direction face) {
     }
 
-    private record EquippedClaws(ItemStack stack, ClawsSource source, EquipmentSlot slot) {
-    }
-
-    private enum ClawsSource {
-        HAND,
-        ACCESSORY_HAND
+    private record EquippedClaws(ItemStack stack, EquipmentSlot slot) {
     }
 }

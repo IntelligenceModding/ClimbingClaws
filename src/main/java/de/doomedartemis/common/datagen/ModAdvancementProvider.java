@@ -6,7 +6,7 @@ import de.doomedartemis.common.registry.ModEnchantments;
 import de.doomedartemis.common.registry.ModItems;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
@@ -18,7 +18,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -26,7 +27,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 public final class ModAdvancementProvider extends FabricAdvancementProvider {
     private static final Identifier BACKGROUND = Identifier.withDefaultNamespace("block/cobbled_deepslate");
 
-    public ModAdvancementProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public ModAdvancementProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 
@@ -143,11 +144,14 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
         return ClimbingClaws.MOD_ID + ":" + path;
     }
 
-    private static ItemStack enchantedBook(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> enchantmentKey) {
+    private static ItemStackTemplate enchantedBook(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> enchantmentKey) {
         ItemEnchantments.Mutable storedEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
         storedEnchantments.set(enchantments.getOrThrow(enchantmentKey), 1);
-        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-        stack.set(DataComponents.STORED_ENCHANTMENTS, storedEnchantments.toImmutable());
-        return stack;
+        return new ItemStackTemplate(
+                Items.ENCHANTED_BOOK,
+                DataComponentPatch.builder()
+                        .set(DataComponents.STORED_ENCHANTMENTS, storedEnchantments.toImmutable())
+                        .build()
+        );
     }
 }

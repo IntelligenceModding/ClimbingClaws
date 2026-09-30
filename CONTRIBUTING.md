@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
 </p>
 
 <h1 align="center">Contributing to Climbing Claws</h1>
@@ -19,7 +19,7 @@
 <p align="center">
   <a href="https://discord.intelligence-modding.de/"><img src="https://img.shields.io/badge/Discord-Ask%20the%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Ask the Intelligence Modding Community on Discord"></a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/IntelligenceModding/ClimbingClaws/issues/new/choose"><img src="https://img.shields.io/badge/GitHub-Open%20an%20Issue-181717?style=for-the-badge&logo=github&logoColor=white" alt="Open a GitHub Issue"></a>
+  <a href="https://github.com/IntelligenceModding/Climbing-Claws/issues/new/choose"><img src="https://img.shields.io/badge/GitHub-Open%20an%20Issue-181717?style=for-the-badge&logo=github&logoColor=white" alt="Open a GitHub Issue"></a>
 </p>
 
 ## Table of Contents
@@ -89,7 +89,7 @@ You can view the available branches [here][branches].
 
 When contributing, always work against the branch matching the Minecraft version and loader your change targets.
 
-For example, a change developed for Minecraft 1.21.11 with Fabric should target the corresponding 1.21.11 Fabric branch.
+For example, a change developed for Minecraft 26.1 with Fabric should target the corresponding 26.1 Fabric branch.
 
 Do **not** target the `assets` branch for code changes. The `assets` branch is used for project images and other repository assets.
 
@@ -117,7 +117,7 @@ Check the following line in the branch's `build.gradle` file if you are unsure:
 java.toolchain.languageVersion = JavaLanguageVersion.of(...)
 ```
 
-For example, the Minecraft 1.21.11 Fabric branch uses Java 21.
+For example, the Minecraft 26.1 Fabric branch uses Java 25.
 
 Java builds such as Eclipse Temurin can be downloaded from [Adoptium][adoptium].
 
@@ -128,14 +128,14 @@ If you are contributing through a pull request, first fork the [Climbing Claws r
 Clone your fork:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ClimbingClaws.git
-cd ClimbingClaws
+git clone https://github.com/YOUR_USERNAME/Climbing-Claws.git
+cd Climbing-Claws
 ```
 
 Add the original repository as an upstream remote:
 
 ```bash
-git remote add upstream https://github.com/IntelligenceModding/ClimbingClaws.git
+git remote add upstream https://github.com/IntelligenceModding/Climbing-Claws.git
 ```
 
 You can verify your remotes with:
@@ -149,7 +149,7 @@ Before beginning work, switch to the branch matching the Minecraft version you w
 For example:
 
 ```bash
-git switch 1.21.11-fabric
+git switch 26.1-fabric
 ```
 
 It is recommended to create your own development branch from there.
@@ -248,8 +248,6 @@ For visual changes, check the result in-game rather than relying only on models 
 For changes affecting the Climbing Claws item or movement behavior, make sure wall climbing, ceiling movement, hanging, controlled descent, durability usage, off-hand behavior, and other supported interactions continue to behave correctly where applicable.
 
 For changes affecting enchantments, test the relevant vanilla and custom enchantments, including climb-speed changes, Wall Spring, Canopy Grip, weapon behavior, and enchantment compatibility where applicable.
-
-For changes affecting Accessories integration, verify that the claws can be equipped in the Accessories hand slot, render correctly there, still take durability damage correctly, and still use normally from the main hand or off hand without being auto-equipped on right-click.
 
 For changes affecting JEI or REI integration, verify that the optional in-game information appears correctly and that Climbing Claws continues to work normally without the recipe viewer installed.
 
@@ -378,12 +376,12 @@ For large feature ideas, discussing the idea before spending significant time im
 <p align="center">
   <a href="https://discord.intelligence-modding.de/"><img src="https://img.shields.io/badge/Discord-Ask%20the%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Ask the Intelligence Modding Community on Discord"></a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/IntelligenceModding/ClimbingClaws/issues/new/choose"><img src="https://img.shields.io/badge/GitHub-Open%20an%20Issue-181717?style=for-the-badge&logo=github&logoColor=white" alt="Open a GitHub Issue"></a>
+  <a href="https://github.com/IntelligenceModding/Climbing-Claws/issues/new/choose"><img src="https://img.shields.io/badge/GitHub-Open%20an%20Issue-181717?style=for-the-badge&logo=github&logoColor=white" alt="Open a GitHub Issue"></a>
 </p>
 
-[repository]: https://github.com/IntelligenceModding/ClimbingClaws "Climbing Claws GitHub Repository"
-[new-issue]: https://github.com/IntelligenceModding/ClimbingClaws/issues/new/choose "Create a New Issue"
-[branches]: https://github.com/IntelligenceModding/ClimbingClaws/branches "Climbing Claws Branches"
+[repository]: https://github.com/IntelligenceModding/Climbing-Claws "Climbing Claws GitHub Repository"
+[new-issue]: https://github.com/IntelligenceModding/Climbing-Claws/issues/new/choose "Create a New Issue"
+[branches]: https://github.com/IntelligenceModding/Climbing-Claws/branches "Climbing Claws Branches"
 [git]: https://git-scm.com/ "Download Git"
 [idea]: https://www.jetbrains.com/idea/ "IntelliJ IDEA"
 [adoptium]: https://adoptium.net/temurin/releases/ "Eclipse Temurin OpenJDK"

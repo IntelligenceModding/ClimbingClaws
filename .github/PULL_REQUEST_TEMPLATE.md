@@ -16,9 +16,9 @@ Explain the purpose of the change rather than only listing modified files.
 <!--
 Example:
 
-- Minecraft version: 1.21.11
+- Minecraft version: 26.1
 - Mod loader: Fabric
-- Target branch: 1.21.11-fabric
+- Target branch: 26.1-fabric
 -->
 
 ## Changes
@@ -42,9 +42,9 @@ Please mention:
 Example:
 
 - `gradlew.bat build` completed successfully.
-- Tested the changes in the 1.21.11 Fabric development client.
+- Tested the changes in the 26.1 Fabric development client.
 - Tested affected wall climbing, ceiling climbing, hanging, descent, movement, or enchantment behavior where applicable.
-- Tested Accessories, Mod Menu, JEI, REI, or multiplayer behavior where applicable.
+- Tested Mod Menu, JEI, REI, or multiplayer behavior where applicable.
 -->
 
 ## Screenshots
@@ -92,7 +92,7 @@ Before submitting this pull request, please confirm:
 - [ ] I targeted the branch matching the Minecraft version and mod loader I tested.
 - [ ] The project builds successfully with the included Gradle wrapper.
 - [ ] I tested the changes in-game where applicable.
-- [ ] I tested affected climbing, movement, item, durability, enchantment, Accessories, Mod Menu, JEI, or REI behavior where applicable.
+- [ ] I tested affected climbing, movement, item, durability, enchantment, Mod Menu, JEI, or REI behavior where applicable.
 - [ ] I tested multiplayer-related behavior where the change affects server-side functionality.
 - [ ] This pull request contains one focused change or a closely related group of changes.
 - [ ] I reviewed my changes before submitting the pull request.

@@ -45,7 +45,6 @@ body:
         - Vanilla Enchantments
         - Wall Spring
         - Canopy Grip
-        - Accessories Integration
         - Mod Menu Config
         - JEI Integration
         - REI Integration
@@ -77,7 +76,7 @@ body:
     attributes:
       label: Relevant Minecraft Version
       description: If this request relates to a specific Minecraft version, enter it here.
-      placeholder: "Example: 1.21.11 or N/A"
+      placeholder: "Example: 26.1 or N/A"
 
   - type: checkboxes
     id: checks

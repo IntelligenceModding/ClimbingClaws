@@ -1,7 +1,7 @@
 package de.doomedartemis.common.registry;
 
 import de.doomedartemis.ClimbingClaws;
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
@@ -17,7 +17,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import java.util.Optional;
 
 public final class ModCreativeModeTabs {
-    public static final CreativeModeTab CLIMBING_CLAWS_TAB = FabricItemGroup.builder()
+    public static final CreativeModeTab CLIMBING_CLAWS_TAB = FabricCreativeModeTab.builder()
             .icon(() -> new ItemStack(ModItems.CLIMBING_CLAWS))
             .title(Component.translatable("itemGroup.climbingclaws"))
             .displayItems((parameters, output) -> {

@@ -17,7 +17,7 @@ body:
     attributes:
       label: Minecraft Version
       description: Which Minecraft version are you using?
-      placeholder: "Example: 1.21.11"
+      placeholder: "Example: 26.1"
     validations:
       required: true
 
@@ -35,7 +35,7 @@ body:
     attributes:
       label: Mod Loader
       description: Which mod loader and version are you using?
-      placeholder: "Example: Fabric Loader 0.19.5"
+      placeholder: "Example: Fabric Loader 0.19.3"
     validations:
       required: true
 
@@ -54,7 +54,6 @@ body:
         - Vanilla Enchantments
         - Wall Spring
         - Canopy Grip
-        - Accessories Integration
         - Mod Menu Config
         - JEI Integration
         - REI Integration
@@ -109,7 +108,6 @@ body:
         - Surface: Leaves
         - Enchantment: Canopy Grip II
         - Equipment slot: Off-hand
-        - Integration: Accessories installed
 
   - type: dropdown
     id: multiplayer
@@ -131,10 +129,9 @@ body:
       description: List other mods that may be relevant. If the issue may be compatibility-related, provide the full mod list if possible.
       placeholder: |
         Example:
-        - Accessories 1.4.3+1.21.11
-        - Mod Menu 17.0.0
-        - JEI 27.44.0.103
-        - REI 21.11.816
+        - Mod Menu 18.0.0-alpha.7
+        - JEI 29.2.0.21
+        - REI 26.1.818
         - Example Mod 1.2.3
 
   - type: textarea

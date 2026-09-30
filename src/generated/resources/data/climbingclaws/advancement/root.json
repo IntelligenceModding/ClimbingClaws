@@ -18,7 +18,6 @@
       "translate": "advancement.climbingclaws.root.description"
     },
     "icon": {
-      "count": 1,
       "id": "climbingclaws:climbing_claws"
     },
     "show_toast": false,

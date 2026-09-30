@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
 </p>
 
 <h1 align="center">Support</h1>
@@ -22,7 +22,6 @@ Examples include:
 - Wall Spring behavior problems;
 - Canopy Grip behavior problems;
 - off-hand usage problems;
-- Accessories integration problems;
 - Mod Menu config screen problems;
 - JEI or REI integration problems;
 - crafting, enchanting, trade, or loot problems;
@@ -43,7 +42,7 @@ Please include your Minecraft version, Climbing Claws version, mod loader versio
 If the problem involves a specific movement state, surface, enchantment, equipment slot, interaction, server, or optional integration, include that information as well.
 
 <p align="center">
-  <a href="https://github.com/IntelligenceModding/ClimbingClaws/issues/new?template=bug_report.yml"><img src="https://img.shields.io/badge/GitHub-Report%20a%20Bug-181717?style=for-the-badge&logo=github&logoColor=white" alt="Report a Bug"></a>
+  <a href="https://github.com/IntelligenceModding/Climbing-Claws/issues/new?template=bug_report.yml"><img src="https://img.shields.io/badge/GitHub-Report%20a%20Bug-181717?style=for-the-badge&logo=github&logoColor=white" alt="Report a Bug"></a>
 </p>
 
 ## Feature Requests
@@ -67,7 +66,7 @@ Please use the **Feature Request** issue form and explain what you would like to
 For larger features, discussing the idea before beginning development is recommended.
 
 <p align="center">
-  <a href="https://github.com/IntelligenceModding/ClimbingClaws/issues/new?template=feature_request.yml"><img src="https://img.shields.io/badge/GitHub-Request%20a%20Feature-181717?style=for-the-badge&logo=github&logoColor=white" alt="Request a Feature"></a>
+  <a href="https://github.com/IntelligenceModding/Climbing-Claws/issues/new?template=feature_request.yml"><img src="https://img.shields.io/badge/GitHub-Request%20a%20Feature-181717?style=for-the-badge&logo=github&logoColor=white" alt="Request a Feature"></a>
 </p>
 
 ## Version Support Requests
@@ -86,7 +85,7 @@ Before submitting a request:
 Submitting a request does not guarantee that the requested Minecraft version or mod loader will be supported.
 
 <p align="center">
-  <a href="https://github.com/IntelligenceModding/ClimbingClaws/issues/new?template=version_support.yml"><img src="https://img.shields.io/badge/GitHub-Request%20Version%20Support-181717?style=for-the-badge&logo=github&logoColor=white" alt="Request Version Support"></a>
+  <a href="https://github.com/IntelligenceModding/Climbing-Claws/issues/new?template=version_support.yml"><img src="https://img.shields.io/badge/GitHub-Request%20Version%20Support-181717?style=for-the-badge&logo=github&logoColor=white" alt="Request Version Support"></a>
 </p>
 
 ## Installation and General Help
@@ -102,7 +101,6 @@ For general questions such as:
 - questions about wall or ceiling climbing;
 - questions about hanging, descent, or movement behavior;
 - questions about enchantments;
-- Accessories integration questions;
 - Mod Menu config questions;
 - JEI or REI integration questions;
 - multiplayer usage questions;

@@ -10,8 +10,8 @@ public final class ModPayloads {
     }
 
     public static void register() {
-        PayloadTypeRegistry.playC2S().register(ClimbingBurstPayload.TYPE, ClimbingBurstPayload.STREAM_CODEC);
-        PayloadTypeRegistry.playS2C().register(WallSpringCooldownPayload.TYPE, WallSpringCooldownPayload.STREAM_CODEC);
+        PayloadTypeRegistry.serverboundPlay().register(ClimbingBurstPayload.TYPE, ClimbingBurstPayload.STREAM_CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(WallSpringCooldownPayload.TYPE, WallSpringCooldownPayload.STREAM_CODEC);
         ServerPlayNetworking.registerGlobalReceiver(ClimbingBurstPayload.TYPE,
                 (payload, context) -> ClimbingClawsClimbHandler.activateBurst(context.player()));
     }

@@ -2,15 +2,15 @@ package de.doomedartemis.common.datagen;
 
 import de.doomedartemis.common.registry.ModEnchantments;
 import java.util.concurrent.CompletableFuture;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-public final class ModEnchantmentTagProvider extends FabricTagProvider<Enchantment> {
-    public ModEnchantmentTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+public final class ModEnchantmentTagProvider extends FabricTagsProvider<Enchantment> {
+    public ModEnchantmentTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, Registries.ENCHANTMENT, registriesFuture);
     }
 

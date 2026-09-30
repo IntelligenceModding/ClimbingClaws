@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'idea'
 }
 
@@ -17,7 +17,7 @@ base {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(25)
 }
 
 sourceSets {
@@ -32,16 +32,8 @@ repositories {
         url = 'https://maven.terraformersmc.com/'
     }
     maven {
-        name = 'Wisp Forest'
-        url = 'https://maven.wispforest.io/releases/'
-    }
-    maven {
         name = 'JitPack'
         url = 'https://jitpack.io'
-    }
-    maven {
-        name = 'Su5ed Maven'
-        url = 'https://maven.su5ed.dev/releases/'
     }
     maven {
         name = "Shedaniel Maven"
@@ -52,8 +44,8 @@ repositories {
         url = "https://maven.blamejared.com/"
     }
     maven {
-        name = 'CurseMaven'
-        url = 'https://cursemaven.com'
+        name = 'Nucleoid'
+        url = 'https://maven.nucleoid.xyz/'
     }
 }
 
@@ -97,13 +89,6 @@ tasks.register('syncJeiRuntimeMods', Sync) {
     dependsOn tasks.named('cleanJeiRuntimeMods')
     from configurations.jeiRuntimeMods
     into layout.projectDirectory.dir('run/jei/mods')
-    include "accessories-fabric-*.jar"
-    include "owo-lib-*.jar"
-    include "endec-*.jar"
-    include "gson-0.1*.jar"
-    include "jankson-0.1*.jar"
-    include "netty-0.1*.jar"
-    include "jankson-1.2.2.jar"
     include "gson-2*.jar"
     include "fastutil-*.jar"
     include "guava-*.jar"
@@ -119,13 +104,6 @@ tasks.register('syncReiRuntimeMods', Sync) {
     dependsOn tasks.named('cleanReiRuntimeMods')
     from configurations.reiRuntimeMods
     into layout.projectDirectory.dir('run/rei/mods')
-    include "accessories-fabric-*.jar"
-    include "owo-lib-*.jar"
-    include "endec-*.jar"
-    include "gson-0.1*.jar"
-    include "jankson-0.1*.jar"
-    include "netty-0.1*.jar"
-    include "jankson-1.2.2.jar"
     include "gson-2*.jar"
     include "fastutil-*.jar"
     include "guava-*.jar"
@@ -169,29 +147,23 @@ fabricApi {
     }
 }
 
+tasks.register('runData') {
+    group = 'Fabric'
+    description = 'Runs Fabric data generation.'
+    dependsOn tasks.named('runDatagen')
+}
+
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
-    modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
-    modCompileOnly "${accessories_dependency}"
-    clientRuntimeMods "${accessories_dependency}"
-    clientRuntimeMods("io.wispforest:owo-lib:${owo_version}") {
-        transitive = false
-    }
-    modCompileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
-    jeiRuntimeMods "${accessories_dependency}"
-    jeiRuntimeMods("io.wispforest:owo-lib:${owo_version}") {
-        transitive = false
-    }
+    implementation "net.fabricmc:fabric-loader:${loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    compileOnly "com.terraformersmc:modmenu:${modmenu_version}"
+    localRuntime "com.terraformersmc:modmenu:${modmenu_version}"
+    compileOnly "dev.architectury:architectury-fabric:20.0.6"
+    compileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
     jeiRuntimeMods "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
-    modCompileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
-    reiRuntimeMods "${accessories_dependency}"
-    reiRuntimeMods("io.wispforest:owo-lib:${owo_version}") {
-        transitive = false
-    }
+    compileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
     reiRuntimeMods "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 }
 
@@ -218,8 +190,7 @@ tasks.named('processResources', ProcessResources).configure {
             minecraft_version : minecraft_version,
             minecraft_version_range : minecraft_version_range,
             loader_version    : loader_version,
-            modmenu_version   : modmenu_version,
-            accessories_version : accessories_version
+            modmenu_version   : modmenu_version
     ])
 
     filesMatching('fabric.mod.json') {
@@ -242,6 +213,7 @@ publishing {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+    options.release = 25
 }
 
 idea {

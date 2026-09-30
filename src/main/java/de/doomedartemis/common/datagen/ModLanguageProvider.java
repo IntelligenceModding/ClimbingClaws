@@ -4,7 +4,7 @@ import de.doomedartemis.ClimbingClaws;
 import de.doomedartemis.common.registry.ModEnchantments;
 import de.doomedartemis.common.registry.ModItems;
 import java.util.concurrent.CompletableFuture;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 
@@ -17,7 +17,7 @@ public final class ModLanguageProvider extends FabricLanguageProvider {
             + "Canopy Grip lets the claws latch onto partial surfaces like leaves.\n"
             + "In your main hand, the claws also work as a light weapon and support Sharpness and Fire Aspect.";
 
-    public ModLanguageProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public ModLanguageProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
     }
 

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Project%20Title.png" alt="Climbing Claws" width="900">
 </p>
 
 <p align="center">
@@ -13,27 +13,27 @@
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Compatibility.png" alt="Compatibility" height="75">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Compatibility.png" alt="Compatibility" height="75">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.11-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.11">
+  <img src="https://img.shields.io/badge/Minecraft-26.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 26.1">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-Fabric-C4A484?style=for-the-badge" alt="Fabric">
 </p>
 
 <p align="center">
-  <strong>Accessories, JEI, REI, and Mod Menu are optional integrations.</strong>
+  <strong>JEI, REI, and Mod Menu are optional integrations.</strong>
 </p>
 
 <p align="center">
-  Install Accessories if you want to equip the claws in the Accessories hand slot. Install JEI or REI if you want the optional in-game usage entry for the item. Install Mod Menu if you want the editable config screen and mod links shown in the mod list. The mod works normally without these integrations.
+  Install JEI or REI if you want the optional in-game usage entry for the item. Install Mod Menu if you want the editable config screen and mod links shown in the mod list. The mod works normally without these integrations.
 </p>
 
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Features.png" alt="Features" height="75">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Features.png" alt="Features" height="75">
 </p>
 
 <p align="center">
@@ -50,7 +50,6 @@
   &bull; Light weapon behavior with support for <strong>Sharpness</strong> and <strong>Fire Aspect</strong><br>
   &bull; <strong>Wall Spring</strong>, a custom enchantment that launches you upward while climbing<br>
   &bull; <strong>Canopy Grip</strong>, a custom enchantment for latching onto partial surfaces such as leaves<br>
-  &bull; Optional <strong>Accessories</strong> support for equipping the claws in the Accessories hand slot<br>
   &bull; Optional editable <strong>Mod Menu</strong> config screen for client and local server settings<br>
   &bull; Survival progression through crafting, enchanting, librarian trades, and loot chest finds
 </p>
@@ -66,7 +65,7 @@
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Resources.png" alt="Resources" height="75">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Resources.png" alt="Resources" height="75">
 </p>
 
 <p align="center">
@@ -80,7 +79,7 @@
 <p align="center">
   <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/GitHub-Contributing%20Guidelines-181717?style=for-the-badge&logo=github&logoColor=white" alt="Contribution Guidelines"></a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/IntelligenceModding/ClimbingClaws/issues/new/choose"><img src="https://img.shields.io/badge/GitHub-Issues-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues"></a>
+  <a href="https://github.com/IntelligenceModding/Climbing-Claws/issues/new/choose"><img src="https://img.shields.io/badge/GitHub-Issues-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Issues"></a>
 </p>
 
 <p align="center">
@@ -92,7 +91,7 @@
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Community.png" alt="Community" height="75">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Community.png" alt="Community" height="75">
 </p>
 
 <p align="center">
@@ -124,7 +123,7 @@
 <br>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/ClimbingClaws/refs/heads/assets/Acknowledgments.png" alt="Acknowledgments" height="75">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/Climbing-Claws/refs/heads/assets/Acknowledgments.png" alt="Acknowledgments" height="75">
 </p>
 
 <p align="center">
@@ -133,7 +132,6 @@
 
 <p align="center">
   &bull; The Fabric team for Fabric and its documentation<br>
-  &bull; The Wisp Forest team for the Accessories API<br>
   &bull; The Minecraft modding community for examples, tools, and support<br>
   &bull; The Intelligence Modding community for feedback, testing, and ideas<br>
   &bull; Everyone who reports issues, suggests improvements, or includes the mod in their worlds or modpacks
