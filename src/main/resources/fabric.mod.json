@@ -20,22 +20,19 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "de.doomedartemis.ClimbingClaws"
+      "de.artemis.climbingclaws.ClimbingClaws"
     ],
     "client": [
-      "de.doomedartemis.ClimbingClawsClient"
+      "de.artemis.climbingclaws.ClimbingClawsClient"
     ],
     "fabric-datagen": [
-      "de.doomedartemis.common.datagen.DataGenerators"
+      "de.artemis.climbingclaws.common.datagen.DataGenerators"
     ],
     "modmenu": [
-      "de.doomedartemis.compat.modmenu.ClimbingClawsModMenuApi"
+      "de.artemis.climbingclaws.compat.modmenu.ClimbingClawsModMenuApi"
     ],
     "jei_mod_plugin": [
-      "de.doomedartemis.compat.jei.ClimbingClawsJeiPlugin"
-    ],
-    "rei_client": [
-      "de.doomedartemis.compat.rei.ClimbingClawsReiPlugin"
+      "de.artemis.climbingclaws.compat.jei.ClimbingClawsJeiPlugin"
     ]
   },
   "mixins": [
@@ -49,8 +46,7 @@
   },
   "suggests": {
     "modmenu": ">=${modmenu_version}",
-    "jei": "*",
-    "roughlyenoughitems": "*"
+    "jei": "*"
   },
   "custom": {
     "modmenu": {

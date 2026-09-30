@@ -17,17 +17,17 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-26.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 26.1">
+  <img src="https://img.shields.io/badge/Minecraft-26.1.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 26.1.1">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-Fabric-C4A484?style=for-the-badge" alt="Fabric">
 </p>
 
 <p align="center">
-  <strong>JEI, REI, and Mod Menu are optional integrations.</strong>
+  <strong>JEI and Mod Menu are optional integrations.</strong>
 </p>
 
 <p align="center">
-  Install JEI or REI if you want the optional in-game usage entry for the item. Install Mod Menu if you want the editable config screen and mod links shown in the mod list. The mod works normally without these integrations.
+  Install JEI if you want the optional in-game usage entry for the item. Install Mod Menu if you want the editable config screen and mod links shown in the mod list. The mod works normally without these integrations.
 </p>
 
 <br>

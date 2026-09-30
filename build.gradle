@@ -36,10 +36,6 @@ repositories {
         url = 'https://jitpack.io'
     }
     maven {
-        name = "Shedaniel Maven"
-        url = "https://maven.shedaniel.me"
-    }
-    maven {
         name = "Jared's Maven"
         url = "https://maven.blamejared.com/"
     }
@@ -60,11 +56,6 @@ configurations {
         canBeResolved = true
         transitive = true
     }
-    reiRuntimeMods {
-        canBeConsumed = false
-        canBeResolved = true
-        transitive = true
-    }
 }
 
 tasks.register('cleanClientRuntimeMods', Delete) {
@@ -73,10 +64,6 @@ tasks.register('cleanClientRuntimeMods', Delete) {
 
 tasks.register('cleanJeiRuntimeMods', Delete) {
     delete layout.projectDirectory.dir('run/jei/mods')
-}
-
-tasks.register('cleanReiRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run/rei/mods')
 }
 
 tasks.register('syncClientRuntimeMods', Sync) {
@@ -100,25 +87,6 @@ tasks.register('syncJeiRuntimeMods', Sync) {
     include "jei-${minecraft_version}-fabric-${jei_version}.jar"
 }
 
-tasks.register('syncReiRuntimeMods', Sync) {
-    dependsOn tasks.named('cleanReiRuntimeMods')
-    from configurations.reiRuntimeMods
-    into layout.projectDirectory.dir('run/rei/mods')
-    include "gson-2*.jar"
-    include "fastutil-*.jar"
-    include "guava-*.jar"
-    include "failureaccess-*.jar"
-    include "listenablefuture-*.jar"
-    include "jsr305-*.jar"
-    include "checker-qual-*.jar"
-    include "error_prone_annotations-*.jar"
-    include "RoughlyEnoughItems-fabric-${rei_version}.jar"
-    include "architectury-fabric-*.jar"
-    include "cloth-config-fabric-*.jar"
-    include "basic-math-*.jar"
-    include "error-notifier-fabric-*.jar"
-}
-
 loom {
     runs {
         client {
@@ -128,10 +96,6 @@ loom {
         clientWithJei {
             client()
             runDir "run/jei"
-        }
-        clientWithRei {
-            client()
-            runDir "run/rei"
         }
         server {
             server()
@@ -159,12 +123,8 @@ dependencies {
     implementation "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
     compileOnly "com.terraformersmc:modmenu:${modmenu_version}"
     localRuntime "com.terraformersmc:modmenu:${modmenu_version}"
-    compileOnly "dev.architectury:architectury-fabric:20.0.6"
     compileOnly "mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}"
     jeiRuntimeMods "mezz.jei:jei-${minecraft_version}-fabric:${jei_version}"
-    compileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
-    compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
-    reiRuntimeMods "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
 }
 
 tasks.named('runClient') {
@@ -173,10 +133,6 @@ tasks.named('runClient') {
 
 tasks.named('runClientWithJei') {
     dependsOn tasks.named('syncJeiRuntimeMods')
-}
-
-tasks.named('runClientWithRei') {
-    dependsOn tasks.named('syncReiRuntimeMods')
 }
 
 tasks.named('processResources', ProcessResources).configure {
