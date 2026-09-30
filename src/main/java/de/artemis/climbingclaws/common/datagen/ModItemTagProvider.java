@@ -11,12 +11,19 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 
 public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvider {
     private static final ResourceKey<Item> CLIMBING_CLAWS = ResourceKey.create(
             Registries.ITEM,
             Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, "climbing_claws")
+    );
+    private static final ResourceKey<Item> IRON_INGOT = ResourceKey.create(
+            Registries.ITEM,
+            Identifier.withDefaultNamespace("iron_ingot")
+    );
+    private static final ResourceKey<Item> IRON_NUGGET = ResourceKey.create(
+            Registries.ITEM,
+            Identifier.withDefaultNamespace("iron_nugget")
     );
 
     public ModItemTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -40,8 +47,8 @@ public final class ModItemTagProvider extends FabricTagsProvider.ItemTagsProvide
         builder(ItemTags.MELEE_WEAPON_ENCHANTABLE)
                 .add(CLIMBING_CLAWS);
 
-        valueLookupBuilder(ModItems.CLIMBING_CLAWS_REPAIR_MATERIALS)
-                .add(Items.IRON_INGOT)
-                .add(Items.IRON_NUGGET);
+        builder(ModItems.CLIMBING_CLAWS_REPAIR_MATERIALS)
+                .add(IRON_INGOT)
+                .add(IRON_NUGGET);
     }
 }
