@@ -124,6 +124,7 @@ public final class ModLanguageProvider extends FabricLanguageProvider {
         builder.add("climbingclaws.configuration.client.show_wall_spring_cooldown_overlay", "Show Wall Spring Cooldown Overlay");
         builder.add("climbingclaws.configuration.client.show_wall_spring_cooldown_overlay.tooltip", "Shows the Wall Spring cooldown overlay on Climbing Claws item stacks.");
         builder.add("jei.climbingclaws.climbing_claws", CLIMBING_CLAWS_INFO);
+        builder.add("rei.climbingclaws.climbing_claws", CLIMBING_CLAWS_INFO);
     }
 
     @Override

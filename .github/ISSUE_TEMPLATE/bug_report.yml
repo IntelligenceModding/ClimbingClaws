@@ -17,7 +17,7 @@ body:
     attributes:
       label: Minecraft Version
       description: Which Minecraft version are you using?
-      placeholder: "Example: 26.1.1"
+      placeholder: "Example: 26.1.2"
     validations:
       required: true
 
@@ -56,6 +56,7 @@ body:
         - Canopy Grip
         - Mod Menu Config
         - JEI Integration
+        - REI Integration
         - Crafting / Progression
         - Trades / Loot
         - Rendering / Textures
@@ -128,8 +129,9 @@ body:
       description: List other mods that may be relevant. If the issue may be compatibility-related, provide the full mod list if possible.
       placeholder: |
         Example:
-        - Mod Menu 18.0.0-alpha.8
-        - JEI 29.4.0.23
+        - Mod Menu 18.0.0
+        - JEI 29.14.0.43
+        - REI 26.1.819
         - Example Mod 1.2.3
 
   - type: textarea
