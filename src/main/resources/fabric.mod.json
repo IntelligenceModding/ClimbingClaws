@@ -42,10 +42,10 @@
     "climbingclaws.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=${loader_version}",
+    "fabricloader": "${loader_version_range}",
     "minecraft": "${minecraft_version_range}",
     "java": ">=25",
-    "fabric-api": "*"
+    "fabric-api": "${fabric_api_version_range}"
   },
   "suggests": {
     "modmenu": ">=${modmenu_version}",

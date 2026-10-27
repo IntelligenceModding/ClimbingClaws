@@ -9,32 +9,28 @@
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "enchantments": {
-                "climbingclaws:wall_spring": 1.0
-              },
-              "function": "minecraft:set_enchantments"
+          "modifier": {
+            "type": "minecraft:set_enchantments",
+            "enchantments": {
+              "climbingclaws:wall_spring": 1
             }
-          ],
+          },
           "name": "minecraft:book",
           "weight": 9
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "enchantments": {
-                "climbingclaws:wall_spring": 2.0
-              },
-              "function": "minecraft:set_enchantments"
+          "modifier": {
+            "type": "minecraft:set_enchantments",
+            "enchantments": {
+              "climbingclaws:wall_spring": 2
             }
-          ],
+          },
           "name": "minecraft:book",
           "weight": 3
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "climbingclaws:chests/injections/wall_spring_library"

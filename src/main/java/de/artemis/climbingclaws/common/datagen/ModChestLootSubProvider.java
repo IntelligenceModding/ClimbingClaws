@@ -3,34 +3,34 @@ package de.artemis.climbingclaws.common.datagen;
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import de.artemis.climbingclaws.common.registry.ModItems;
 import de.artemis.climbingclaws.common.registry.ModLootTables;
-import java.util.function.BiConsumer;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
+import net.minecraft.world.level.storage.loot.entries.SingleEntryContainerBase;
 import net.minecraft.world.level.storage.loot.functions.SetEnchantmentsFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemDamageFunction;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+import net.minecraft.world.level.storage.loot.providers.number.floats.ContextFloatProviders;
 
-public final class ModChestLootSubProvider implements net.minecraft.data.loot.LootTableSubProvider {
+public final class ModChestLootSubProvider implements LootTableSubProvider {
+    private final LootTableSubProvider.Context output;
     private final Holder<Enchantment> wallSpring;
     private final Holder<Enchantment> canopyGrip;
 
-    public ModChestLootSubProvider(HolderLookup.Provider provider) {
-        this.wallSpring = provider.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.WALL_SPRING);
-        this.canopyGrip = provider.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.CANOPY_GRIP);
+    public ModChestLootSubProvider(LootTableSubProvider.Context provider) {
+        this.output = provider;
+        this.wallSpring = provider.lookup(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.WALL_SPRING);
+        this.canopyGrip = provider.lookup(Registries.ENCHANTMENT).getOrThrow(ModEnchantments.CANOPY_GRIP);
     }
 
     @Override
-    public void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> output) {
+    public void run() {
         output.accept(ModLootTables.CLIMBING_CLAWS_VILLAGE_SMITH, clawsTable(95, 5, 0.45F, 0.80F));
         output.accept(ModLootTables.CLIMBING_CLAWS_EXPLORATION, clawsTable(92, 8, 0.55F, 0.90F));
         output.accept(ModLootTables.CLIMBING_CLAWS_STRONGHOLD, clawsTable(90, 10, 0.65F, 0.95F));
@@ -55,7 +55,7 @@ public final class ModChestLootSubProvider implements net.minecraft.data.loot.Lo
         return LootTable.lootTable()
                 .withPool(
                         LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1.0F))
+                                .setRolls(ContextIntProviders.exactly(1))
                                 .add(EmptyLootItem.emptyItem().setWeight(emptyWeight))
                                 .add(clawsEntry(clawsWeight, minDurability, maxDurability))
                 );
@@ -63,7 +63,7 @@ public final class ModChestLootSubProvider implements net.minecraft.data.loot.Lo
 
     private LootTable.Builder wallSpringTable(int emptyWeight, int levelOneWeight, int levelTwoWeight) {
         LootPool.Builder pool = LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1.0F))
+                .setRolls(ContextIntProviders.exactly(1))
                 .add(EmptyLootItem.emptyItem().setWeight(emptyWeight))
                 .add(wallSpringBookEntry(1, levelOneWeight));
 
@@ -78,27 +78,27 @@ public final class ModChestLootSubProvider implements net.minecraft.data.loot.Lo
         return LootTable.lootTable()
                 .withPool(
                         LootPool.lootPool()
-                                .setRolls(ConstantValue.exactly(1.0F))
+                                .setRolls(ContextIntProviders.exactly(1))
                                 .add(EmptyLootItem.emptyItem().setWeight(emptyWeight))
                                 .add(singleEnchantmentBookEntry(enchantment, weight))
                 );
     }
 
-    private static LootPoolSingletonContainer.Builder<?> clawsEntry(int weight, float minDurability, float maxDurability) {
+    private static SingleEntryContainerBase.Builder<?> clawsEntry(int weight, float minDurability, float maxDurability) {
         return LootItem.lootTableItem(ModItems.CLIMBING_CLAWS)
                 .setWeight(weight)
-                .apply(SetItemDamageFunction.setDamage(UniformGenerator.between(minDurability, maxDurability)));
+                .apply(SetItemDamageFunction.setDamage(ContextFloatProviders.between(minDurability, maxDurability)));
     }
 
-    private LootPoolSingletonContainer.Builder<?> wallSpringBookEntry(int level, int weight) {
+    private SingleEntryContainerBase.Builder<?> wallSpringBookEntry(int level, int weight) {
         return LootItem.lootTableItem(Items.BOOK)
                 .setWeight(weight)
-                .apply(new SetEnchantmentsFunction.Builder().withEnchantment(this.wallSpring, ConstantValue.exactly(level)));
+                .apply(new SetEnchantmentsFunction.Builder().withEnchantment(this.wallSpring, ContextIntProviders.exactly(level)));
     }
 
-    private LootPoolSingletonContainer.Builder<?> singleEnchantmentBookEntry(Holder<Enchantment> enchantment, int weight) {
+    private SingleEntryContainerBase.Builder<?> singleEnchantmentBookEntry(Holder<Enchantment> enchantment, int weight) {
         return LootItem.lootTableItem(Items.BOOK)
                 .setWeight(weight)
-                .apply(new SetEnchantmentsFunction.Builder().withEnchantment(enchantment, ConstantValue.exactly(1.0F)));
+                .apply(new SetEnchantmentsFunction.Builder().withEnchantment(enchantment, ContextIntProviders.exactly(1)));
     }
 }

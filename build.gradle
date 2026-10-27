@@ -9,7 +9,7 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = minecraft_version + "-" + mod_version
+version = "${mod_version}-fabric-mc${minecraft_version}"
 group = mod_group_id
 
 base {
@@ -102,6 +102,7 @@ tasks.register('syncJeiRuntimeMods', Sync) {
     include "checker-qual-*.jar"
     include "error_prone_annotations-*.jar"
     include "jei-${minecraft_version}-fabric-${jei_version}.jar"
+    include "mezz_config-${minecraft_version}-fabric-*.jar"
 }
 
 tasks.register('syncReiRuntimeMods', Sync) {
@@ -169,6 +170,7 @@ dependencies {
     compileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-fabric:${rei_version}"
     reiRuntimeMods "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+    reiRuntimeMods "dev.architectury:architectury-fabric:${architectury_version}"
 }
 
 tasks.named('runClient') {
@@ -194,6 +196,8 @@ tasks.named('processResources', ProcessResources).configure {
             minecraft_version : minecraft_version,
             minecraft_version_range : minecraft_version_range,
             loader_version    : loader_version,
+            loader_version_range : loader_version_range,
+            fabric_api_version_range : fabric_api_version_range,
             modmenu_version   : modmenu_version
     ])
 

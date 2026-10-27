@@ -14,7 +14,6 @@ public final class DataGenerators implements DataGeneratorEntrypoint {
         pack.addProvider(ModRecipeProvider::new);
         pack.addProvider(ModItemTagProvider::new);
         pack.addProvider(ModEnchantmentTagProvider::new);
-        pack.addProvider(ModLootTableProvider::create);
         pack.addProvider(ModAdvancementProvider::new);
         pack.addProvider(ModLanguageProvider::new);
     }
@@ -22,5 +21,10 @@ public final class DataGenerators implements DataGeneratorEntrypoint {
     @Override
     public void buildRegistry(RegistrySetBuilder registryBuilder) {
         registryBuilder.add(Registries.ENCHANTMENT, ModEnchantments::bootstrap);
+    }
+
+    @Override
+    public void buildReloadableRegistry(RegistrySetBuilder registryBuilder) {
+        registryBuilder.add(Registries.LOOT_TABLE, ModLootTableProvider.create());
     }
 }

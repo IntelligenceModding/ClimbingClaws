@@ -3,6 +3,7 @@ package de.artemis.climbingclaws.common.event;
 import de.artemis.climbingclaws.common.registry.ModLootTables;
 import java.util.List;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -48,7 +49,8 @@ public final class ClimbingClawsLootEvents {
             for (Injection injection : INJECTIONS) {
                 if (injection.target().equals(key)) {
                     tableBuilder.withPool(LootPool.lootPool()
-                            .add(NestedLootTable.lootTableReference(injection.injected())));
+                            .add(NestedLootTable.lootTableReference(
+                                    registries.lookupOrThrow(Registries.LOOT_TABLE).getOrThrow(injection.injected()))));
                 }
             }
         });

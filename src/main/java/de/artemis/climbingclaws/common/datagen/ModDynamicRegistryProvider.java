@@ -14,6 +14,7 @@ public final class ModDynamicRegistryProvider extends FabricDynamicRegistryProvi
     @Override
     protected void configure(HolderLookup.Provider registries, Entries entries) {
         entries.addAll(registries.lookupOrThrow(Registries.ENCHANTMENT));
+        entries.addAll(registries.lookupOrThrow(Registries.LOOT_TABLE));
     }
 
     @Override

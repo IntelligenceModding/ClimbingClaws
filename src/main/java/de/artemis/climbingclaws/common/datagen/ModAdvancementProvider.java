@@ -36,7 +36,7 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
         var enchantments = registryLookup.lookupOrThrow(Registries.ENCHANTMENT);
 
         AdvancementHolder root = Advancement.Builder.advancement()
-                .display(
+                .rootDisplay(
                         ModItems.CLIMBING_CLAWS,
                         Component.translatable("advancement.climbingclaws.root.title"),
                         Component.translatable("advancement.climbingclaws.root.description"),
@@ -55,7 +55,6 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
                         ModItems.CLIMBING_CLAWS,
                         Component.translatable("advancement.climbingclaws.suit_up.title"),
                         Component.translatable("advancement.climbingclaws.suit_up.description"),
-                        null,
                         AdvancementType.TASK,
                         true,
                         true,
@@ -70,7 +69,6 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
                         ModItems.CLIMBING_CLAWS,
                         Component.translatable("advancement.climbingclaws.wall_crawler.title"),
                         Component.translatable("advancement.climbingclaws.wall_crawler.description"),
-                        null,
                         AdvancementType.TASK,
                         true,
                         true,
@@ -85,7 +83,6 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
                         ModItems.CLIMBING_CLAWS,
                         Component.translatable("advancement.climbingclaws.hold_fast.title"),
                         Component.translatable("advancement.climbingclaws.hold_fast.description"),
-                        null,
                         AdvancementType.GOAL,
                         true,
                         true,
@@ -100,7 +97,6 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
                         ModItems.CLIMBING_CLAWS,
                         Component.translatable("advancement.climbingclaws.upside_down.title"),
                         Component.translatable("advancement.climbingclaws.upside_down.description"),
-                        null,
                         AdvancementType.GOAL,
                         true,
                         true,
@@ -115,7 +111,6 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
                         enchantedBook(enchantments, ModEnchantments.WALL_SPRING),
                         Component.translatable("advancement.climbingclaws.wall_spring.title"),
                         Component.translatable("advancement.climbingclaws.wall_spring.description"),
-                        null,
                         AdvancementType.GOAL,
                         true,
                         true,
@@ -130,7 +125,6 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
                         enchantedBook(enchantments, ModEnchantments.CANOPY_GRIP),
                         Component.translatable("advancement.climbingclaws.canopy_route.title"),
                         Component.translatable("advancement.climbingclaws.canopy_route.description"),
-                        null,
                         AdvancementType.GOAL,
                         true,
                         true,
@@ -140,8 +134,8 @@ public final class ModAdvancementProvider extends FabricAdvancementProvider {
                 .save(consumer, id("canopy_route"));
     }
 
-    private static String id(String path) {
-        return ClimbingClaws.MOD_ID + ":" + path;
+    private static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
     }
 
     private static ItemStackTemplate enchantedBook(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> enchantmentKey) {
