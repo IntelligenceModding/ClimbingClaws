@@ -17,7 +17,7 @@ body:
     attributes:
       label: Minecraft Version
       description: Which Minecraft version are you using?
-      placeholder: "Example: 26.2"
+      placeholder: "Example: 26.3"
     validations:
       required: true
 
@@ -35,7 +35,7 @@ body:
     attributes:
       label: Mod Loader
       description: Which mod loader and version are you using?
-      placeholder: "Example: NeoForge 26.2.0.59"
+      placeholder: "Example: NeoForge 26.3.0.99"
     validations:
       required: true
 
@@ -130,9 +130,9 @@ body:
       description: List other mods that may be relevant. If the issue may be compatibility-related, provide the full mod list if possible.
       placeholder: |
         Example:
-        - Curios API 16.0.0+26.2
+        - Curios API 17.0.0-beta.3+26.3
         - JEI 30.2.0.18
-        - REI 26.2.821
+        - REI 26.3.824
         - Example Mod 1.2.3
 
   - type: textarea

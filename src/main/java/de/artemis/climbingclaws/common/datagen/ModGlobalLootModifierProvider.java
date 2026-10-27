@@ -3,16 +3,17 @@ package de.artemis.climbingclaws.common.datagen;
 import de.artemis.climbingclaws.ClimbingClaws;
 import de.artemis.climbingclaws.common.registry.ModLootTables;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
 import net.neoforged.neoforge.common.loot.AddTableLootModifier;
 import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public final class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
@@ -69,9 +70,7 @@ public final class ModGlobalLootModifierProvider extends GlobalLootModifierProvi
     }
 
     private static AddTableLootModifier modifierFor(ResourceKey<LootTable> target, ResourceKey<LootTable> injectedTable) {
-        LootItemCondition[] conditions = new LootItemCondition[]{
-                LootTableIdCondition.builder(target.identifier()).build()
-        };
-        return new AddTableLootModifier(conditions, 1, injectedTable);
+        return new AddTableLootModifier(Optional.of(Holder.direct(
+                LootTableIdCondition.builder(target.identifier()).build())), 1, injectedTable);
     }
 }

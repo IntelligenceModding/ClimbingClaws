@@ -157,7 +157,7 @@ public final class ClimbingClawsClimbHandler {
         }
 
         player.setDeltaMovement(x, y, z);
-        player.hurtMarked = usingClawsOnSurface;
+        player.syncVelocity = usingClawsOnSurface;
         awardClimbingStats(player, activeSideClimb, descending, hanging);
         triggerAdvancements(player, activeSideClimb, hanging, activeCeilingClimb, touchingPartialSurface);
         trackClimbingDistance(player, usingClawsOnSurface);
@@ -213,7 +213,7 @@ public final class ClimbingClawsClimbHandler {
 
         player.setDeltaMovement(x, y, z);
         player.fallDistance = 0.0F;
-        player.hurtMarked = true;
+        player.syncVelocity = true;
         startWallSpringCooldown(player);
         startStatGraceWindow(player);
         playWallSpringParticles(player, sideSurface != null ? sideSurface : ceilingSurface);
@@ -268,7 +268,7 @@ public final class ClimbingClawsClimbHandler {
 
         player.setDeltaMovement(x, y, z);
         player.fallDistance = 0.0F;
-        player.hurtMarked = true;
+        player.syncVelocity = true;
         clientWallSpringCooldownTicks = ClimbingClawsConfig.wallSpringCooldownTicks();
         return true;
     }

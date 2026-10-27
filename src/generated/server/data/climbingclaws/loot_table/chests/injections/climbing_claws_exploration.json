@@ -9,21 +9,19 @@
         },
         {
           "type": "minecraft:item",
-          "functions": [
-            {
-              "damage": {
-                "type": "minecraft:uniform",
-                "max": 0.9,
-                "min": 0.55
-              },
-              "function": "minecraft:set_damage"
+          "modifier": {
+            "type": "minecraft:set_damage",
+            "damage": {
+              "type": "minecraft:uniform",
+              "max": 0.9,
+              "min": 0.55
             }
-          ],
+          },
           "name": "climbingclaws:climbing_claws",
           "weight": 8
         }
       ],
-      "rolls": 1.0
+      "rolls": 1
     }
   ],
   "random_sequence": "climbingclaws:chests/injections/climbing_claws_exploration"

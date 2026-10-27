@@ -1,36 +1,35 @@
 package de.artemis.climbingclaws.common.datagen;
 
-import de.artemis.climbingclaws.ClimbingClaws;
-import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-
-import java.util.Set;
+import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 public final class DataGenerators {
-    private static final RegistrySetBuilder DATAPACK_REGISTRY_BUILDER = new RegistrySetBuilder()
-            .add(Registries.ENCHANTMENT, de.artemis.climbingclaws.common.registry.ModEnchantments::bootstrap);
-
     private DataGenerators() {
     }
 
+    public static void gatherRegistries(GatherDataRegistryEntriesEvent event) {
+        if (FMLEnvironment.getDist() != Dist.DEDICATED_SERVER) {
+            return;
+        }
+        event.add(Registries.ENCHANTMENT, de.artemis.climbingclaws.common.registry.ModEnchantments::bootstrap)
+                .recipe(ModRecipeProvider::new)
+                .add(Registries.LOOT_TABLE, ModLootTableProvider.create())
+                .add(Registries.ADVANCEMENT, new ModAdvancementProvider());
+    }
+
     public static void gatherClientData(GatherDataEvent.Client event) {
-        PackOutput packOutput = event.getGenerator().getPackOutput();
-        event.addProvider(new ModLanguageProvider(packOutput, "en_us"));
+        event.addProvider(new ModLanguageProvider(event.getGenerator().getPackOutput(), "en_us"));
     }
 
     public static void gatherServerData(GatherDataEvent.Server event) {
-        event.createDatapackRegistryObjects(DATAPACK_REGISTRY_BUILDER, Set.of(ClimbingClaws.MOD_ID));
-
         PackOutput packOutput = event.getGenerator().getPackOutput();
-        var lookupProvider = event.getLookupProvider();
-
-        event.addProvider(new ModRecipeProvider(packOutput, lookupProvider));
+        var lookupProvider = event.getWorldLookupProvider();
         event.addProvider(new ModItemTagProvider(packOutput, lookupProvider));
         event.addProvider(new ModEnchantmentTagProvider(packOutput, lookupProvider));
-        event.addProvider(ModLootTableProvider.create(packOutput, lookupProvider));
-        event.addProvider(new ModGlobalLootModifierProvider(packOutput, lookupProvider));
-        event.addProvider(new ModAdvancementProvider(packOutput, lookupProvider));
+        event.addProvider(new ModGlobalLootModifierProvider(packOutput, event.getReloadableLookupProvider()));
     }
 }

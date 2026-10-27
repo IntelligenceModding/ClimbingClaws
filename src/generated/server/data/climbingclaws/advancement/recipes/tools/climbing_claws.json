@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "climbingclaws:climbing_claws"
+        "recipes": "climbingclaws:climbing_claws"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

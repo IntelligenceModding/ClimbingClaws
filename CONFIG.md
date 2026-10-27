@@ -2,25 +2,25 @@
 
 Climbing Claws has a server config for gameplay behavior and a client config for local rendering.
 
-The server config is registered as a NeoForge server config so multiplayer clients receive the server's gameplay values when they connect.
+The gameplay config is registered as a NeoForge synced config so multiplayer clients receive the server's gameplay values when they connect. Its default location is:
 
 ```text
-serverconfig/climbingclaws-server.toml
+config/climbingclaws-synced.toml
 ```
 
-On a dedicated server this is under the world's `serverconfig` directory, normally:
+To override these values for a dedicated server world, use:
 
 ```text
-world/serverconfig/climbingclaws-server.toml
+world/syncedconfig/climbingclaws-synced.toml
 ```
 
-For an integrated singleplayer world, it is under that world's save folder:
+For an integrated singleplayer world, the override is under that world's save folder:
 
 ```text
-saves/<world_name>/serverconfig/climbingclaws-server.toml
+saves/<world_name>/syncedconfig/climbingclaws-synced.toml
 ```
 
-Older `config/climbingclaws-common.toml` files are no longer read. Copy any customized values into the world's `climbingclaws-server.toml`.
+Older `climbingclaws-common.toml` and `climbingclaws-server.toml` files are no longer read. Copy customized values into `config/climbingclaws-synced.toml` or the world's synced config override.
 
 The client config is normally written as:
 

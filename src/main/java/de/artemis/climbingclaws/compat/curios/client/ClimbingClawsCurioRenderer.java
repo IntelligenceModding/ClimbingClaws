@@ -78,8 +78,8 @@ public final class ClimbingClawsCurioRenderer implements ICurioRenderer {
             int packedLight) {
         poseStack.pushPose();
         model.translateToHand(state, arm, poseStack);
-        poseStack.mulPose(Axis.XP.rotationDegrees(-90.0F));
-        poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+        poseStack.rotateDegrees(Axis.XP, -90.0F);
+        poseStack.rotateDegrees(Axis.YP, 180.0F);
 
         boolean leftHand = arm == HumanoidArm.LEFT;
         float offsetX = useBabyOffset(state) ? 0.0F : 1.0F;
@@ -87,7 +87,7 @@ public final class ClimbingClawsCurioRenderer implements ICurioRenderer {
         float offsetZ = useBabyOffset(state) ? -4.5F : -10.0F;
         poseStack.translate((leftHand ? -1 : 1) * offsetX / 16.0F, offsetY / 16.0F, offsetZ / 16.0F);
 
-        if (state.attackTime > 0.0F && state.attackArm == arm && state.swingAnimationType == SwingAnimationType.STAB) {
+        if (state.currentSwing != null && state.currentSwing.hand().asArm(state.mainArm) == arm && state.currentSwing.animation().type() == SwingAnimationType.STAB) {
             SpearAnimations.thirdPersonAttackItem(state, poseStack);
         }
 

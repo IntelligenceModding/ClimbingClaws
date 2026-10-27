@@ -20,11 +20,12 @@ public class ClimbingClaws {
     public static final String MOD_ID = "climbingclaws";
 
     public ClimbingClaws(IEventBus modEventBus, ModContainer modContainer) {
-        modContainer.registerConfig(ModConfig.Type.SERVER, ClimbingClawsConfig.SERVER_SPEC);
+        modContainer.registerConfig(ModConfig.Type.SYNCED, ClimbingClawsConfig.SERVER_SPEC);
         ModItems.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         modEventBus.addListener(DataGenerators::gatherClientData);
         modEventBus.addListener(DataGenerators::gatherServerData);
+        modEventBus.addListener(DataGenerators::gatherRegistries);
         modEventBus.addListener(ModPayloads::register);
         modEventBus.addListener(ModCriteriaTriggers::register);
         modEventBus.addListener(ModStats::register);
