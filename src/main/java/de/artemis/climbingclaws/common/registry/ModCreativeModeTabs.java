@@ -9,8 +9,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
@@ -25,7 +25,7 @@ public final class ModCreativeModeTabs {
                     .icon(() -> new ItemStack(ModItems.CLIMBING_CLAWS.get()))
                     .title(Component.translatable("itemGroup.climbingclaws"))
                     .displayItems((parameters, output) -> {
-                        output.accept(ModItems.CLIMBING_CLAWS);
+                        output.accept(ModItems.CLIMBING_CLAWS.get());
                         output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 1));
                         output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 2));
                         output.accept(createEnchantBook(parameters.holders(), ModEnchantments.CANOPY_GRIP, 1));

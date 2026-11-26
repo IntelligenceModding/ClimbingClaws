@@ -61,16 +61,6 @@ public class ClimbingClawsItem extends ShieldItem {
         return repairCandidate.is(Items.IRON_INGOT) || repairCandidate.is(Items.IRON_NUGGET);
     }
 
-    @Override
-    public boolean supportsEnchantment(ItemStack stack, Holder<Enchantment> enchantment) {
-        return supportsClimbingClawsEnchantment(enchantment);
-    }
-
-    @Override
-    public boolean isPrimaryItemFor(ItemStack stack, Holder<Enchantment> enchantment) {
-        return supportsClimbingClawsEnchantment(enchantment);
-    }
-
     public static boolean supportsClimbingClawsEnchantment(Holder<Enchantment> enchantment) {
         return enchantment.is(ModEnchantments.WALL_SPRING)
                 || enchantment.is(ModEnchantments.CANOPY_GRIP)

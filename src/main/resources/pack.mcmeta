@@ -1,0 +1,10 @@
+{
+  "pack": {
+    "description": {
+      "translate": "climbingclaws.pack.description",
+      "fallback": "Climbing Claws resources"
+    },
+    "pack_format": 34,
+    "supported_formats": [34, 48]
+  }
+}

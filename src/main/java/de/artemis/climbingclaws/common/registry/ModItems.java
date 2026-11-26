@@ -7,17 +7,18 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public final class ModItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(ClimbingClaws.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ClimbingClaws.MOD_ID);
     private static final int CLIMBING_CLAWS_DURABILITY = 384;
     private static final float CLIMBING_CLAWS_ATTACK_DAMAGE = 3.0F;
     private static final float CLIMBING_CLAWS_ATTACK_SPEED = -2.4F;
 
-    public static final DeferredItem<Item> CLIMBING_CLAWS = ITEMS.register("climbing_claws",
+    public static final RegistryObject<Item> CLIMBING_CLAWS = ITEMS.register("climbing_claws",
             () -> new ClimbingClawsItem(new Item.Properties()
                     .durability(CLIMBING_CLAWS_DURABILITY)
                     .attributes(createAttributes())));

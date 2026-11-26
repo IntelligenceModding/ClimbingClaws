@@ -2,28 +2,19 @@ package de.artemis.climbingclaws.common.event;
 
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 
 public final class ClimbingClawsTooltipHandler {
     private ClimbingClawsTooltipHandler() {
     }
 
     public static void onItemTooltip(ItemTooltipEvent event) {
-        HolderLookup.Provider registries = event.getContext().registries();
-        if (registries == null) {
-            return;
-        }
-
-        HolderLookup.RegistryLookup<Enchantment> enchantments = registries.lookupOrThrow(Registries.ENCHANTMENT);
         var stackEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(event.getItemStack());
 
-        boolean hasWallSpring = stackEnchantments.getLevel(enchantments.getOrThrow(ModEnchantments.WALL_SPRING)) > 0;
-        boolean hasCanopyGrip = stackEnchantments.getLevel(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP)) > 0;
+        boolean hasWallSpring = stackEnchantments.keySet().stream().anyMatch(enchantment -> enchantment.is(ModEnchantments.WALL_SPRING));
+        boolean hasCanopyGrip = stackEnchantments.keySet().stream().anyMatch(enchantment -> enchantment.is(ModEnchantments.CANOPY_GRIP));
         if (!hasWallSpring && !hasCanopyGrip) {
             return;
         }

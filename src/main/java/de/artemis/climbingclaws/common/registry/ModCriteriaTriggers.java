@@ -4,7 +4,7 @@ import de.artemis.climbingclaws.ClimbingClaws;
 import de.artemis.climbingclaws.common.advancement.ClimbingClawsSimpleTrigger;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraftforge.registries.RegisterEvent;
 
 public final class ModCriteriaTriggers {
     public static final ClimbingClawsSimpleTrigger CLIMB_WITH_CLAWS = trigger("climb_with_claws");

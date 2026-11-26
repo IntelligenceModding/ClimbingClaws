@@ -16,10 +16,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ForgeAdvancementProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
-public final class ModAdvancementSubProvider implements AdvancementProvider.AdvancementGenerator {
+public final class ModAdvancementSubProvider implements ForgeAdvancementProvider.AdvancementGenerator {
     private static final ResourceLocation ROOT_ID = id("root");
     private static final ResourceLocation BACKGROUND = ResourceLocation.withDefaultNamespace("textures/block/cobbled_deepslate.png");
 
@@ -39,7 +39,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("has_climbing_claws", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.CLIMBING_CLAWS.get()))
-                .save(saver, ROOT_ID, existingFileHelper);
+                .save(saver, ROOT_ID);
 
         AdvancementHolder suitUp = Advancement.Builder.advancement()
                 .parent(root)
@@ -54,7 +54,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("has_climbing_claws", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.CLIMBING_CLAWS.get()))
-                .save(saver, id("suit_up"), existingFileHelper);
+                .save(saver, id("suit_up"));
 
         AdvancementHolder wallCrawler = Advancement.Builder.advancement()
                 .parent(suitUp)
@@ -69,7 +69,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("climb_with_claws", ModCriteriaTriggers.CLIMB_WITH_CLAWS.criterion())
-                .save(saver, id("wall_crawler"), existingFileHelper);
+                .save(saver, id("wall_crawler"));
 
         AdvancementHolder holdFast = Advancement.Builder.advancement()
                 .parent(wallCrawler)
@@ -84,7 +84,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("hang_with_claws", ModCriteriaTriggers.HANG_WITH_CLAWS.criterion())
-                .save(saver, id("hold_fast"), existingFileHelper);
+                .save(saver, id("hold_fast"));
 
         AdvancementHolder upsideDown = Advancement.Builder.advancement()
                 .parent(wallCrawler)
@@ -99,7 +99,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("cling_to_ceiling", ModCriteriaTriggers.CLING_TO_CEILING.criterion())
-                .save(saver, id("upside_down"), existingFileHelper);
+                .save(saver, id("upside_down"));
 
         AdvancementHolder wallSpring = Advancement.Builder.advancement()
                 .parent(wallCrawler)
@@ -114,7 +114,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                         false
                 )
                 .addCriterion("use_wall_spring", ModCriteriaTriggers.USE_WALL_SPRING.criterion())
-                .save(saver, id("wall_spring"), existingFileHelper);
+                .save(saver, id("wall_spring"));
 
         Advancement.Builder canopyBuilder = Advancement.Builder.advancement()
                 .parent(wallCrawler)
@@ -130,7 +130,7 @@ public final class ModAdvancementSubProvider implements AdvancementProvider.Adva
                 )
                 .addCriterion("climb_partial_surface", ModCriteriaTriggers.CLIMB_PARTIAL_SURFACE.criterion());
 
-        canopyBuilder.save(saver, id("canopy_route"), existingFileHelper);
+        canopyBuilder.save(saver, id("canopy_route"));
     }
 
     private static ResourceLocation id(String path) {

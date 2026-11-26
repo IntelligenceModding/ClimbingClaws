@@ -1,6 +1,5 @@
 package de.artemis.climbingclaws.common.event;
 
-import de.artemis.climbingclaws.compat.curios.CuriosCompat;
 import de.artemis.climbingclaws.common.config.ClimbingClawsConfig;
 import de.artemis.climbingclaws.common.network.WallSpringCooldownPayload;
 import de.artemis.climbingclaws.common.registry.ModCriteriaTriggers;
@@ -10,6 +9,7 @@ import de.artemis.climbingclaws.common.registry.ModStats;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.WeakHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -19,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -29,10 +30,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.fml.ModList;
-import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import de.artemis.climbingclaws.common.network.ModPayloads;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.event.TickEvent;
 
 public final class ClimbingClawsClimbHandler {
     private static final String CURIOS_MOD_ID = "curios";
@@ -45,6 +46,7 @@ public final class ClimbingClawsClimbHandler {
     private static final Map<UUID, Integer> WALL_SPRING_COOLDOWNS = new HashMap<>();
     private static final Map<UUID, Double> LAST_TRACKED_HEIGHTS = new HashMap<>();
     private static final Map<UUID, Integer> STAT_GRACE_WINDOWS = new HashMap<>();
+    private static final Map<ServerPlayer, Boolean> CLIMBING_INPUT = new WeakHashMap<>();
     private static int clientWallSpringCooldownTicks;
 
     private ClimbingClawsClimbHandler() {
@@ -84,8 +86,26 @@ public final class ClimbingClawsClimbHandler {
                 && getEnchantmentLevel(equippedClaws.stack(), player, ModEnchantments.WALL_SPRING) > 0;
     }
 
-    public static void onPlayerTick(PlayerTickEvent.Post event) {
-        Player player = event.getEntity();
+    public static void setClimbingInput(ServerPlayer player, boolean moving) {
+        if (moving) {
+            CLIMBING_INPUT.put(player, true);
+        } else {
+            CLIMBING_INPUT.remove(player);
+        }
+    }
+
+    public static boolean hasHorizontalInput(Player player) {
+        return player instanceof ServerPlayer serverPlayer
+                ? CLIMBING_INPUT.containsKey(serverPlayer)
+                : Math.abs(player.zza) > 0.01F || Math.abs(player.xxa) > 0.01F;
+    }
+
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        if (event.phase != TickEvent.Phase.END) {
+            return;
+        }
+
+        Player player = event.player;
         tickWallSpringCooldown(player);
         tickStatGraceWindow(player);
 
@@ -100,10 +120,10 @@ public final class ClimbingClawsClimbHandler {
         boolean allowPartialSurfaces = ClimbingClawsConfig.enableCanopyGripEffect()
                 && getEnchantmentLevel(clawsStack, player, ModEnchantments.CANOPY_GRIP) > 0;
         SurfaceContact sideSurface = ClimbingClawsConfig.enableWallClimbing()
-                ? findHorizontalSurface(level, player.getBoundingBox().inflate(0.08D, 0.0D, 0.08D), allowPartialSurfaces)
+                ? findHorizontalSurface(level, player.getBoundingBox(), allowPartialSurfaces)
                 : null;
         SurfaceContact ceilingSurface = ClimbingClawsConfig.enableCeilingClimbing()
-                ? findSurface(level, player.getBoundingBox().move(0.0D, 0.12D, 0.0D).inflate(-0.02D, 0.0D, -0.02D), Direction.DOWN, allowPartialSurfaces)
+                ? findCeilingSurface(level, player.getBoundingBox(), allowPartialSurfaces)
                 : null;
         boolean touchingSideSurface = sideSurface != null;
         boolean touchingCeilingSurface = ceilingSurface != null;
@@ -118,7 +138,7 @@ public final class ClimbingClawsClimbHandler {
         double x = Mth.clamp(movement.x, -horizontalVelocityLimit, horizontalVelocityLimit);
         double z = Mth.clamp(movement.z, -horizontalVelocityLimit, horizontalVelocityLimit);
         double y = Math.max(movement.y, -ClimbingClawsConfig.fallSpeedLimitWhileAttached());
-        boolean movingIntoWall = Math.abs(player.zza) > 0.01F || Math.abs(player.xxa) > 0.01F;
+        boolean moving = hasHorizontalInput(player);
         boolean activeClimb = false;
         boolean activeSideClimb = false;
         boolean activeCeilingClimb = false;
@@ -127,7 +147,7 @@ public final class ClimbingClawsClimbHandler {
                 && (touchingSideSurface || touchingCeilingSurface);
         boolean hanging = ClimbingClawsConfig.enableHanging()
                 && !player.isShiftKeyDown()
-                && !movingIntoWall
+                && !moving
                 && (touchingSideSurface || touchingCeilingSurface);
         double climbSpeed = getClimbSpeed(clawsStack, player, ClimbingClawsConfig.sideClimbSpeed());
         double ceilingClimbSpeed = getClimbSpeed(clawsStack, player, ClimbingClawsConfig.ceilingClimbSpeed());
@@ -137,32 +157,34 @@ public final class ClimbingClawsClimbHandler {
             y = Math.min(y, -climbSpeed);
             activeClimb = true;
         } else {
-            if (touchingSideSurface && movingIntoWall) {
+            if (touchingSideSurface && moving) {
                 y = Math.max(y, climbSpeed);
                 activeClimb = true;
                 activeSideClimb = true;
             } else if (touchingSideSurface && hanging) {
                 y = Math.max(y, 0.0D);
             }
-            if (touchingCeilingSurface) {
-                y = Math.max(y, movingIntoWall ? ceilingClimbSpeed : ceilingHoldSpeed);
-                activeClimb = true;
+            if (touchingCeilingSurface && (moving || hanging)) {
+                y = Math.max(y, moving ? ceilingClimbSpeed : ceilingHoldSpeed);
+                activeClimb |= moving;
                 activeCeilingClimb = true;
             }
         }
 
         boolean usingClawsOnSurface = activeClimb || hanging || descending;
-        if (usingClawsOnSurface) {
-            player.fallDistance = 0.0F;
+        if (!usingClawsOnSurface) {
+            trackClimbingDistance(player, false);
+            return;
         }
 
+        player.fallDistance = 0.0F;
         player.setDeltaMovement(x, y, z);
-        player.hasImpulse = usingClawsOnSurface;
-        awardClimbingStats(player, activeSideClimb, descending, hanging);
+        player.hasImpulse = true;
+        awardClimbingStats(player, activeSideClimb || (activeCeilingClimb && moving), descending, hanging);
         triggerAdvancements(player, activeSideClimb, hanging, activeCeilingClimb, touchingPartialSurface);
-        trackClimbingDistance(player, usingClawsOnSurface);
+        trackClimbingDistance(player, true);
 
-        damageClaws(player, equippedClaws, activeClimb, usingClawsOnSurface, false);
+        damageClaws(player, equippedClaws, activeClimb, false);
 
         if (activeClimb && player.tickCount % CLIMB_FEEDBACK_INTERVAL_TICKS == 0) {
             playClimbFeedback(player, level, touchingCeilingSurface ? ceilingSurface : sideSurface, touchingCeilingSurface);
@@ -191,10 +213,10 @@ public final class ClimbingClawsClimbHandler {
         boolean allowPartialSurfaces = ClimbingClawsConfig.enableCanopyGripEffect()
                 && getEnchantmentLevel(clawsStack, player, ModEnchantments.CANOPY_GRIP) > 0;
         SurfaceContact sideSurface = ClimbingClawsConfig.enableWallClimbing()
-                ? findHorizontalSurface(level, player.getBoundingBox().inflate(0.08D, 0.0D, 0.08D), allowPartialSurfaces)
+                ? findHorizontalSurface(level, player.getBoundingBox(), allowPartialSurfaces)
                 : null;
         SurfaceContact ceilingSurface = ClimbingClawsConfig.enableCeilingClimbing()
-                ? findSurface(level, player.getBoundingBox().move(0.0D, 0.12D, 0.0D).inflate(-0.02D, 0.0D, -0.02D), Direction.DOWN, allowPartialSurfaces)
+                ? findCeilingSurface(level, player.getBoundingBox(), allowPartialSurfaces)
                 : null;
         if (sideSurface == null && ceilingSurface == null) {
             return false;
@@ -226,11 +248,11 @@ public final class ClimbingClawsClimbHandler {
 
         if (player instanceof ServerPlayer serverPlayer) {
             ModCriteriaTriggers.USE_WALL_SPRING.trigger(serverPlayer);
-            PacketDistributor.sendToPlayer(serverPlayer, new WallSpringCooldownPayload(ClimbingClawsConfig.wallSpringCooldownTicks()));
+            ModPayloads.CHANNEL.send(new WallSpringCooldownPayload(ClimbingClawsConfig.wallSpringCooldownTicks()), PacketDistributor.PLAYER.with(serverPlayer));
         }
 
         player.awardStat(ModStats.WALL_SPRING_USES);
-        damageClaws(player, equippedClaws, true, true, true);
+        damageClaws(player, equippedClaws, true, true);
         return true;
     }
 
@@ -309,7 +331,7 @@ public final class ClimbingClawsClimbHandler {
     }
 
     private static boolean isPartialSurface(Level level, SurfaceContact contact) {
-        return contact != null && !contact.state().isFaceSturdy(level, contact.pos(), contact.face());
+        return contact != null && !isFullClimbSurface(contact.state(), level, contact.pos(), contact.face());
     }
 
     private static void awardClimbingStats(Player player, boolean movingIntoWall, boolean descending, boolean hanging) {
@@ -440,16 +462,17 @@ public final class ClimbingClawsClimbHandler {
             return new EquippedClaws(player.getUseItem(), ClawsSource.HAND, getUsedEquipmentSlot(player));
         }
 
+        // Curios has no Forge build for Minecraft 1.21.x, so this branch can never trigger on
+        // this build; the ModList gate and ClawsSource.CURIO_HANDS plumbing are kept so Curios
+        // support can be restored with no re-authoring if a Forge build appears.
         if (ModList.get().isLoaded(CURIOS_MOD_ID)) {
-            return CuriosCompat.findEquippedClaws(player)
-                    .map(stack -> new EquippedClaws(stack, ClawsSource.CURIO_HANDS, EquipmentSlot.OFFHAND))
-                    .orElse(null);
+            return null;
         }
 
         return null;
     }
 
-    private static boolean isUsingClimbingClaws(Player player) {
+    public static boolean isUsingClimbingClaws(Player player) {
         return player.isUsingItem()
                 && ClimbingClawsConfig.isHandUseAllowed(player.getUsedItemHand())
                 && isClimbingClaws(player.getUseItem());
@@ -463,14 +486,29 @@ public final class ClimbingClawsClimbHandler {
         return stack.is(ModItems.CLIMBING_CLAWS.get());
     }
 
-    private static SurfaceContact findHorizontalSurface(Level level, AABB area, boolean allowPartialSurfaces) {
-        for (Direction direction : Direction.Plane.HORIZONTAL) {
-            SurfaceContact contact = findSurface(level, area, direction, allowPartialSurfaces);
+    private static SurfaceContact findHorizontalSurface(Level level, AABB bounds, boolean allowPartialSurfaces) {
+        double reach = 0.08D;
+        for (Direction towardWall : Direction.Plane.HORIZONTAL) {
+            AABB probe = switch (towardWall) {
+                case NORTH -> bounds.setMaxZ(bounds.minZ).setMinZ(bounds.minZ - reach);
+                case SOUTH -> bounds.setMinZ(bounds.maxZ).setMaxZ(bounds.maxZ + reach);
+                case WEST -> bounds.setMaxX(bounds.minX).setMinX(bounds.minX - reach);
+                case EAST -> bounds.setMinX(bounds.maxX).setMaxX(bounds.maxX + reach);
+                default -> throw new IllegalArgumentException("Expected a horizontal direction");
+            };
+            SurfaceContact contact = findSurface(level, probe, towardWall.getOpposite(), allowPartialSurfaces);
             if (contact != null) {
                 return contact;
             }
         }
         return null;
+    }
+
+    private static SurfaceContact findCeilingSurface(Level level, AABB bounds, boolean allowPartialSurfaces) {
+        AABB probe = bounds.inflate(-0.02D, 0.0D, -0.02D)
+                .setMinY(bounds.maxY)
+                .setMaxY(bounds.maxY + 0.12D);
+        return findSurface(level, probe, Direction.DOWN, allowPartialSurfaces);
     }
 
     private static SurfaceContact findSurface(Level level, AABB area, Direction face, boolean allowPartialSurfaces) {
@@ -486,8 +524,12 @@ public final class ClimbingClawsClimbHandler {
                 for (int z = minZ; z <= maxZ; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     BlockState state = level.getBlockState(pos);
-                    if (isValidClimbSurface(state, level, pos, face, allowPartialSurfaces)) {
-                        return new SurfaceContact(pos, state, face);
+                    if (allowPartialSurfaces || isFullClimbSurface(state, level, pos, face)) {
+                        for (AABB collision : state.getCollisionShape(level, pos).toAabbs()) {
+                            if (area.intersects(collision.move(pos))) {
+                                return new SurfaceContact(pos, state, face);
+                            }
+                        }
                     }
                 }
             }
@@ -496,25 +538,9 @@ public final class ClimbingClawsClimbHandler {
         return null;
     }
 
-    private static boolean isValidClimbSurface(BlockState state, Level level, BlockPos pos, Direction face, boolean allowPartialSurfaces) {
-        if (state.isAir()) {
-            return false;
-        }
-
-        if (state.isFaceSturdy(level, pos, face)) {
-            return true;
-        }
-
-        if (!allowPartialSurfaces) {
-            return false;
-        }
-
-        VoxelShape collisionShape = state.getCollisionShape(level, pos);
-        if (collisionShape.isEmpty()) {
-            return false;
-        }
-
-        return !collisionShape.getFaceShape(face).isEmpty();
+    private static boolean isFullClimbSurface(BlockState state, Level level, BlockPos pos, Direction face) {
+        return !state.is(BlockTags.LEAVES) && state.isFaceSturdy(level, pos, face)
+                && state.isCollisionShapeFullBlock(level, pos);
     }
 
     private static double getClimbSpeed(ItemStack stack, Player player, double baseSpeed) {
@@ -534,8 +560,8 @@ public final class ClimbingClawsClimbHandler {
         return ModEnchantments.getLevel(stack, player.registryAccess(), enchantmentKey);
     }
 
-    private static void damageClaws(Player player, EquippedClaws equippedClaws, boolean activeClimb, boolean attachedToSurface, boolean springBurst) {
-        if (!ClimbingClawsConfig.enableDurabilityDamage() || player.level().isClientSide || !attachedToSurface) {
+    private static void damageClaws(Player player, EquippedClaws equippedClaws, boolean activeClimb, boolean springBurst) {
+        if (!ClimbingClawsConfig.enableDurabilityDamage() || player.level().isClientSide) {
             return;
         }
 
@@ -546,6 +572,7 @@ public final class ClimbingClawsClimbHandler {
 
         if (springBurst) {
             hurtAndBreakClaws(player, equippedClaws, ClimbingClawsConfig.wallSpringDamageAmount());
+            return;
         }
 
         int interval = activeClimb ? ClimbingClawsConfig.activeClimbDamageIntervalTicks() : ClimbingClawsConfig.clingDamageIntervalTicks();
@@ -558,11 +585,6 @@ public final class ClimbingClawsClimbHandler {
 
     private static void hurtAndBreakClaws(Player player, EquippedClaws equippedClaws, int amount) {
         if (amount <= 0) {
-            return;
-        }
-
-        if (equippedClaws.source() == ClawsSource.CURIO_HANDS) {
-            CuriosCompat.hurtAndBreakClaws(player, equippedClaws.stack(), amount);
             return;
         }
 

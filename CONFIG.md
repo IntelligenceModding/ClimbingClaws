@@ -2,7 +2,7 @@
 
 Climbing Claws has a server config for gameplay behavior and a client config for local rendering.
 
-The server config is registered as a NeoForge server config so multiplayer clients receive the server's gameplay values when they connect.
+The server config is registered as a Forge server config so multiplayer clients receive the server's gameplay values when they connect.
 
 ```text
 serverconfig/climbingclaws-server.toml
@@ -71,8 +71,6 @@ config/climbingclaws-client.toml
 `general.enableClimbing = false` disables Climbing Claws traversal. The item can still exist and behave as a light weapon, but using it will not start the climbing stance.
 
 `general.allowMainHandUse` and `general.allowOffHandUse` decide whether holding right-click with the claws in that hand can activate traversal.
-
-Curios hands-slot traversal still requires Curios to be installed and an equipped Climbing Claws item.
 
 `general.enableWallClimbing = false` disables latching onto vertical block faces.
 

@@ -3,13 +3,12 @@ package de.artemis.climbingclaws.common.event;
 import de.artemis.climbingclaws.common.item.ClimbingClawsItem;
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import de.artemis.climbingclaws.common.registry.ModItems;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.neoforged.neoforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.AnvilUpdateEvent;
 
 public final class ClimbingClawsAnvilHandler {
     private ClimbingClawsAnvilHandler() {
@@ -25,21 +24,32 @@ public final class ClimbingClawsAnvilHandler {
 
         if (left.is(ModItems.CLIMBING_CLAWS.get())) {
             if (hasUnsupportedClimbingClawsEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(right))) {
-                event.setCanceled(true);
+                rejectResult(event);
             }
             return;
         }
 
-        var enchantments = event.getPlayer().registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        if (hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(left), enchantments)
-                || hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(right), enchantments)) {
-            event.setCanceled(true);
+        if (hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(left))
+                || hasClimbingClawsExclusiveEnchantment(EnchantmentHelper.getEnchantmentsForCrafting(right))) {
+            rejectResult(event);
         }
     }
 
-    private static boolean hasClimbingClawsExclusiveEnchantment(ItemEnchantments enchantmentsOnStack, net.minecraft.core.HolderLookup.RegistryLookup<Enchantment> enchantments) {
-        return enchantmentsOnStack.getLevel(enchantments.getOrThrow(ModEnchantments.WALL_SPRING)) > 0
-                || enchantmentsOnStack.getLevel(enchantments.getOrThrow(ModEnchantments.CANOPY_GRIP)) > 0;
+    private static void rejectResult(AnvilUpdateEvent event) {
+        event.setCanceled(true);
+        // Forge returns early on cancellation, so clear the previous preview explicitly.
+        if (event.getPlayer().containerMenu instanceof AnvilMenu menu
+                && menu.getSlot(0).getItem() == event.getLeft()
+                && menu.getSlot(1).getItem() == event.getRight()) {
+            menu.setMaximumCost(0);
+            menu.getSlot(2).set(ItemStack.EMPTY);
+            menu.broadcastChanges();
+        }
+    }
+
+    private static boolean hasClimbingClawsExclusiveEnchantment(ItemEnchantments enchantmentsOnStack) {
+        return enchantmentsOnStack.keySet().stream()
+                .anyMatch(enchantment -> enchantment.is(ModEnchantments.WALL_SPRING) || enchantment.is(ModEnchantments.CANOPY_GRIP));
     }
 
     private static boolean hasUnsupportedClimbingClawsEnchantment(ItemEnchantments enchantmentsOnStack) {

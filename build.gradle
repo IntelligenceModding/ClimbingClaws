@@ -1,7 +1,8 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'idea'
 }
 
@@ -9,7 +10,7 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = minecraft_version + "-" + mod_version
+version = "${mod_version}-forge-mc${minecraft_version}"
 group = mod_group_id
 
 repositories {
@@ -20,10 +21,6 @@ repositories {
     maven {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "Illusive Soulworks maven"
-        url = "https://maven.theillusivec4.top/"
     }
     maven {
         name = "Modrinth Maven"
@@ -46,12 +43,6 @@ configurations {
         canBeConsumed = false
         canBeResolved = true
     }
-    reiRuntimeMod {
-        canBeConsumed = false
-        canBeResolved = true
-        transitive = true
-        extendsFrom clientRuntimeMods
-    }
     jeiRuntimeMod {
         canBeConsumed = false
         canBeResolved = true
@@ -63,92 +54,80 @@ tasks.register('cleanClientRuntimeMods', Delete) {
     delete layout.projectDirectory.dir('run/mods')
 }
 
-tasks.register('cleanReiRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run-rei/mods')
-}
-
-tasks.register('cleanJeiRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run-jei/mods')
-}
-
 tasks.register('syncClientRuntimeMods', Sync) {
     dependsOn tasks.named('cleanClientRuntimeMods')
     from configurations.clientRuntimeMods
     into layout.projectDirectory.dir('run/mods')
 }
 
-tasks.register('syncReiRuntimeMods', Sync) {
-    dependsOn tasks.named('cleanReiRuntimeMods')
-    from configurations.reiRuntimeMod
-    into layout.projectDirectory.dir('run-rei/mods')
-}
-
 tasks.register('syncJeiRuntimeMods', Sync) {
-    dependsOn tasks.named('cleanJeiRuntimeMods')
     from configurations.jeiRuntimeMod
     into layout.projectDirectory.dir('run-jei/mods')
 }
 
-neoForge {
-    version = project.neo_version
-
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
+minecraft {
+    mappings channel: 'parchment', version: "${parchment_mappings_version}-${parchment_minecraft_version}"
 
     runs {
         client {
-            client()
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            taskBefore tasks.named('syncClientRuntimeMods')
-        }
-
-        clientWithREI {
-            client()
-            gameDirectory = file('run-rei')
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            systemProperty 'neoforge.warnings.onlyin.hide', 'true'
-            taskBefore tasks.named('syncReiRuntimeMods')
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'info'
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
         }
 
         clientWithJEI {
-            client()
-            gameDirectory = file('run-jei')
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            taskBefore tasks.named('syncJeiRuntimeMods')
+            parent runs.client
+            workingDirectory project.file('run-jei')
         }
 
         server {
-            server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'info'
+            arg '--nogui'
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
         }
 
         data {
-            data()
-            programArguments.addAll '--mod', project.mod_id,
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'info'
+            args '--mod', mod_id,
                     '--all',
                     '--output', file('src/generated/resources/').getAbsolutePath(),
                     '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        configureEach {
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            logLevel = org.slf4j.event.Level.INFO
-        }
-    }
-
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
+            mods {
+                "${mod_id}" {
+                    source sourceSets.main
+                }
+            }
         }
     }
+}
+
+tasks.matching { it.name == 'runClient' }.configureEach {
+    dependsOn tasks.named('syncClientRuntimeMods')
+}
+
+tasks.register('runClientWithREI') {
+    group = 'forgegradle runs'
+    description = 'Reports REI compatibility for this Forge build.'
+    doLast {
+        throw new GradleException("REI for Minecraft ${minecraft_version} is available for Fabric and NeoForge. This project uses Forge. Use runClientWithJEI for a recipe viewer on Forge.")
+    }
+}
+
+tasks.matching { it.name == 'runClientWithJEI' }.configureEach {
+    dependsOn tasks.named('syncJeiRuntimeMods')
 }
 
 sourceSets.main.resources {
@@ -157,25 +136,38 @@ sourceSets.main.resources {
     exclude '.cache/**'
 }
 
+// FML's ClasspathLocator builds a mod's SecureJar from a single directory. Since Gradle keeps
+// compiled classes and resources (mods.toml) in separate output directories, merge resources
+// into the classes directory so dev runs see one directory containing both.
+afterEvaluate {
+    sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDirs.singleFile
+}
+
+// No Forge build of Curios exists for Minecraft 1.21.x (newest Forge release targets 1.20.1).
+// The compat code is kept in the tree for future re-enablement but can't compile without the
+// top.theillusivec4.curios.api packages, so it's excluded from this build's compilation.
+sourceSets.main.java {
+    exclude 'de/artemis/climbingclaws/compat/curios/**'
+    // The Minecraft 1.21.1 REI releases target Fabric and NeoForge.
+    exclude 'de/artemis/climbingclaws/compat/rei/**'
+}
+
 dependencies {
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    jeiRuntimeMod("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+
+    compileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    jeiRuntimeMod("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
     jeiRuntimeMod("maven.modrinth:just-enough-professions-jep:${jep_version}")
-    compileOnly("me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}")
-    compileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}")
-    reiRuntimeMod("me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}")
-    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}:api")
-    clientRuntimeMods("top.theillusivec4.curios:curios-neoforge:${curios_version}")
 }
 
 tasks.named('processResources', ProcessResources).configure {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
+            forge_version          : forge_version,
             loader_version_range   : loader_version_range,
-            rei_version_range      : rei_version_range,
-            curios_version_range   : curios_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
             mod_license            : mod_license,
@@ -185,7 +177,7 @@ tasks.named('processResources', ProcessResources).configure {
     ]
     inputs.properties replaceProperties
 
-    filesMatching('META-INF/neoforge.mods.toml') {
+    filesMatching('META-INF/mods.toml') {
         expand replaceProperties
     }
 }

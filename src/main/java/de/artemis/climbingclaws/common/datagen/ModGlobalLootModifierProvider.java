@@ -8,9 +8,9 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
-import net.neoforged.neoforge.common.loot.AddTableLootModifier;
-import net.neoforged.neoforge.common.loot.LootTableIdCondition;
+import de.artemis.climbingclaws.common.loot.AddTableLootModifier;
+import net.minecraftforge.common.data.GlobalLootModifierProvider;
+import net.minecraftforge.common.loot.LootTableIdCondition;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -38,11 +38,11 @@ public final class ModGlobalLootModifierProvider extends GlobalLootModifierProvi
     );
 
     public ModGlobalLootModifierProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries, ClimbingClaws.MOD_ID);
+        super(output, ClimbingClaws.MOD_ID, registries);
     }
 
     @Override
-    protected void start() {
+    protected void start(HolderLookup.Provider registries) {
         addForEach("climbing_claws_village_smith", ModLootTables.CLIMBING_CLAWS_VILLAGE_SMITH, VILLAGE_SMITH_TABLES);
         addForEach("climbing_claws_exploration", ModLootTables.CLIMBING_CLAWS_EXPLORATION, EARLY_EXPLORATION_TABLES);
         addForEach("climbing_claws_stronghold", ModLootTables.CLIMBING_CLAWS_STRONGHOLD, STRONGHOLD_CHEST_TABLES);

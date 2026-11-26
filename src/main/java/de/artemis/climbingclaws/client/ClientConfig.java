@@ -1,15 +1,15 @@
 package de.artemis.climbingclaws.client;
 
 import de.artemis.climbingclaws.ClimbingClaws;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 public final class ClientConfig {
-    public static final ModConfigSpec SPEC;
+    public static final ForgeConfigSpec SPEC;
 
-    private static final ModConfigSpec.BooleanValue SHOW_WALL_SPRING_COOLDOWN_OVERLAY;
+    private static final ForgeConfigSpec.BooleanValue SHOW_WALL_SPRING_COOLDOWN_OVERLAY;
 
     static {
-        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         SHOW_WALL_SPRING_COOLDOWN_OVERLAY = builder
                 .comment("Shows the Wall Spring cooldown overlay on Climbing Claws item stacks. This only affects local rendering.")

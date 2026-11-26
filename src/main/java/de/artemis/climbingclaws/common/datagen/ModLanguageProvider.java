@@ -4,8 +4,8 @@ import de.artemis.climbingclaws.ClimbingClaws;
 import de.artemis.climbingclaws.common.registry.ModItems;
 import net.minecraft.data.PackOutput;
 
-public class ModLanguageProvider extends net.neoforged.neoforge.common.data.LanguageProvider {
-    private static final String CLIMBING_CLAWS_INFO = "Equip the claws in either hand and hold right-click to raise them like a shield, or equip them in a Curios hands slot when Curios is installed.\n"
+public class ModLanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
+    private static final String CLIMBING_CLAWS_INFO = "Equip the claws in either hand and hold the Use control to raise them like a shield.\n"
             + "Climb solid walls and undersides while the claws are active.\n"
             + "Stop pressing movement to hang in place, or hold sneak to climb back down.\n"
             + "Climbing uses durability. Unbreaking and Mending help, and Efficiency increases climb speed.\n"
@@ -47,10 +47,12 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add("tooltip.climbingclaws.wall_spring", "Press jump while climbing to launch upward. Has a cooldown.");
         add("tooltip.climbingclaws.canopy_grip", "Lets the claws latch onto partial surfaces like leaves.");
         add("climbingclaws.configuration.title", "%s Configuration");
+        add("climbingclaws.pack.description", "Climbing Claws resources");
         add("climbingclaws.configuration.section.climbingclaws.client.toml", "Client Settings");
         add("climbingclaws.configuration.section.climbingclaws.client.toml.title", "Client Settings");
         add("climbingclaws.configuration.section.climbingclaws.client.toml.client", "Client Settings");
         add("climbingclaws.configuration.section.climbingclaws.server.toml", "Server Settings");
+        add("climbingclaws.configuration.server.unavailable", "Open a private singleplayer world to edit server settings here.");
         add("climbingclaws.configuration.section.climbingclaws.server.toml.title", "Server Settings");
         add("climbingclaws.configuration.section.climbingclaws.server.toml.server", "Server Settings");
         add("climbingclaws.configuration.client.show_wall_spring_cooldown_overlay", "Show Wall Spring Cooldown Overlay");

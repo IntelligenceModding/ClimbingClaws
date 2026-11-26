@@ -2,41 +2,41 @@ package de.artemis.climbingclaws.common.config;
 
 import de.artemis.climbingclaws.ClimbingClaws;
 import net.minecraft.world.InteractionHand;
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 public final class ClimbingClawsConfig {
-    public static final ModConfigSpec SERVER_SPEC;
+    public static final ForgeConfigSpec SERVER_SPEC;
 
-    private static final ModConfigSpec.BooleanValue ENABLE_CLIMBING;
-    private static final ModConfigSpec.BooleanValue ALLOW_MAIN_HAND_USE;
-    private static final ModConfigSpec.BooleanValue ALLOW_OFF_HAND_USE;
-    private static final ModConfigSpec.BooleanValue ENABLE_WALL_CLIMBING;
-    private static final ModConfigSpec.BooleanValue ENABLE_CEILING_CLIMBING;
-    private static final ModConfigSpec.BooleanValue ENABLE_HANGING;
-    private static final ModConfigSpec.BooleanValue ENABLE_CONTROLLED_DESCENT;
-    private static final ModConfigSpec.BooleanValue ENABLE_CANOPY_GRIP_EFFECT;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_CLIMBING;
+    private static final ForgeConfigSpec.BooleanValue ALLOW_MAIN_HAND_USE;
+    private static final ForgeConfigSpec.BooleanValue ALLOW_OFF_HAND_USE;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_WALL_CLIMBING;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_CEILING_CLIMBING;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_HANGING;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_CONTROLLED_DESCENT;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_CANOPY_GRIP_EFFECT;
 
-    private static final ModConfigSpec.DoubleValue SIDE_CLIMB_SPEED;
-    private static final ModConfigSpec.DoubleValue CEILING_CLIMB_SPEED;
-    private static final ModConfigSpec.DoubleValue CEILING_HOLD_SPEED;
-    private static final ModConfigSpec.DoubleValue EFFICIENCY_SPEED_BONUS;
-    private static final ModConfigSpec.DoubleValue HORIZONTAL_VELOCITY_LIMIT;
-    private static final ModConfigSpec.DoubleValue FALL_SPEED_LIMIT_WHILE_ATTACHED;
+    private static final ForgeConfigSpec.DoubleValue SIDE_CLIMB_SPEED;
+    private static final ForgeConfigSpec.DoubleValue CEILING_CLIMB_SPEED;
+    private static final ForgeConfigSpec.DoubleValue CEILING_HOLD_SPEED;
+    private static final ForgeConfigSpec.DoubleValue EFFICIENCY_SPEED_BONUS;
+    private static final ForgeConfigSpec.DoubleValue HORIZONTAL_VELOCITY_LIMIT;
+    private static final ForgeConfigSpec.DoubleValue FALL_SPEED_LIMIT_WHILE_ATTACHED;
 
-    private static final ModConfigSpec.BooleanValue ENABLE_WALL_SPRING;
-    private static final ModConfigSpec.BooleanValue ALLOW_WALL_SPRING_WHILE_SNEAKING;
-    private static final ModConfigSpec.DoubleValue WALL_SPRING_LEVEL_ONE_BOOST;
-    private static final ModConfigSpec.DoubleValue WALL_SPRING_LEVEL_TWO_BOOST;
-    private static final ModConfigSpec.IntValue WALL_SPRING_COOLDOWN_TICKS;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_WALL_SPRING;
+    private static final ForgeConfigSpec.BooleanValue ALLOW_WALL_SPRING_WHILE_SNEAKING;
+    private static final ForgeConfigSpec.DoubleValue WALL_SPRING_LEVEL_ONE_BOOST;
+    private static final ForgeConfigSpec.DoubleValue WALL_SPRING_LEVEL_TWO_BOOST;
+    private static final ForgeConfigSpec.IntValue WALL_SPRING_COOLDOWN_TICKS;
 
-    private static final ModConfigSpec.BooleanValue ENABLE_DURABILITY_DAMAGE;
-    private static final ModConfigSpec.IntValue CLIMBING_DAMAGE_AMOUNT;
-    private static final ModConfigSpec.IntValue ACTIVE_CLIMB_DAMAGE_INTERVAL_TICKS;
-    private static final ModConfigSpec.IntValue CLING_DAMAGE_INTERVAL_TICKS;
-    private static final ModConfigSpec.IntValue WALL_SPRING_DAMAGE_AMOUNT;
+    private static final ForgeConfigSpec.BooleanValue ENABLE_DURABILITY_DAMAGE;
+    private static final ForgeConfigSpec.IntValue CLIMBING_DAMAGE_AMOUNT;
+    private static final ForgeConfigSpec.IntValue ACTIVE_CLIMB_DAMAGE_INTERVAL_TICKS;
+    private static final ForgeConfigSpec.IntValue CLING_DAMAGE_INTERVAL_TICKS;
+    private static final ForgeConfigSpec.IntValue WALL_SPRING_DAMAGE_AMOUNT;
 
     static {
-        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         builder
                 .translation(serverSectionKey("general"))

@@ -74,7 +74,7 @@ public final class ModEnchantments {
     }
 
     public static int getLevel(ItemStack stack, HolderLookup.Provider registries, ResourceKey<Enchantment> key) {
-        return get(registries, key).map(stack::getEnchantmentLevel).orElse(0);
+        return get(registries, key).map(enchantment -> stack.getEnchantments().getLevel(enchantment)).orElse(0);
     }
 
     private static ResourceKey<Enchantment> key(String name) {

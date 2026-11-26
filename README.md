@@ -19,15 +19,15 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.21.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.1">
   &nbsp;&nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
+  <img src="https://img.shields.io/badge/Loader-Forge-6C47FF?style=for-the-badge" alt="Forge">
 </p>
 
 <p align="center">
-  <strong>JEI, REI, and Curios are optional integrations.</strong>
+  <strong>JEI is an optional integration.</strong>
 </p>
 
 <p align="center">
-  Install JEI or REI alongside Climbing Claws if you want the optional in-game usage entry for the item. Install Curios alongside it if you want to equip the claws in a Curios hands slot instead of holding them in either hand. The mod works normally without these integrations.
+  Install JEI alongside Climbing Claws if you want the optional in-game usage entry for the item. The mod works normally without JEI.
 </p>
 
 <br>
@@ -41,7 +41,7 @@
 </p>
 
 <p align="center">
-  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand, off-hand, or optional Curios hands-slot use<br>
+  &bull; A dedicated <strong>Climbing Claws</strong> item built for main-hand or off-hand use<br>
   &bull; Shield-style wall and ceiling climbing by holding right-click<br>
   &bull; Hanging in place when you stop moving while the claws are raised<br>
   &bull; Slow controlled descent while sneaking on walls or undersides<br>
@@ -130,7 +130,7 @@
 </p>
 
 <p align="center">
-  &bull; The NeoForged team for NeoForge and its documentation<br>
+  &bull; The Minecraft Forge team for Forge and its documentation<br>
   &bull; The Minecraft modding community for examples, tools, and support<br>
   &bull; The Intelligence Modding community for feedback, testing, and ideas<br>
   &bull; Everyone who reports issues, suggests improvements, or includes the mod in their worlds or modpacks

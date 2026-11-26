@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.IItemDecorator;
+import net.minecraftforge.client.IItemDecorator;
 
 public final class ClimbingClawsItemDecorator implements IItemDecorator {
     public static final ClimbingClawsItemDecorator INSTANCE = new ClimbingClawsItemDecorator();
