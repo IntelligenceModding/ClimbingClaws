@@ -4,7 +4,9 @@
       "conditions": {
         "items": [
           {
-            "items": "climbingclaws:climbing_claws"
+            "items": [
+              "climbingclaws:climbing_claws"
+            ]
           }
         ]
       },
@@ -17,9 +19,11 @@
     "description": {
       "translate": "advancement.climbingclaws.root.description"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
-      "count": 1,
-      "id": "climbingclaws:climbing_claws"
+      "item": "climbingclaws:climbing_claws",
+      "nbt": "{Damage:0}"
     },
     "show_toast": false,
     "title": {

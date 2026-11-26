@@ -2,17 +2,22 @@
   "parent": "climbingclaws:suit_up",
   "criteria": {
     "climb_with_claws": {
+      "conditions": {},
       "trigger": "climbingclaws:climb_with_claws"
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancement.climbingclaws.wall_crawler.description"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
-      "count": 1,
-      "id": "climbingclaws:climbing_claws"
+      "item": "climbingclaws:climbing_claws",
+      "nbt": "{Damage:0}"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancement.climbingclaws.wall_crawler.title"
     }

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "climbingclaws:climbing_claws"
+            "items": [
+              "climbingclaws:climbing_claws"
+            ]
           }
         ]
       },
@@ -13,13 +15,17 @@
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancement.climbingclaws.suit_up.description"
     },
+    "frame": "task",
+    "hidden": false,
     "icon": {
-      "count": 1,
-      "id": "climbingclaws:climbing_claws"
+      "item": "climbingclaws:climbing_claws",
+      "nbt": "{Damage:0}"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancement.climbingclaws.suit_up.title"
     }

@@ -9,7 +9,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
@@ -101,7 +100,7 @@ public final class ClimbingClawsConfigScreens {
 
         @Override
         public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-            renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+            renderBackground(guiGraphics);
             super.render(guiGraphics, mouseX, mouseY, partialTick);
             guiGraphics.drawCenteredString(font, title, width / 2, 16, 0xFFFFFF);
         }
@@ -181,11 +180,13 @@ public final class ClimbingClawsConfigScreens {
 
         private Row buildValueRow(ConfigValue<?> configValue, Component label, Component tooltip, ValueSpec valueSpec) {
             if (configValue instanceof BooleanValue booleanValue) {
-                Checkbox checkbox = Checkbox.builder(Component.empty(), font)
-                        .selected(booleanValue.get())
-                        .onValueChange((box, value) -> saveValue(booleanValue, value))
-                        .build();
-                return new ValueRow(label, tooltip, checkbox);
+                Button toggle = Button.builder(booleanValue.get() ? CommonComponents.OPTION_ON : CommonComponents.OPTION_OFF,
+                        button -> {
+                            boolean enabled = button.getMessage().equals(CommonComponents.OPTION_OFF);
+                            saveValue(booleanValue, enabled);
+                            button.setMessage(enabled ? CommonComponents.OPTION_ON : CommonComponents.OPTION_OFF);
+                        }).bounds(0, 0, 95, 20).build();
+                return new ValueRow(label, tooltip, toggle);
             }
 
             EditBox editBox = new EditBox(font, 0, 0, 90, 20, label);
@@ -243,7 +244,7 @@ public final class ClimbingClawsConfigScreens {
 
         @Override
         public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-            renderBackground(guiGraphics, mouseX, mouseY, partialTick);
+            renderBackground(guiGraphics);
             super.render(guiGraphics, mouseX, mouseY, partialTick);
             guiGraphics.drawCenteredString(font, title, width / 2, 16, 0xFFFFFF);
         }
@@ -311,7 +312,7 @@ public final class ClimbingClawsConfigScreens {
 
     private static final class RowList extends ContainerObjectSelectionList<Row> {
         private RowList(Minecraft minecraft, int width, int height, int top, int bottom, int itemHeight) {
-            super(minecraft, width, bottom - top, top, itemHeight);
+            super(minecraft, width, height, top, bottom, itemHeight);
         }
 
         void addRow(Row row) {

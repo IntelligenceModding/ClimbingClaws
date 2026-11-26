@@ -72,6 +72,8 @@ config/climbingclaws-client.toml
 
 `general.allowMainHandUse` and `general.allowOffHandUse` decide whether holding right-click with the claws in that hand can activate traversal.
 
+With Curios installed, equipping the claws in a hands slot also enables traversal.
+
 `general.enableWallClimbing = false` disables latching onto vertical block faces.
 
 `general.enableCeilingClimbing = false` disables latching onto block undersides.

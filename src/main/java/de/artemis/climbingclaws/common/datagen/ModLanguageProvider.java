@@ -6,6 +6,7 @@ import net.minecraft.data.PackOutput;
 
 public class ModLanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
     private static final String CLIMBING_CLAWS_INFO = "Equip the claws in either hand and hold the Use control to raise them like a shield.\n"
+            + "With Curios installed, you can also equip the claws in a hands slot.\n"
             + "Climb solid walls and undersides while the claws are active.\n"
             + "Stop pressing movement to hang in place, or hold sneak to climb back down.\n"
             + "Climbing uses durability. Unbreaking and Mending help, and Efficiency increases climb speed.\n"

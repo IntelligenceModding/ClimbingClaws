@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 @JeiPlugin
 public class ClimbingClawsJeiPlugin implements IModPlugin {
-    private static final ResourceLocation PLUGIN_UID = ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, "jei_plugin");
+    private static final ResourceLocation PLUGIN_UID = new ResourceLocation(ClimbingClaws.MOD_ID, "jei_plugin");
 
     @Override
     public ResourceLocation getPluginUid() {

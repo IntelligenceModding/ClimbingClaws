@@ -2,25 +2,22 @@
   "parent": "climbingclaws:wall_crawler",
   "criteria": {
     "climb_partial_surface": {
+      "conditions": {},
       "trigger": "climbingclaws:climb_partial_surface"
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancement.climbingclaws.canopy_route.description"
     },
     "frame": "goal",
+    "hidden": false,
     "icon": {
-      "components": {
-        "minecraft:stored_enchantments": {
-          "levels": {
-            "climbingclaws:canopy_grip": 1
-          }
-        }
-      },
-      "count": 1,
-      "id": "minecraft:enchanted_book"
+      "item": "minecraft:enchanted_book",
+      "nbt": "{StoredEnchantments:[{id:\"climbingclaws:canopy_grip\",lvl:1s}]}"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancement.climbingclaws.canopy_route.title"
     }

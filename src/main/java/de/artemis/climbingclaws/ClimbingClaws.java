@@ -13,6 +13,8 @@ import de.artemis.climbingclaws.common.registry.ModStats;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
+import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -22,15 +24,17 @@ import net.minecraftforge.api.distmarker.Dist;
 public class ClimbingClaws {
     public static final String MOD_ID = "climbingclaws";
 
-    public ClimbingClaws(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
+    public ClimbingClaws() {
+        ModLoadingContext context = ModLoadingContext.get();
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         context.registerConfig(ModConfig.Type.SERVER, ClimbingClawsConfig.SERVER_SPEC);
         ModItems.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModLootModifierSerializers.register(modEventBus);
         modEventBus.addListener(DataGenerators::gatherData);
-        modEventBus.addListener(ModCriteriaTriggers::register);
+        ModEnchantments.register(modEventBus);
+        ModCriteriaTriggers.register();
         modEventBus.addListener(ModStats::register);
         ModPayloads.register();
         MinecraftForge.EVENT_BUS.addListener(ClimbingClawsAnvilHandler::onAnvilUpdate);

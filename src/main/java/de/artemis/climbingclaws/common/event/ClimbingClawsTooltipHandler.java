@@ -11,10 +11,10 @@ public final class ClimbingClawsTooltipHandler {
     }
 
     public static void onItemTooltip(ItemTooltipEvent event) {
-        var stackEnchantments = EnchantmentHelper.getEnchantmentsForCrafting(event.getItemStack());
+        var stackEnchantments = EnchantmentHelper.getEnchantments(event.getItemStack());
 
-        boolean hasWallSpring = stackEnchantments.keySet().stream().anyMatch(enchantment -> enchantment.is(ModEnchantments.WALL_SPRING));
-        boolean hasCanopyGrip = stackEnchantments.keySet().stream().anyMatch(enchantment -> enchantment.is(ModEnchantments.CANOPY_GRIP));
+        boolean hasWallSpring = stackEnchantments.containsKey(ModEnchantments.WALL_SPRING.get());
+        boolean hasCanopyGrip = stackEnchantments.containsKey(ModEnchantments.CANOPY_GRIP.get());
         if (!hasWallSpring && !hasCanopyGrip) {
             return;
         }

@@ -1,14 +1,13 @@
 package de.artemis.climbingclaws.common.registry;
 
 import de.artemis.climbingclaws.ClimbingClaws;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -26,9 +25,9 @@ public final class ModCreativeModeTabs {
                     .title(Component.translatable("itemGroup.climbingclaws"))
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.CLIMBING_CLAWS.get());
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 1));
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.WALL_SPRING, 2));
-                        output.accept(createEnchantBook(parameters.holders(), ModEnchantments.CANOPY_GRIP, 1));
+                        output.accept(createEnchantBook(ModEnchantments.WALL_SPRING.get(), 1));
+                        output.accept(createEnchantBook(ModEnchantments.WALL_SPRING.get(), 2));
+                        output.accept(createEnchantBook(ModEnchantments.CANOPY_GRIP.get(), 1));
                     })
                     .build()
     );
@@ -40,10 +39,7 @@ public final class ModCreativeModeTabs {
         CREATIVE_MODE_TABS.register(eventBus);
     }
 
-    private static ItemStack createEnchantBook(HolderLookup.Provider holders, net.minecraft.resources.ResourceKey<Enchantment> enchantmentKey, int level) {
-        Holder<Enchantment> enchantment = holders.lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(enchantmentKey);
-        ItemStack stack = new ItemStack(Items.ENCHANTED_BOOK);
-        stack.enchant(enchantment, level);
-        return stack;
+    private static ItemStack createEnchantBook(Enchantment enchantment, int level) {
+        return EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchantment, level));
     }
 }

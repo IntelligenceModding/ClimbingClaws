@@ -33,6 +33,6 @@ public final class ModStats {
     }
 
     private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, path);
+        return new ResourceLocation(ClimbingClaws.MOD_ID, path);
     }
 }

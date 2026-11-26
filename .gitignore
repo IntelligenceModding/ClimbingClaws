@@ -43,3 +43,4 @@ server/
 
 **/src/generated/**/.cache/
 repo/
+/run-1.20.1*/

@@ -2,7 +2,6 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
     id 'idea'
 }
 
@@ -14,6 +13,15 @@ version = "${mod_version}-forge-mc${minecraft_version}"
 group = mod_group_id
 
 repositories {
+    mavenCentral()
+    maven {
+        url = 'https://maven.theillusivec4.top/'
+        content { includeGroup 'top.theillusivec4.curios' }
+    }
+    maven {
+        url = 'https://maven.architectury.dev/'
+        content { includeGroup 'dev.architectury' }
+    }
     maven {
         name = "Shedaniel Maven"
         url = "https://maven.shedaniel.me"
@@ -36,7 +44,7 @@ base {
     archivesName = mod_id
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 configurations {
     clientRuntimeMods {
@@ -48,31 +56,38 @@ configurations {
         canBeResolved = true
         extendsFrom clientRuntimeMods
     }
-}
-
-tasks.register('cleanClientRuntimeMods', Delete) {
-    delete layout.projectDirectory.dir('run/mods')
+    reiRuntimeMod {
+        canBeConsumed = false
+        canBeResolved = true
+        extendsFrom clientRuntimeMods
+    }
 }
 
 tasks.register('syncClientRuntimeMods', Sync) {
-    dependsOn tasks.named('cleanClientRuntimeMods')
     from configurations.clientRuntimeMods
-    into layout.projectDirectory.dir('run/mods')
+    into layout.projectDirectory.dir('run-1.20.1/mods')
 }
 
 tasks.register('syncJeiRuntimeMods', Sync) {
     from configurations.jeiRuntimeMod
-    into layout.projectDirectory.dir('run-jei/mods')
+    into layout.projectDirectory.dir('run-1.20.1-jei/mods')
+}
+
+tasks.register('syncReiRuntimeMods', Sync) {
+    from configurations.reiRuntimeMod
+    into layout.projectDirectory.dir('run-1.20.1-rei/mods')
 }
 
 minecraft {
-    mappings channel: 'parchment', version: "${parchment_mappings_version}-${parchment_minecraft_version}"
+    mappings channel: 'official', version: minecraft_version
 
     runs {
         client {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run-1.20.1')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'info'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', layout.buildDirectory.file('createSrgToMcp/output.srg').get().asFile.absolutePath
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -82,11 +97,16 @@ minecraft {
 
         clientWithJEI {
             parent runs.client
-            workingDirectory project.file('run-jei')
+            workingDirectory project.file('run-1.20.1-jei')
+        }
+
+        clientWithREI {
+            parent runs.client
+            workingDirectory project.file('run-1.20.1-rei')
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run-1.20.1-server')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'info'
             arg '--nogui'
@@ -98,7 +118,7 @@ minecraft {
         }
 
         data {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run-1.20.1-data')
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'info'
             args '--mod', mod_id,
@@ -118,12 +138,8 @@ tasks.matching { it.name == 'runClient' }.configureEach {
     dependsOn tasks.named('syncClientRuntimeMods')
 }
 
-tasks.register('runClientWithREI') {
-    group = 'forgegradle runs'
-    description = 'Reports REI compatibility for this Forge build.'
-    doLast {
-        throw new GradleException("REI for Minecraft ${minecraft_version} is available for Fabric and NeoForge. This project uses Forge. Use runClientWithJEI for a recipe viewer on Forge.")
-    }
+tasks.matching { it.name == 'runClientWithREI' }.configureEach {
+    dependsOn tasks.named('syncReiRuntimeMods')
 }
 
 tasks.matching { it.name == 'runClientWithJEI' }.configureEach {
@@ -143,21 +159,20 @@ afterEvaluate {
     sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDirs.singleFile
 }
 
-// No Forge build of Curios exists for Minecraft 1.21.x (newest Forge release targets 1.20.1).
-// The compat code is kept in the tree for future re-enablement but can't compile without the
-// top.theillusivec4.curios.api packages, so it's excluded from this build's compilation.
-sourceSets.main.java {
-    exclude 'de/artemis/climbingclaws/compat/curios/**'
-    // The Minecraft 1.21.1 REI releases target Fabric and NeoForge.
-    exclude 'de/artemis/climbingclaws/compat/rei/**'
-}
-
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    compileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    jeiRuntimeMod("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-    jeiRuntimeMod("maven.modrinth:just-enough-professions-jep:${jep_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    jeiRuntimeMod(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")) { transitive = false }
+    jeiRuntimeMod(fg.deobf("maven.modrinth:kB56GtWA:${jep_version}")) { transitive = false }
+    compileOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")) { transitive = false }
+    compileOnly(fg.deobf('dev.architectury:architectury-forge:9.0.7')) { transitive = false }
+    reiRuntimeMod(fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")) { transitive = false }
+    reiRuntimeMod(fg.deobf('dev.architectury:architectury-forge:9.0.7')) { transitive = false }
+    reiRuntimeMod(fg.deobf('me.shedaniel.cloth:cloth-config-forge:11.0.99')) { transitive = false }
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}:api")
+    clientRuntimeMods(fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")) { transitive = false }
 }
 
 tasks.named('processResources', ProcessResources).configure {
@@ -166,7 +181,7 @@ tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
-            forge_version          : forge_version,
+            forge_version_range    : forge_version_range,
             loader_version_range   : loader_version_range,
             mod_id                 : mod_id,
             mod_name               : mod_name,
@@ -184,6 +199,10 @@ tasks.named('processResources', ProcessResources).configure {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
+}
+
+tasks.named('jar', Jar).configure {
+    finalizedBy 'reobfJar'
 }
 
 tasks.register('runClientData') {

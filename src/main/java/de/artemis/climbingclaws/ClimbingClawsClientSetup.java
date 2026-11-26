@@ -8,13 +8,13 @@ import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.ModLoadingContext;
 
 final class ClimbingClawsClientSetup {
     private ClimbingClawsClientSetup() {
     }
 
-    static void init(FMLJavaModLoadingContext context, IEventBus modEventBus) {
+    static void init(ModLoadingContext context, IEventBus modEventBus) {
         context.registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC);
         context.registerExtensionPoint(
                 ConfigScreenHandler.ConfigScreenFactory.class,

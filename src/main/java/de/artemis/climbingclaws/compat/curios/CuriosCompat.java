@@ -2,7 +2,6 @@ package de.artemis.climbingclaws.compat.curios;
 
 import de.artemis.climbingclaws.common.registry.ModItems;
 import java.util.Optional;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.CuriosApi;
@@ -15,21 +14,21 @@ public final class CuriosCompat {
     }
 
     public static Optional<ItemStack> findEquippedClaws(Player player) {
-        return CuriosApi.getCuriosInventory(player)
-                .flatMap(handler -> handler.findFirstCurio(CuriosCompat::isClimbingClaws, HANDS_SLOT))
+        return CuriosApi.getCuriosInventory(player).resolve()
+                .flatMap(handler -> handler.findCurios(HANDS_SLOT).stream().filter(result -> isClimbingClaws(result.stack())).findFirst())
                 .map(SlotResult::stack);
     }
 
     public static void hurtAndBreakClaws(Player player, ItemStack stack, int amount) {
-        if (!(player.level() instanceof ServerLevel serverLevel)) {
+        if (player.level().isClientSide) {
             return;
         }
 
-        CuriosApi.getCuriosInventory(player)
-                .flatMap(handler -> handler.findFirstCurio(candidate -> candidate == stack, HANDS_SLOT))
+        CuriosApi.getCuriosInventory(player).resolve()
+                .flatMap(handler -> handler.findCurios(HANDS_SLOT).stream().filter(result -> result.stack() == stack).findFirst())
                 .ifPresentOrElse(
-                        result -> stack.hurtAndBreak(amount, serverLevel, player, item -> CuriosApi.broadcastCurioBreakEvent(result.slotContext())),
-                        () -> stack.hurtAndBreak(amount, serverLevel, player, item -> {
+                        result -> stack.hurtAndBreak(amount, player, entity -> CuriosApi.broadcastCurioBreakEvent(result.slotContext())),
+                        () -> stack.hurtAndBreak(amount, player, entity -> {
                         })
                 );
     }

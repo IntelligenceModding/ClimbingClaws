@@ -1,87 +1,59 @@
 package de.artemis.climbingclaws.common.registry;
 
 import de.artemis.climbingclaws.ClimbingClaws;
-import java.util.Optional;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlotGroup;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentCategory;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public final class ModEnchantments {
-    public static final ResourceKey<Enchantment> WALL_SPRING = key("wall_spring");
-    public static final ResourceKey<Enchantment> CANOPY_GRIP = key("canopy_grip");
+    private static final DeferredRegister<Enchantment> ENCHANTMENTS =
+            DeferredRegister.create(ForgeRegistries.ENCHANTMENTS, ClimbingClaws.MOD_ID);
+    private static final EnchantmentCategory CLAWS =
+            EnchantmentCategory.create("climbingclaws_claws", item -> item == ModItems.CLIMBING_CLAWS.get());
+
+    public static final RegistryObject<Enchantment> WALL_SPRING =
+            ENCHANTMENTS.register("wall_spring", () -> new ClawsEnchantment(Enchantment.Rarity.RARE, 2, 12, 14, 18));
+    public static final RegistryObject<Enchantment> CANOPY_GRIP =
+            ENCHANTMENTS.register("canopy_grip", () -> new ClawsEnchantment(Enchantment.Rarity.UNCOMMON, 1, 8, 0, 16));
 
     private ModEnchantments() {
     }
 
-    public static void bootstrap(BootstrapContext<Enchantment> context) {
-        HolderGetter<Item> items = context.lookup(Registries.ITEM);
-        HolderSet<Item> climbingClawsOnly = HolderSet.direct(items.getOrThrow(itemKey("climbing_claws")));
-
-        register(
-                context,
-                WALL_SPRING,
-                Enchantment.enchantment(
-                        Enchantment.definition(
-                                climbingClawsOnly,
-                                climbingClawsOnly,
-                                4,
-                                2,
-                                Enchantment.dynamicCost(12, 14),
-                                Enchantment.dynamicCost(30, 14),
-                                3,
-                                EquipmentSlotGroup.HAND
-                        )
-                )
-        );
-
-        register(
-                context,
-                CANOPY_GRIP,
-                Enchantment.enchantment(
-                        Enchantment.definition(
-                                climbingClawsOnly,
-                                climbingClawsOnly,
-                                6,
-                                1,
-                                Enchantment.dynamicCost(8, 0),
-                                Enchantment.dynamicCost(24, 0),
-                                2,
-                                EquipmentSlotGroup.HAND
-                        )
-                )
-        );
+    public static void register(IEventBus eventBus) {
+        ENCHANTMENTS.register(eventBus);
     }
 
-    private static void register(BootstrapContext<Enchantment> context, ResourceKey<Enchantment> key, Enchantment.Builder builder) {
-        context.register(key, builder.build(key.location()));
-    }
+    private static final class ClawsEnchantment extends Enchantment {
+        private final int maxLevel;
+        private final int baseCost;
+        private final int levelCost;
+        private final int costRange;
 
-    public static Optional<Holder.Reference<Enchantment>> get(HolderLookup.Provider registries, ResourceKey<Enchantment> key) {
-        return registries.lookup(Registries.ENCHANTMENT).flatMap(enchantments -> enchantments.get(key));
-    }
+        private ClawsEnchantment(Rarity rarity, int maxLevel, int baseCost, int levelCost, int costRange) {
+            super(rarity, CLAWS, new EquipmentSlot[]{EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND});
+            this.maxLevel = maxLevel;
+            this.baseCost = baseCost;
+            this.levelCost = levelCost;
+            this.costRange = costRange;
+        }
 
-    public static Optional<Holder.Reference<Enchantment>> get(HolderLookup.RegistryLookup<Enchantment> enchantments, ResourceKey<Enchantment> key) {
-        return enchantments.get(key);
-    }
+        @Override
+        public int getMaxLevel() {
+            return maxLevel;
+        }
 
-    public static int getLevel(ItemStack stack, HolderLookup.Provider registries, ResourceKey<Enchantment> key) {
-        return get(registries, key).map(enchantment -> stack.getEnchantments().getLevel(enchantment)).orElse(0);
-    }
+        @Override
+        public int getMinCost(int level) {
+            return baseCost + (level - 1) * levelCost;
+        }
 
-    private static ResourceKey<Enchantment> key(String name) {
-        return ResourceKey.create(Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, name));
-    }
-
-    private static ResourceKey<Item> itemKey(String name) {
-        return ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(ClimbingClaws.MOD_ID, name));
+        @Override
+        public int getMaxCost(int level) {
+            return getMinCost(level) + costRange;
+        }
     }
 }

@@ -2,18 +2,22 @@
   "parent": "climbingclaws:wall_crawler",
   "criteria": {
     "cling_to_ceiling": {
+      "conditions": {},
       "trigger": "climbingclaws:cling_to_ceiling"
     }
   },
   "display": {
+    "announce_to_chat": true,
     "description": {
       "translate": "advancement.climbingclaws.upside_down.description"
     },
     "frame": "goal",
+    "hidden": false,
     "icon": {
-      "count": 1,
-      "id": "climbingclaws:climbing_claws"
+      "item": "climbingclaws:climbing_claws",
+      "nbt": "{Damage:0}"
     },
+    "show_toast": true,
     "title": {
       "translate": "advancement.climbingclaws.upside_down.title"
     }

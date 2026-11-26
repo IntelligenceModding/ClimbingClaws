@@ -15,7 +15,7 @@
     " I "
   ],
   "result": {
-    "count": 1,
-    "id": "climbingclaws:climbing_claws"
-  }
+    "item": "climbingclaws:climbing_claws"
+  },
+  "show_notification": true
 }

@@ -2,7 +2,11 @@ package de.artemis.climbingclaws.common.item;
 
 import de.artemis.climbingclaws.common.config.ClimbingClawsConfig;
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
-import net.minecraft.core.Holder;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -16,8 +20,18 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 
 public class ClimbingClawsItem extends ShieldItem {
-    public ClimbingClawsItem(Properties properties) {
+    private final Multimap<Attribute, AttributeModifier> attackAttributes;
+
+    public ClimbingClawsItem(Properties properties, double damage, double speed) {
         super(properties);
+        attackAttributes = ImmutableMultimap.of(
+                Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Claws damage", damage, AttributeModifier.Operation.ADDITION),
+                Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Claws speed", speed, AttributeModifier.Operation.ADDITION));
+    }
+
+    @Override
+    public Multimap<Attribute, AttributeModifier> getDefaultAttributeModifiers(EquipmentSlot slot) {
+        return slot == EquipmentSlot.MAINHAND ? attackAttributes : super.getDefaultAttributeModifiers(slot);
     }
 
     @Override
@@ -26,7 +40,7 @@ public class ClimbingClawsItem extends ShieldItem {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+    public int getUseDuration(ItemStack stack) {
         return 72000;
     }
 
@@ -48,12 +62,13 @@ public class ClimbingClawsItem extends ShieldItem {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        stack.hurtAndBreak(1, attacker, entity -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         return true;
     }
 
     @Override
-    public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        stack.hurtAndBreak(1, attacker, EquipmentSlot.MAINHAND);
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return supportsClimbingClawsEnchantment(enchantment) && enchantment != Enchantments.MENDING;
     }
 
     @Override
@@ -61,13 +76,13 @@ public class ClimbingClawsItem extends ShieldItem {
         return repairCandidate.is(Items.IRON_INGOT) || repairCandidate.is(Items.IRON_NUGGET);
     }
 
-    public static boolean supportsClimbingClawsEnchantment(Holder<Enchantment> enchantment) {
-        return enchantment.is(ModEnchantments.WALL_SPRING)
-                || enchantment.is(ModEnchantments.CANOPY_GRIP)
-                || enchantment.is(Enchantments.EFFICIENCY)
-                || enchantment.is(Enchantments.SHARPNESS)
-                || enchantment.is(Enchantments.FIRE_ASPECT)
-                || enchantment.is(Enchantments.UNBREAKING)
-                || enchantment.is(Enchantments.MENDING);
+    public static boolean supportsClimbingClawsEnchantment(Enchantment enchantment) {
+        return enchantment == ModEnchantments.WALL_SPRING.get()
+                || enchantment == ModEnchantments.CANOPY_GRIP.get()
+                || enchantment == Enchantments.BLOCK_EFFICIENCY
+                || enchantment == Enchantments.SHARPNESS
+                || enchantment == Enchantments.FIRE_ASPECT
+                || enchantment == Enchantments.UNBREAKING
+                || enchantment == Enchantments.MENDING;
     }
 }

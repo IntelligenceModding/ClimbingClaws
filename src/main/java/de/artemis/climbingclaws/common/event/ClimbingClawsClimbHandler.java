@@ -6,6 +6,7 @@ import de.artemis.climbingclaws.common.registry.ModCriteriaTriggers;
 import de.artemis.climbingclaws.common.registry.ModEnchantments;
 import de.artemis.climbingclaws.common.registry.ModItems;
 import de.artemis.climbingclaws.common.registry.ModStats;
+import de.artemis.climbingclaws.compat.curios.CuriosCompat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -14,7 +15,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -25,7 +25,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -42,7 +42,6 @@ public final class ClimbingClawsClimbHandler {
     private static final int WALL_SPRING_BLOCK_PARTICLE_COUNT = 10;
     private static final int WALL_SPRING_CLOUD_PARTICLE_COUNT = 4;
     private static final int CLIMBING_STAT_GRACE_TICKS = 10;
-    private static final ResourceKey<Enchantment> EFFICIENCY = net.minecraft.world.item.enchantment.Enchantments.EFFICIENCY;
     private static final Map<UUID, Integer> WALL_SPRING_COOLDOWNS = new HashMap<>();
     private static final Map<UUID, Double> LAST_TRACKED_HEIGHTS = new HashMap<>();
     private static final Map<UUID, Integer> STAT_GRACE_WINDOWS = new HashMap<>();
@@ -83,7 +82,7 @@ public final class ClimbingClawsClimbHandler {
         EquippedClaws equippedClaws = findActiveClaws(player);
         return ClimbingClawsConfig.enableWallSpring()
                 && equippedClaws != null
-                && getEnchantmentLevel(equippedClaws.stack(), player, ModEnchantments.WALL_SPRING) > 0;
+                && equippedClaws.stack().getEnchantmentLevel(ModEnchantments.WALL_SPRING.get()) > 0;
     }
 
     public static void setClimbingInput(ServerPlayer player, boolean moving) {
@@ -118,7 +117,7 @@ public final class ClimbingClawsClimbHandler {
 
         ItemStack clawsStack = equippedClaws.stack();
         boolean allowPartialSurfaces = ClimbingClawsConfig.enableCanopyGripEffect()
-                && getEnchantmentLevel(clawsStack, player, ModEnchantments.CANOPY_GRIP) > 0;
+                && clawsStack.getEnchantmentLevel(ModEnchantments.CANOPY_GRIP.get()) > 0;
         SurfaceContact sideSurface = ClimbingClawsConfig.enableWallClimbing()
                 ? findHorizontalSurface(level, player.getBoundingBox(), allowPartialSurfaces)
                 : null;
@@ -149,9 +148,9 @@ public final class ClimbingClawsClimbHandler {
                 && !player.isShiftKeyDown()
                 && !moving
                 && (touchingSideSurface || touchingCeilingSurface);
-        double climbSpeed = getClimbSpeed(clawsStack, player, ClimbingClawsConfig.sideClimbSpeed());
-        double ceilingClimbSpeed = getClimbSpeed(clawsStack, player, ClimbingClawsConfig.ceilingClimbSpeed());
-        double ceilingHoldSpeed = getClimbSpeed(clawsStack, player, ClimbingClawsConfig.ceilingHoldSpeed());
+        double climbSpeed = getClimbSpeed(clawsStack, ClimbingClawsConfig.sideClimbSpeed());
+        double ceilingClimbSpeed = getClimbSpeed(clawsStack, ClimbingClawsConfig.ceilingClimbSpeed());
+        double ceilingHoldSpeed = getClimbSpeed(clawsStack, ClimbingClawsConfig.ceilingHoldSpeed());
 
         if (descending) {
             y = Math.min(y, -climbSpeed);
@@ -211,7 +210,7 @@ public final class ClimbingClawsClimbHandler {
         Level level = player.level();
         ItemStack clawsStack = equippedClaws.stack();
         boolean allowPartialSurfaces = ClimbingClawsConfig.enableCanopyGripEffect()
-                && getEnchantmentLevel(clawsStack, player, ModEnchantments.CANOPY_GRIP) > 0;
+                && clawsStack.getEnchantmentLevel(ModEnchantments.CANOPY_GRIP.get()) > 0;
         SurfaceContact sideSurface = ClimbingClawsConfig.enableWallClimbing()
                 ? findHorizontalSurface(level, player.getBoundingBox(), allowPartialSurfaces)
                 : null;
@@ -222,7 +221,7 @@ public final class ClimbingClawsClimbHandler {
             return false;
         }
 
-        int wallSpringLevel = getEnchantmentLevel(clawsStack, player, ModEnchantments.WALL_SPRING);
+        int wallSpringLevel = clawsStack.getEnchantmentLevel(ModEnchantments.WALL_SPRING.get());
         if (wallSpringLevel <= 0) {
             return false;
         }
@@ -248,7 +247,8 @@ public final class ClimbingClawsClimbHandler {
 
         if (player instanceof ServerPlayer serverPlayer) {
             ModCriteriaTriggers.USE_WALL_SPRING.trigger(serverPlayer);
-            ModPayloads.CHANNEL.send(new WallSpringCooldownPayload(ClimbingClawsConfig.wallSpringCooldownTicks()), PacketDistributor.PLAYER.with(serverPlayer));
+            ModPayloads.CHANNEL.send(PacketDistributor.PLAYER.with(() -> serverPlayer),
+                    new WallSpringCooldownPayload(ClimbingClawsConfig.wallSpringCooldownTicks()));
         }
 
         player.awardStat(ModStats.WALL_SPRING_USES);
@@ -440,7 +440,7 @@ public final class ClimbingClawsClimbHandler {
                 player.getX(),
                 player.getY() + 0.5D,
                 player.getZ(),
-                SoundEvents.WIND_CHARGE_BURST.value(),
+                SoundEvents.FIREWORK_ROCKET_LAUNCH,
                 SoundSource.PLAYERS,
                 0.35F,
                 1.2F + serverLevel.random.nextFloat() * 0.1F
@@ -462,17 +462,20 @@ public final class ClimbingClawsClimbHandler {
             return new EquippedClaws(player.getUseItem(), ClawsSource.HAND, getUsedEquipmentSlot(player));
         }
 
-        // Curios has no Forge build for Minecraft 1.21.x, so this branch can never trigger on
-        // this build; the ModList gate and ClawsSource.CURIO_HANDS plumbing are kept so Curios
-        // support can be restored with no re-authoring if a Forge build appears.
         if (ModList.get().isLoaded(CURIOS_MOD_ID)) {
-            return null;
+            return CuriosCompat.findEquippedClaws(player)
+                    .map(stack -> new EquippedClaws(stack, ClawsSource.CURIO_HANDS, null))
+                    .orElse(null);
         }
 
         return null;
     }
 
-    public static boolean isUsingClimbingClaws(Player player) {
+    public static boolean hasActiveClaws(Player player) {
+        return ClimbingClawsConfig.enableClimbing() && findActiveClaws(player) != null;
+    }
+
+    private static boolean isUsingClimbingClaws(Player player) {
         return player.isUsingItem()
                 && ClimbingClawsConfig.isHandUseAllowed(player.getUsedItemHand())
                 && isClimbingClaws(player.getUseItem());
@@ -543,21 +546,13 @@ public final class ClimbingClawsClimbHandler {
                 && state.isCollisionShapeFullBlock(level, pos);
     }
 
-    private static double getClimbSpeed(ItemStack stack, Player player, double baseSpeed) {
-        int efficiencyLevel = getEnchantmentLevel(stack, player, EFFICIENCY);
+    private static double getClimbSpeed(ItemStack stack, double baseSpeed) {
+        int efficiencyLevel = stack.getEnchantmentLevel(Enchantments.BLOCK_EFFICIENCY);
         return baseSpeed + (efficiencyLevel * ClimbingClawsConfig.efficiencySpeedBonus());
     }
 
     private static double getWallSpringBoost(int level) {
         return level >= 2 ? ClimbingClawsConfig.wallSpringLevelTwoBoost() : ClimbingClawsConfig.wallSpringLevelOneBoost();
-    }
-
-    private static int getEnchantmentLevel(ItemStack stack, Player player, ResourceKey<Enchantment> enchantmentKey) {
-        if (stack.isEmpty()) {
-            return 0;
-        }
-
-        return ModEnchantments.getLevel(stack, player.registryAccess(), enchantmentKey);
     }
 
     private static void damageClaws(Player player, EquippedClaws equippedClaws, boolean activeClimb, boolean springBurst) {
@@ -588,7 +583,11 @@ public final class ClimbingClawsClimbHandler {
             return;
         }
 
-        equippedClaws.stack().hurtAndBreak(amount, player, equippedClaws.slot());
+        if (equippedClaws.source() == ClawsSource.CURIO_HANDS) {
+            CuriosCompat.hurtAndBreakClaws(player, equippedClaws.stack(), amount);
+        } else {
+            equippedClaws.stack().hurtAndBreak(amount, player, entity -> entity.broadcastBreakEvent(equippedClaws.slot()));
+        }
     }
 
     private static void playClimbFeedback(Player player, Level level, SurfaceContact contact, boolean ceilingClimb) {
